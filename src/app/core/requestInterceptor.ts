@@ -10,13 +10,13 @@ import {NotificationService} from './notification.service';
 export const RequestInterceptor: HttpInterceptorFn = (req:HttpRequest<any>, next) => {
   const notificationService = inject(NotificationService);
 
-  let merchantId = localStorage.getItem(UserSession.MerchantId);
-  let userId = localStorage.getItem(UserSession.UserID);
+  const schoolId = localStorage.getItem(UserSession.schoolId);
+    const userId = localStorage.getItem(UserSession.UserID);
 
-  let headers: any = {};
+    const headers: any = {};
 
-  if (merchantId) {
-    headers.merchantId = merchantId;
+  if (schoolId) {
+    headers.schoolId = schoolId;
   }
 
   if (userId) {

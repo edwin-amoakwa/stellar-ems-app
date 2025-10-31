@@ -21,7 +21,7 @@ export class AuthService {
 
 
   async login(payload: LoginPayload): Promise<ApiResponse<any>> {
-    return await firstValueFrom(this.http.post<ApiResponse<any>>(`${environment.baseUrl}/auth/login`, payload));
+    return await firstValueFrom(this.http.post<ApiResponse<any>>(`${environment.baseUrl}/auth/staff-login`, payload));
   }
 
   async requestPassword(payload: RequestPasswordPayload): Promise<ApiResponse<any>> {

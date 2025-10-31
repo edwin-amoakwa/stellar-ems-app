@@ -7,7 +7,7 @@ import packageInfo from '../../package.json';
 export const environment = {
   appVersion: packageInfo.version,
   production: false,
-  baseUrl: 'http://localhost:8080/unity-admin/api/v1',
+  baseUrl: 'http://localhost:8080/smsplus-web/api/v1',
   appName: 'Unity App',
   enableDebugMode: true,
   logLevel: 'debug',

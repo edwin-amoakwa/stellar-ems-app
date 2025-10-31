@@ -20,12 +20,17 @@ export class LoginComponent {
   loginForm: FormGroup;
   isLoading = false;
   errorMessage = '';
+  showPassword = false;
 
   constructor() {
     this.loginForm = this.fb.group({
-      username: ['', [Validators.required]],
+        emailAddress: ['', [Validators.required]],
       userPassword: ['', [Validators.required, Validators.minLength(6)]]
     });
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
   }
 
   async onSubmit() {
@@ -62,8 +67,8 @@ export class LoginComponent {
     });
   }
 
-  get username() {
-    return this.loginForm.get('username');
+  get emailAddress() {
+    return this.loginForm.get('emailAddress');
   }
 
   get userPassword() {
