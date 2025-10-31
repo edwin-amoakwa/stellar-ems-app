@@ -1,0 +1,8 @@
+{
+    "/api/**": {
+        "target": "http://65.108.59.83:8080/astra",
+        "secure": false,
+        "changeOrigin": true,
+        "logLevel": "info"
+    }
+}

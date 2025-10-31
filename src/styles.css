@@ -1,0 +1,119 @@
+@import "primeicons/primeicons.css";
+
+
+
+@import "app-common.css";
+
+/* Global styles and theme variables */
+:root {
+  --bg: #f6f7fb;
+  --surface: #ffffff;
+  --text: #111827;
+  --muted: #6b7280;
+  --primary: #4f46e5;
+  --primary-contrast: #ffffff;
+  --sidebar-bg: #0f172a;
+  --sidebar-text: #e5e7eb;
+  --sidebar-accent: #22d3ee;
+  --border: #e5e7eb;
+  --shadow: 0 10px 25px rgba(0,0,0,0.08);
+  /* Card header (light mode) */
+  --card-header-bg: #f7f8fb; /* subtle light gray distinct from white surface */
+  --card-header-shadow: 0 1px 0 rgba(0, 0, 0, 0.06); /* gentle bottom separator */
+}
+
+[data-theme="dark"] {
+  --bg: #0b1020;
+  --surface: #0f172a;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --primary: #6366f1;
+  --primary-contrast: #ffffff;
+  --sidebar-bg: #0B132E; /* deep red for dark theme sidebar */
+  --sidebar-text: #cbd5e1;
+  --sidebar-accent: #38bdf8;
+  --border: #1f2937;
+  --shadow: 0 10px 25px rgba(0,0,0,0.35);
+  /* Card header (dark mode) */
+  --card-header-bg: var(--sidebar-bg);
+  --card-header-shadow: none;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+* { box-sizing: border-box; }
+
+a { color: inherit; text-decoration: none; }
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Dark mode overrides for regular HTML/Bootstrap elements */
+[data-theme="dark"] {
+  /* Headings and text */
+  h1, h2, h3, h4, h5, h6,
+  p, span, label, .form-label,
+  .text-muted, .text-muted-color { color: var(--text); }
+
+  .text-muted, .text-muted-color { color: var(--muted); }
+
+  /* Cards */
+  .card { background-color: var(--surface); color: var(--text); border: 1px solid var(--border); box-shadow: var(--shadow); }
+  .card-header { background-color: var(--card-header-bg); border-bottom: 1px solid var(--border); box-shadow: var(--card-header-shadow); }
+  .card-body { background-color: var(--surface); }
+  .card-footer { background-color: var(--surface); border-top: 1px solid var(--border); }
+
+  /* Form controls */
+  .form-control,
+  .form-select,
+  input[type="text"], input[type="email"], input[type="number"], input[type="password"],
+  input[type="file"], select, textarea {
+    background-color: #111827;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .form-control::placeholder, textarea::placeholder { color: var(--muted); }
+  .form-control:focus, .form-select:focus, input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #374151;
+    box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.15);
+  }
+
+  /* Buttons */
+  .btn { color: var(--text); background-color: #1f2937; border: 1px solid #374151; }
+  .btn:hover { background-color: #273449; border-color: #41506a; }
+  .btn-primary { background-color: var(--primary); color: var(--primary-contrast); border-color: var(--primary); }
+  .btn-primary:hover { filter: brightness(1.05); }
+  .btn-secondary { background-color: #334155; color: var(--text); border-color: #465a78; }
+
+  /* PrimeNG buttons */
+  .p-button.p-button-primary { background: var(--primary); border-color: var(--primary); color: var(--primary-contrast); }
+  .p-button.p-button-primary:not(.p-disabled):hover { filter: brightness(1.05); }
+  .p-button.p-button-text.p-button-primary { background: transparent; color: var(--primary); border-color: transparent; }
+  .p-button.p-button-outlined.p-button-primary { background: transparent; color: var(--primary); border-color: var(--primary); }
+
+  /* Tables */
+  .table { color: var(--text); }
+  .table > :not(caption) > * > * { background-color: var(--surface); border-bottom-color: var(--border); }
+
+  /* Badges */
+  .badge { color: var(--primary-contrast); background-color: var(--primary); }
+
+  /* Page title */
+  .page-title { color: var(--text); }
+}

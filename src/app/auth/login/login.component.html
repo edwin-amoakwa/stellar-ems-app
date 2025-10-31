@@ -1,0 +1,81 @@
+
+<div class="login-container">
+  <div class="login-background">
+    <!-- Background gradient overlay -->
+    <div class="background-overlay"></div>
+  </div>
+
+  <div class="login-content">
+    <div class="glass-container">
+      <div class="login-header">
+        <h4 class="login-title">Stellar </h4>
+        <h1 class="login-title"> Education Management System</h1>
+        <p class="login-subtitle">Please sign in to your account</p>
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+
+        <!-- Username field -->
+        <div class="form-group">
+          <label for="username" class="form-label">Username</label>
+          <div class="input-container">
+            <i class="input-icon">👤</i>
+            <input
+              type="text"
+              id="username"
+              formControlName="username"
+              class="form-input"
+              [class.error]="username?.invalid && username?.touched"
+            />
+          </div>
+          <div *ngIf="username?.invalid && username?.touched" class="field-error">
+            <small *ngIf="username?.errors?.['required']">Username is required</small>
+          </div>
+        </div>
+
+        <!-- Password field -->
+        <div class="form-group">
+          <label for="userPassword" class="form-label">Password</label>
+          <div class="input-container">
+            <i class="input-icon">🔒</i>
+            <input
+              type="password"
+              id="userPassword"
+              formControlName="userPassword"
+              class="form-input"
+              [class.error]="userPassword?.invalid && userPassword?.touched"
+            />
+          </div>
+          <div *ngIf="userPassword?.invalid && userPassword?.touched" class="field-error">
+            <small *ngIf="userPassword?.errors?.['required']">Password is required</small>
+            <small *ngIf="userPassword?.errors?.['minlength']">Password must be at least 6 characters</small>
+          </div>
+        </div>
+
+        <!-- Submit button -->
+        <button
+          type="submit"
+          class="login-button"
+          [class.loading]="isLoading"
+          [disabled]="isLoading"
+        >
+          <span *ngIf="!isLoading" class="button-text">
+            <i class="button-icon">🚀</i>
+            Sign In
+          </span>
+          <span *ngIf="isLoading" class="loading-spinner">
+            <i class="spinner">⟳</i>
+            Signing in...
+          </span>
+        </button>
+
+        <!-- Additional options -->
+        <div class="login-footer">
+          <a routerLink="/password-reset" class="forgot-password">Forgot your password?</a>
+          <br/>
+          <a routerLink="/register" class="forgot-password">Register as a School</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

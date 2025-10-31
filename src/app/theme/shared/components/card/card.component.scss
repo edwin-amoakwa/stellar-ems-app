@@ -1,0 +1,50 @@
+:host {
+  display: block;
+}
+
+/* Base card styling aligned to theme variables */
+.card {
+  background: var(--surface);
+  color: var(--text);
+  border-radius: 0.25rem;
+}
+.card .card-header {
+  background: var(--card-header-bg, transparent);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--card-header-shadow, none);
+}
+.card .card-footer {
+  background: transparent;
+  border-top: 1px solid var(--border);
+}
+.card .card-header h5 { color: var(--text); }
+
+/* Variant modifiers */
+.card.default {}
+.card.outlined {
+  border: 1px solid var(--border);
+  box-shadow: none;
+}
+.card.flat {
+  border: none;
+  box-shadow: none;
+}
+
+/* Elevation modifiers using theme-aware shadows */
+.card.elevation-0 { box-shadow: none; }
+.card.elevation-1 { box-shadow: var(--shadow, 0 1px 20px 0 rgba(69, 90, 100, 0.08)); }
+/* Slightly stronger shadow for elevation-2; fallback if --shadow not defined */
+.card.elevation-2 { box-shadow: 0 14px 35px rgba(0,0,0,0.18); }
+
+/* Padding modifiers for card content area */
+.card.pad-sm .card-block { padding: 16px 16px; }
+.card.pad-md .card-block { padding: 24px 20px; }
+.card.pad-lg .card-block { padding: 32px 28px; }
+
+/* Header alignment helpers */
+.card .card-header.header-left { text-align: left; }
+.card .card-header.header-center { text-align: center; }
+.card .card-header.header-right { text-align: right; }
+
+/* Ensure footer only shows border when content is projected */
+.card .card-footer:empty { display: none; }

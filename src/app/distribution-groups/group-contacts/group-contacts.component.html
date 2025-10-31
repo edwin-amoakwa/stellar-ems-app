@@ -1,0 +1,209 @@
+<button-toolbar>
+  <p-button
+    label="Add Contact"
+    icon="pi pi-plus"
+    (onClick)="openNewContactDialog()"
+    styleClass="p-button-primary">
+  </p-button>
+</button-toolbar>
+
+<div class="col-12">
+  <p-table [value]="contacts" [loading]="loading" styleClass="p-datatable-sm">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Mobile No</th>
+        <th>First Name</th>
+        <th>Surname</th>
+        <th>Other Names</th>
+        <th>Birth Date</th>
+        <th>Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-contact>
+      <tr>
+        <td>{{ contact.mobileNo }}</td>
+        <td>{{ contact.firstName }}</td>
+        <td>{{ contact.surname }}</td>
+        <td>{{ contact.otherNames }}</td>
+        <td>{{ contact.birthDate | date:'shortDate' }}</td>
+        <td>
+          <div class="flex gap-1">
+            <p-button
+              icon="pi pi-pencil"
+              (onClick)="editContact(contact)"
+              styleClass="p-button-warning p-button-sm"
+              pTooltip="Edit">
+            </p-button>
+            <p-button
+              icon="pi pi-trash"
+              (onClick)="deleteContact(contact)"
+              styleClass="p-button-danger p-button-sm"
+              pTooltip="Delete">
+            </p-button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6" class="text-center">No contacts found</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<br/>
+<br/>
+
+<app-card title="Upload Contacts" subtitle="upload contacts from a spreadsheet(xls) file. ">
+  <div class="row">
+    <div class="col-12">
+      <div class="row">
+        <p>
+          <i style="font-size:12px;">(Column Headers: First Name,Other Name(s),Surname,Birth Date,Telephone)</i>
+        </p>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="row">
+         <p>
+          <a [href]="downloadLink" download="group-contact-template.xls">
+            Download Contact Upload Template (Excel)
+          </a>
+         </p>
+      </div>
+      <div class="row">
+        <div class="col-auto">
+          <input (change)="onFileChange($event)" class="form-control" formControlName="selectedFile" type="file">
+        </div>
+        <div class="col-auto">
+          <button type="button" pButton (click)="upload()">upload</button>
+        </div>
+        <div class="col-auto d-none">
+          <button type="button" pButton class="p-button-secondary" (click)="clearUploadForm()">Clear</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-card>
+
+
+
+<!-- Contact Form Dialog -->
+<p-dialog
+  [(visible)]="showContactDialog"
+  [header]="editingContact ? 'Edit Contact' : 'Add Contact'"
+  [modal]="true"
+  [closable]="true"
+  [draggable]="false"
+  [resizable]="false"
+  styleClass="p-fluid"
+  [style]="{width: '60vw'}"
+  [breakpoints]="{'960px': '70vw', '640px': '95vw'}"
+  (onHide)="closeContactDialog()">
+
+  <form [formGroup]="contactForm" (ngSubmit)="saveContact()">
+    <div class="container-fluid">
+      <!-- Mobile Number -->
+      <div class="row mb-3">
+        <div class="col-sm-3">
+          <label for="mobileNo" class="col-form-label">Mobile Number *</label>
+        </div>
+        <div class="col-sm-9">
+          <input
+            pInputText
+            id="mobileNo"
+            formControlName="mobileNo"
+            [class.ng-invalid]="isContactFieldInvalid('mobileNo')"
+            class="form-control" />
+          <small class="p-error" *ngIf="isContactFieldInvalid('mobileNo')">
+            {{ getContactFieldError('mobileNo') }}
+          </small>
+        </div>
+      </div>
+
+      <!-- First Name -->
+      <div class="row mb-3">
+        <div class="col-sm-3">
+          <label for="firstName" class="col-form-label">First Name *</label>
+        </div>
+        <div class="col-sm-9">
+          <input
+            pInputText
+            id="firstName"
+            formControlName="firstName"
+            [class.ng-invalid]="isContactFieldInvalid('firstName')"
+            class="form-control" />
+          <small class="p-error" *ngIf="isContactFieldInvalid('firstName')">
+            {{ getContactFieldError('firstName') }}
+          </small>
+        </div>
+      </div>
+
+      <!-- Surname -->
+      <div class="row mb-3">
+        <div class="col-sm-3">
+          <label for="surname" class="col-form-label">Surname *</label>
+        </div>
+        <div class="col-sm-9">
+          <input
+            pInputText
+            id="surname"
+            formControlName="surname"
+            [class.ng-invalid]="isContactFieldInvalid('surname')"
+            class="form-control" />
+          <small class="p-error" *ngIf="isContactFieldInvalid('surname')">
+            {{ getContactFieldError('surname') }}
+          </small>
+        </div>
+      </div>
+
+      <!-- Other Names -->
+      <div class="row mb-3">
+        <div class="col-sm-3">
+          <label for="otherNames" class="col-form-label">Other Names</label>
+        </div>
+        <div class="col-sm-9">
+          <input
+            pInputText
+            id="otherNames"
+            formControlName="otherNames"
+            class="form-control" />
+        </div>
+      </div>
+
+      <!-- Birth Date -->
+      <div class="row mb-3">
+        <div class="col-sm-3">
+          <label for="birthDate" class="col-form-label">Birth Date</label>
+        </div>
+        <div class="col-sm-9">
+          <p-calendar
+            id="birthDate"
+            formControlName="birthDate"
+            [showIcon]="true"
+            appendTo="body"
+            dateFormat="dd/mm/yy"
+            class="w-100">
+          </p-calendar>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-content-end gap-2 mt-3">
+      <p-button
+        label="Cancel"
+        icon="pi pi-times"
+        (onClick)="closeContactDialog()"
+        styleClass="p-button-text">
+      </p-button>
+      <p-button
+        label="{{ editingContact ? 'Update' : 'Save' }}"
+        icon="pi pi-check"
+        type="submit"
+        styleClass="p-button-primary">
+      </p-button>
+    </div>
+  </form>
+</p-dialog>

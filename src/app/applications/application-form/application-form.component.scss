@@ -1,0 +1,120 @@
+
+.application-form {
+  .container-fluid {
+    padding: 0;
+  }
+
+  .form-label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--text-color-secondary);
+  }
+
+  .form-control {
+    border-radius: var(--border-radius);
+    border: 1px solid var(--surface-300);
+    padding: 0.75rem;
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+    &:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 0.2rem rgba(var(--primary-color-rgb), 0.25);
+      outline: 0;
+    }
+
+    &.ng-invalid.ng-touched, &.ng-invalid.ng-dirty {
+      border-color: var(--red-500);
+    }
+  }
+
+  .p-inputgroup {
+    .p-button {
+      border-left: none;
+      border-radius: 0 var(--border-radius) var(--border-radius) 0;
+    }
+
+    input {
+      border-right: none;
+      border-radius: var(--border-radius) 0 0 var(--border-radius);
+    }
+  }
+
+  .p-error {
+    font-size: 0.75rem;
+    color: var(--red-500);
+    margin-top: 0.25rem;
+  }
+
+  .p-inputnumber {
+    &.ng-invalid {
+      .p-inputtext {
+        border-color: var(--red-500);
+      }
+    }
+  }
+
+  .p-dropdown {
+    &.ng-invalid {
+      border-color: var(--red-500);
+    }
+  }
+
+  input.ng-invalid {
+    border-color: var(--red-500);
+
+    &:focus {
+      box-shadow: 0 0 0 0.2rem var(--red-200);
+    }
+  }
+
+  input[readonly] {
+    background-color: var(--surface-100);
+    color: var(--text-color-secondary);
+    cursor: not-allowed;
+  }
+
+  .justify-content-end {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .gap-2 {
+    gap: 0.5rem;
+  }
+
+  .mt-4 {
+    margin-top: 1rem;
+  }
+
+  .mt-1 {
+    margin-top: 0.25rem;
+  }
+
+  .block {
+    display: block;
+  }
+}
+
+:host ::ng-deep {
+
+  .p-inputgroup {
+    .p-button-outlined {
+      background-color: var(--surface-0);
+      border-color: var(--surface-300);
+      color: var(--text-color);
+
+      &:hover {
+        background-color: var(--surface-50);
+        border-color: var(--surface-400);
+      }
+    }
+  }
+
+  .p-button-primary {
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+}

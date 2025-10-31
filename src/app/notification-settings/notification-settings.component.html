@@ -1,0 +1,99 @@
+<h1 class="page-title">Notification Settings</h1>
+
+<div class="ns-page">
+  <app-card title="Configuration" subtitle="Manage your notification settings">
+    <div class="card-body" *ngIf="listView">
+      <p-table [value]="items" [loading]="isLoading" [paginator]="true" [rows]="10" styleClass="p-datatable-sm">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Type</th>
+            <th>Recipient Number</th>
+            <th>Email</th>
+            <th>CC</th>
+            <th>BCC</th>
+            <th>Enabled</th>
+            <th style="width: 120px;">Actions</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+          <tr>
+            <td>{{ item.notificationTypeName }}</td>
+            <td>{{ item.recipientNumber }}</td>
+            <td>{{ item.recipientEmail }}</td>
+            <td>{{ item.recipientEmailCc }}</td>
+            <td>{{ item.recipientEmailBcc }}</td>
+            <td>
+              <p-tag [value]="item.enabled ? 'Enabled' : 'Disabled'" [severity]="item.enabled ? 'success' : 'danger'"></p-tag>
+            </td>
+            <td>
+              <p-button label="Edit" icon="pi pi-pencil" class="p-button-sm" (onClick)="edit(item)"></p-button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <div class="card-body" *ngIf="!listView">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="ns-form">
+        <div class="row mb-3 align-items-center">
+          <div class="col-md-4">
+            <label class="form-label mb-0" for="notificationTypeName">Type</label>
+          </div>
+          <div class="col-md-8">
+            <input pInputText id="notificationTypeName" formControlName="notificationTypeName" readonly />
+          </div>
+        </div>
+
+        <div class="row mb-3 align-items-center">
+          <div class="col-md-4">
+            <label class="form-label mb-0" for="recipientNumber">Recipient Number</label>
+          </div>
+          <div class="col-md-8">
+            <input pInputText id="recipientNumber" formControlName="recipientNumber" />
+          </div>
+        </div>
+
+        <div class="row mb-3 align-items-center">
+          <div class="col-md-4">
+            <label class="form-label mb-0" for="recipientEmail">Recipient Email</label>
+          </div>
+          <div class="col-md-8">
+            <input pInputText id="recipientEmail" formControlName="recipientEmail" [class.ng-invalid]="isInvalid('recipientEmail')" />
+          </div>
+        </div>
+
+        <div class="row mb-3 align-items-center">
+          <div class="col-md-4">
+            <label class="form-label mb-0" for="recipientEmailCc">Recipient Email CC</label>
+          </div>
+          <div class="col-md-8">
+            <input pInputText id="recipientEmailCc" formControlName="recipientEmailCc" [class.ng-invalid]="isInvalid('recipientEmailCc')" />
+          </div>
+        </div>
+
+        <div class="row mb-3 align-items-center">
+          <div class="col-md-4">
+            <label class="form-label mb-0" for="recipientEmailBcc">Recipient Email BCC</label>
+          </div>
+          <div class="col-md-8">
+            <input pInputText id="recipientEmailBcc" formControlName="recipientEmailBcc" [class.ng-invalid]="isInvalid('recipientEmailBcc')" />
+          </div>
+        </div>
+
+        <div class="row mb-3 align-items-center">
+          <div class="col-md-4">
+            <label class="form-label mb-0" for="enabled">Enabled</label>
+          </div>
+          <div class="col-md-8 d-flex align-items-center">
+            <p-inputSwitch inputId="enabled" formControlName="enabled"></p-inputSwitch>
+          </div>
+        </div>
+
+        <div class="flex justify-content-end gap-2">
+          <button pButton type="button" label="Cancel" class="p-button-text" (click)="onCancel()"></button>
+          <button pButton type="submit" label="Save" icon="pi pi-check" class="p-button-primary"></button>
+        </div>
+      </form>
+    </div>
+  </app-card>
+</div>

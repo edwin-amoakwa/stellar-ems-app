@@ -1,0 +1,5 @@
+/sceptre/* http://65.21.3.38:8080/sceptre/api/v1/:splat 200
+
+/api/* http://65.21.3.38:8080/unity/api/v1/:splat 200
+
+/* /index.html 200

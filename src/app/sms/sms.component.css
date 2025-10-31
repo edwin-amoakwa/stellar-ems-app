@@ -1,0 +1,10 @@
+.sms-container .p-datatable .text-truncate {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.sms-container .p-tag.text-xs {
+  font-size: 0.7rem;
+  padding: 0.25rem 0.5rem;
+}

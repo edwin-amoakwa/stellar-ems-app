@@ -1,0 +1,228 @@
+<h1 class="page-title">Group Contacts</h1>
+
+
+
+<div *ngIf="formView.listView" >
+
+
+  <button-toolbar>
+    <p-button
+      label="New Group"
+      icon="pi pi-plus"
+      (onClick)="openNewGroupDialog()"
+      styleClass="p-button-primary">
+    </p-button>
+
+  </button-toolbar>
+
+  <p-table
+    [value]="groups"
+    [loading]="loading"
+    [paginator]="true"
+    [rows]="10"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    styleClass="p-datatable-gridlines">
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Group Name</th>
+        <th>Group Type</th>
+        <th># Contact</th>
+        <th>Actions</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-group>
+      <tr>
+        <td>{{ group.groupName }}</td>
+        <td>{{group.groupTypeName}}</td>
+        <td>{{ group.contactCount | number }}</td>
+        <td>
+          <p-button
+            label="Manage"
+            icon="pi pi-cog"
+            (onClick)="manageGroup(group)"
+            styleClass="p-button-rounded p-button-text p-button-info mr-1"
+            pTooltip="Manage Group">
+          </p-button>
+
+          <p-button
+            icon="pi pi-pencil"
+            (onClick)="editGroup(group)"
+            styleClass="p-button-rounded p-button-text p-button-warning mr-1"
+            pTooltip="Edit">
+          </p-button>
+
+          <p-button
+            icon="pi pi-trash"
+            (onClick)="deleteGroup(group)"
+            styleClass="p-button-rounded p-button-text p-button-danger"
+            pTooltip="Delete">
+          </p-button>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="4" class="text-center">No groups found</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<div *ngIf="formView.detailView">
+
+  <app-card title="{{selectedGroup.groupName}}"
+            subTitle="Number of Contact # {{ selectedGroup.contactCount | number }} | {{ selectedGroup.groupTypeName }}" >
+
+    <button-toolbar>
+      <p-button
+      label="Back to List"
+      icon="pi pi-arrow-left"
+      (onClick)="backToList()"
+      styleClass="p-button-secondary">
+    </p-button>
+    </button-toolbar>
+
+
+        <div class="row p-3" *ngIf="selectedGroup.groupType === 'FREE_FORM'">
+
+          <div id="manageContact" class="col-lg-10">
+            <h4>Current Contact Numbers in this Group</h4>
+            <p-scrollpanel [style]="{ width: '100%', height: '200px' }" >
+
+              <textarea rows="10" style="width: 100%" pTextarea [(ngModel)]="selectedGroup.phoneNos" disabled></textarea>
+            </p-scrollpanel>
+            
+            <br />
+            <button-toolbar align="centre">
+              <p-button
+                label="Add Phone Numbers"
+                icon="pi pi-plus"
+                (onClick)="openPhoneDialog('add')"
+                styleClass="p-button-primary mr-2">
+              </p-button>
+              <p-button
+                label="Remove Phone Numbers"
+                icon="pi pi-minus"
+                (onClick)="openPhoneDialog('remove')"
+                styleClass="p-button-danger">
+              </p-button>
+
+            </button-toolbar>
+
+
+          </div>
+
+
+        </div>
+
+        <div class="row" *ngIf="selectedGroup.groupType === 'CONTACT_BASED'">
+          <app-group-contacts
+            [selectedGroup]="selectedGroup"
+            [loading]="loading"
+            (contactsChange)="contactsUpdated($event)">
+          </app-group-contacts>
+        </div>
+
+  </app-card>
+
+</div>
+
+
+
+
+<!-- Phone Numbers Dialog -->
+<p-dialog
+  [(visible)]="showPhoneDialog"
+  [header]="phoneDialogTitle"
+  [modal]="true"
+  [closable]="true"
+  [draggable]="false"
+  [resizable]="false"
+  styleClass="p-fluid"
+  [style]="{width: '50vw'}"
+  [breakpoints]="{'960px': '70vw', '640px': '95vw'}"
+  (onHide)="closePhoneDialog()">
+
+  <div class="mb-3">
+    <label class="form-label">Enter phone numbers (comma or newline separated)</label>
+    <textarea rows="10" pTextarea [(ngModel)]="newFreeFormPhoneNos" style="width: 100%"></textarea>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <p-button label="Cancel" styleClass="p-button-text" (onClick)="closePhoneDialog()"></p-button>
+    <p-button label="Apply" styleClass="p-button-primary" (onClick)="applyPhoneDialog()"></p-button>
+  </ng-template>
+</p-dialog>
+
+<!-- Group Form Dialog -->
+<p-dialog
+  [(visible)]="showGroupDialog"
+  [header]="editingGroup ? 'Edit Group' : 'Create Group'"
+  [modal]="true"
+  [closable]="true"
+  [draggable]="false"
+  [resizable]="false"
+  styleClass="p-fluid"
+  [style]="{width: '50vw'}"
+  [breakpoints]="{'960px': '70vw', '640px': '95vw'}"
+  (onHide)="closeGroupDialog()">
+
+  <form [formGroup]="groupForm" (ngSubmit)="onSubmit()">
+    <!-- Bootstrap row layout: each field on a row; label 3 cols, input 6 cols -->
+    <!-- Group Type -->
+    <div class="row mb-3">
+      <label for="groupType" class="col-12 col-md-3 col-form-label">Group Type *</label>
+      <div class="col-12 col-md-6">
+        <p-dropdown
+          id="groupType"
+          formControlName="groupType"
+          [options]="groupTypeList"
+          optionLabel="itemName"
+          optionValue="id"
+          [class.ng-invalid]="isFieldInvalid('groupType')"
+          class="w-100">
+        </p-dropdown>
+        <small class="p-error" *ngIf="isFieldInvalid('groupType')">
+          {{ getFieldError('groupType') }}
+        </small>
+      </div>
+    </div>
+
+    <!-- Group Name -->
+    <div class="row mb-3">
+      <label for="groupName" class="col-12 col-md-3 col-form-label">Group Name *</label>
+      <div class="col-12 col-md-6">
+        <input
+          pInputText
+          id="groupName"
+          formControlName="groupName"
+          [class.ng-invalid]="isFieldInvalid('groupName')"
+          class="w-100" />
+        <small class="p-error" *ngIf="isFieldInvalid('groupName')">
+          {{ getFieldError('groupName') }}
+        </small>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end gap-2 mt-3">
+      <p-button
+        label="Cancel"
+        icon="pi pi-times"
+        (onClick)="closeGroupDialog()"
+        styleClass="p-button-text">
+      </p-button>
+      <p-button
+        label="{{ editingGroup ? 'Update' : 'Create' }}"
+        icon="pi pi-check"
+        type="submit"
+        styleClass="p-button-primary">
+      </p-button>
+    </div>
+  </form>
+</p-dialog>
+

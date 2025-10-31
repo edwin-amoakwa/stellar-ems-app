@@ -1,0 +1,195 @@
+.app-shell {
+  min-height: 100vh;
+}
+
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0 1rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  z-index: 1001;
+}
+
+.topbar .topbar-brand .brand {
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.topbar .hamburger {
+  background: transparent;
+  border: none;
+  font-size: 1.1rem;
+  color: var(--text);
+  padding: 0.5rem;
+  border-radius: 8px;
+}
+.topbar .hamburger:hover {
+  background: rgba(0,0,0,0.05);
+}
+
+.topbar .topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.theme-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.theme-btn:hover { border-color: var(--muted); }
+
+.user {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+.user img { width: 28px; height: 28px; border-radius: 50%; }
+.user .name { font-weight: 500; }
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 260px;
+  background: var(--sidebar-bg);
+  color: var(--sidebar-text);
+  padding-top: 64px; /* keeps clear of topbar */
+  transform: translateX(0);
+  transition: transform 0.25s ease;
+  z-index: 1000;
+}
+
+.sidebar .sidebar-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.sidebar .logo { color: var(--sidebar-accent); font-size: 1.2rem; }
+.sidebar .brand { font-weight: 700; color: var(--sidebar-text); }
+.sidebar .close-btn {
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  color: var(--sidebar-text);
+  font-size: 1.1rem;
+  display: none; /* only on mobile */
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  padding: 0.75rem;
+  gap: 0.25rem;
+}
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 0.8rem;
+  border-radius: 10px;
+  color: var(--sidebar-text);
+  opacity: 0.95;
+}
+.menu-item i { width: 20px; text-align: center; }
+.menu-item:hover { background: rgba(255,255,255,0.06); }
+.menu-item.active { background: rgba(34, 211, 238, 0.16); color: #e7faff; }
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(2,6,23,0.55);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease;
+  z-index: 999;
+}
+.overlay.show { opacity: 1; visibility: visible; }
+
+.content {
+  padding-top: 80px; /* space for topbar */
+  padding-left: 1rem;
+  padding-right: 1rem;
+  transition: margin-left 0.25s ease;
+}
+
+/* Desktop: reserve space when sidebar open */
+@media (min-width: 992px) {
+  .content { margin-left: 260px; }
+  .app-shell:not(.sidebar-open) .content { margin-left: 0; }
+  .topbar .hamburger { display: none; }
+}
+
+/* Mobile behavior */
+@media (max-width: 991.98px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .sidebar .close-btn { display: inline-flex; }
+}
+
+.muted { color: var(--muted); }
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.card {
+  grid-column: span 12;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1rem;
+  box-shadow: var(--shadow);
+}
+.card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(79,70,229,0.12);
+  color: var(--primary);
+  display: grid;
+  place-items: center;
+  font-size: 1.1rem;
+}
+.card-title { color: var(--muted); font-weight: 600; font-size: 0.85rem; }
+.card-value { font-weight: 800; font-size: 1.3rem; }
+
+@media (min-width: 600px) {
+  .card { grid-column: span 6; }
+}
+@media (min-width: 992px) {
+  .card { grid-column: span 4; }
+}

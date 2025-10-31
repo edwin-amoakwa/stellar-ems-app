@@ -1,0 +1,29 @@
+// Account Profile Component Styles
+
+.account-profile {
+  .profile-field {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #e9ecef;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  .badge {
+    font-size: 0.875rem;
+  }
+}
+
+// Additional styling for responsive design
+@media (max-width: 768px) {
+  .row.mb-3 {
+    .col-md-3, .col-md-9 {
+      text-align: left;
+    }
+
+    .col-md-3 {
+      margin-bottom: 0.5rem;
+    }
+  }
+}

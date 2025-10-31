@@ -1,0 +1,21 @@
+<div class="card" [ngClass]="[variantClass, elevationClass, paddingClass]">
+  <div class="card-header" [ngClass]="headerAlignClass">
+    @if (!customHeader) {
+      <h5>{{ title }}</h5>
+      @if (subtitle) {
+        <h3 style="font-size: 13px;" class="card-subtitle">{{ subtitle }}</h3>
+      }
+    } @else {
+      <ng-content select="[card-header]"></ng-content>
+    }
+    <div class="card-header-right">
+      <ng-content select="[card-actions]"></ng-content>
+    </div>
+  </div>
+  <div class="card-block">
+    <ng-content></ng-content>
+  </div>
+  <div class="card-footer">
+    <ng-content select="[card-footer]"></ng-content>
+  </div>
+</div>

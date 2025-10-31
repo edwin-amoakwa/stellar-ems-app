@@ -1,0 +1,57 @@
+/* Shared styles for common elements across app pages */
+
+.page-title {
+  margin: 0 0 1rem 0;
+  padding-bottom: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.2;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+
+/* Slightly larger on wider screens */
+@media (min-width: 768px) {
+  .page-title {
+    font-size: 1.75rem;
+  }
+}
+
+/* Muted helper text under titles, if needed */
+.page-subtitle {
+  margin-top: 0.25rem;
+  color: var(--muted);
+}
+
+
+
+
+.p-dialog {
+  box-shadow: var(--shadow);
+}
+
+.p-dialog .p-dialog-header {
+  background: var(--surface);
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+}
+
+.p-dialog .p-dialog-content {
+  background: var(--surface);
+  color: var(--text);
+}
+
+.p-dialog .p-dialog-footer {
+  background: var(--surface);
+  color: var(--text);
+  border-top: 1px solid var(--border);
+}
+
+/* Dialog mask/backdrop slight tint for dark mode improves contrast */
+[data-theme="dark"] .p-dialog-mask {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="light"] .p-dialog-mask {
+  background-color: rgba(0, 0, 0, 0.4);
+}

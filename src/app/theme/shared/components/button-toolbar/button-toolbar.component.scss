@@ -1,0 +1,7 @@
+.button-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* Align all content to the left */
+  gap: 16px; /* Space between items */
+  margin-bottom: 16px;
+}
