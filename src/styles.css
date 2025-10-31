@@ -57,11 +57,11 @@ body {
 
 a { color: inherit; text-decoration: none; }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem;
-}
+/*.container {*/
+/*  max-width: 1200px;*/
+/*  margin: 0 auto;*/
+/*  padding: 1rem;*/
+/*}*/
 
 /* Dark mode overrides for regular HTML/Bootstrap elements */
 [data-theme="dark"] {

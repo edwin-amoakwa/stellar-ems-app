@@ -25,6 +25,7 @@ export class UserSession {
     localStorage.setItem('merchantId', user.merchantId);
     localStorage.setItem('userId', user.id);
     localStorage.setItem(this.SessionId, loginResponse.sessionId);
+    localStorage.setItem(this.schoolId, loginResponse.id);
     localStorage.setItem(this.loginResponse, JSON.stringify(loginResponse));
   }
 

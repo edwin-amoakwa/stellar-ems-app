@@ -2,7 +2,7 @@
   <aside class="sidebar" [class.open]="sidebarOpen">
     <div class="sidebar-header">
       <i class="pi pi-th-large logo" aria-hidden="true"></i>
-      <span class="brand">Ecolink-MMS</span>
+      <span class="brand">StellarEMS</span>
       <button class="close-btn" (click)="toggleSidebar()" aria-label="Close sidebar">
         <i class="pi pi-times" aria-hidden="true"></i>
       </button>
@@ -48,9 +48,9 @@
       </a>
 
 
-      <a class="menu-item" *ngIf="allow('/users')" routerLink="/users" routerLinkActive="active">
-        <i class="pi pi-user" aria-hidden="true"></i>
-        <span>Users</span>
+      <a class="menu-item" *ngIf="allow('/staffs')" routerLink="/staffs" routerLinkActive="active">
+        <i class="pi pi-users" aria-hidden="true"></i>
+        <span>Staff</span>
       </a>
 
       <a class="menu-item" *ngIf="allow('/notification-settings')" routerLink="/notification-settings" routerLinkActive="active">
@@ -69,7 +69,7 @@
     </button>
     <div class="topbar-brand-container">
       <div class="topbar-brand">
-        <span class="brand"><span class="brand-eco">Ecolink</span> <span class="brand-mms">MMS</span></span>
+        <span class="brand"><span class="brand-eco">Stellar</span> <span class="brand-mms">EMS</span></span>
       </div>
     </div>
 

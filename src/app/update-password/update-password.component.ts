@@ -10,7 +10,7 @@ import { CardModule } from 'primeng/card';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 
-import { UserService } from '../users/user.service';
+import { StaffService } from '../staff/staff.service';
 import { NotificationService } from '../core/notification.service';
 
 @Component({
@@ -30,7 +30,7 @@ import { NotificationService } from '../core/notification.service';
 })
 export class UpdatePasswordComponent implements OnInit {
   private fb = inject(FormBuilder);
-  private userService = inject(UserService);
+  private userService = inject(StaffService);
   private messageService = inject(MessageService);
   private notificationService = inject(NotificationService);
   private router = inject(Router);

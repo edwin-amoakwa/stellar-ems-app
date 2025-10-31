@@ -10,7 +10,7 @@ import { ProvidersComponent } from './providers/providers.component';
 
 // Eagerly loaded (no lazy loading)
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { UsersComponent } from './users/users.component';
+import { StaffComponent } from './staff/staff.component';
 import { ApplicationsComponent } from './applications/applications.component';
 import { DistributionGroupsComponent } from './distribution-groups/distribution-groups.component';
 import { SmsComponent } from './sms/sms.component';
@@ -35,7 +35,7 @@ export const routes: Routes = [
 
       { path: 'providers', component: ProvidersComponent },
       { path: 'test', component: TestComponent },
-      { path: 'users', component: UsersComponent },
+      { path: 'staffs', component: StaffComponent },
       { path: 'applications', component: ApplicationsComponent },
       { path: 'group-contacts', component: DistributionGroupsComponent },
       { path: 'send-sms', component: SmsComponent },

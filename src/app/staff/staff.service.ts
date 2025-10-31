@@ -7,21 +7,14 @@ import { ApiResponse } from '../core/ApiResponse';
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class StaffService {
   private http = inject(HttpClient);
-  private apiUrl = `${environment.baseUrl}/users`;
+  private apiUrl = `${environment.baseUrl}/staffs`;
 
   async getUsers(): Promise<ApiResponse<any[]>> {
     return await firstValueFrom(this.http.get<ApiResponse<any[]>>(this.apiUrl));
   }
 
-  async createUser(user: Partial<any>): Promise<ApiResponse<any>> {
-    return await firstValueFrom(this.http.post<ApiResponse<any>>(this.apiUrl, user));
-  }
-
-  async updateUser(id: string, user: Partial<any>): Promise<ApiResponse<any>> {
-    return await firstValueFrom(this.http.put<ApiResponse<any>>(`${this.apiUrl}/${id}`, user));
-  }
 
   async saveUser(user: any): Promise<ApiResponse<any>> {
     if(!user.id) {

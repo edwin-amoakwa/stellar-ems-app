@@ -16,9 +16,10 @@ import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { NotificationService } from '../core/notification.service';
 import { CollectionUtil } from '../core/system.utils';
 import { StaticDataService } from '../static-data.service';
-import { UserService } from './user.service';
+import { StaffService } from './staff.service';
 import {ButtonToolbarComponent} from '../theme/shared/components/button-toolbar/button-toolbar.component';
 import {CardComponent} from '../theme/shared/components/card/card.component';
+import {CoreModule} from "../core/core.module";
 
 // Permissions model interfaces
 interface PermissionAction {
@@ -38,13 +39,7 @@ interface PermissionPage {
   selector: 'app-users',
   standalone: true,
   imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    ButtonModule,
-    InputTextModule,
-    DropdownModule,
-    TableModule,
+    CoreModule,
     CardModule,
     DialogModule,
     ToastModule,
@@ -53,12 +48,12 @@ interface PermissionPage {
     CardComponent
   ],
   providers: [MessageService],
-  templateUrl: './users.component.html',
-  styleUrl: './users.component.scss'
+  templateUrl: './staff.component.html',
+  styleUrl: './staff.component.scss'
 })
-export class UsersComponent implements OnInit {
+export class StaffComponent implements OnInit {
   private fb = inject(FormBuilder);
-  private userService = inject(UserService);
+  private userService = inject(StaffService);
   private messageService = inject(MessageService);
   private notificationService = inject(NotificationService);
 
@@ -118,11 +113,26 @@ export class UsersComponent implements OnInit {
 
   initializeForm() {
     this.userForm = this.fb.group({
-      accountName: ['', [Validators.required]],
-      emailAddress: ['', [Validators.required, Validators.email]],
-      phoneNo: ['', [Validators.required]],
-      accountCategory: ['', [Validators.required]],
-      accountStatus: ['', [Validators.required]]
+      id: [null],
+      systemId: [''],
+      username: ['', [Validators.required]],
+      referenceNo: [''],
+      dateOfBirth: [''],
+      gender: [''],
+      surname: ['', [Validators.required]],
+      othernames: [''],
+      firstName: ['', [Validators.required]],
+      postalAddress: [''],
+      mobileNo: ['', [Validators.required]],
+      otherContactNos: [''],
+      emailAddress: ['', [Validators.email]],
+      region: [''],
+      religion: [''],
+      homeTown: [''],
+      teachingStaff: [false],
+      administrator: [false],
+      classTeacher: [false],
+      residentialAddress: ['']
     });
 
     this.passwordForm = this.fb.group({
@@ -198,11 +208,26 @@ export class UsersComponent implements OnInit {
   editUser(user: any) {
     this.editingUser = user;
     this.userForm.patchValue({
-      accountName: user.accountName,
-      emailAddress: user.emailAddress,
-      phoneNo: user.phoneNo,
-      accountCategory: user.accountCategory,
-      accountStatus: user.accountStatus,
+      id: user.id ?? null,
+      systemId: user.systemId ?? '',
+      username: user.username ?? '',
+      referenceNo: user.referenceNo ?? '',
+      dateOfBirth: user.dateOfBirth ?? '',
+      gender: user.gender ?? '',
+      surname: user.surname ?? '',
+      othernames: user.othernames ?? '',
+      firstName: user.firstName ?? '',
+      postalAddress: user.postalAddress ?? '',
+      mobileNo: user.mobileNo ?? '',
+      otherContactNos: user.otherContactNos ?? '',
+      emailAddress: user.emailAddress ?? '',
+      region: user.region ?? '',
+      religion: user.religion ?? '',
+      homeTown: user.homeTown ?? '',
+      teachingStaff: !!user.teachingStaff,
+      administrator: !!user.administrator,
+      classTeacher: !!user.classTeacher,
+      residentialAddress: user.residentialAddress ?? ''
     });
     this.showUserDialog = true;
   }

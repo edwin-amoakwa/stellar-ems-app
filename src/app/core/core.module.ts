@@ -41,6 +41,7 @@ import { ChipModule } from 'primeng/chip';
 import { DatePickerModule } from 'primeng/datepicker';
 import { PasswordModule } from 'primeng/password';
 import { SelectButton } from 'primeng/selectbutton';
+
 import { TextareaModule } from 'primeng/textarea';
 import { TimelineModule } from 'primeng/timeline';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
