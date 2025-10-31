@@ -1,356 +1,365 @@
 <h1 class="page-title">Staffs</h1>
 
-<button-toolbar>
-  <p-button
-    label="New Staff"
-    icon="pi pi-plus"
-    (onClick)="openNewUserDialog()"
-    styleClass="p-button-primary">
-  </p-button>
 
-</button-toolbar>
+<div *ngIf="formView.listView" >
+    <button-toolbar>
+        <p-button
+                label="New Staff"
+                icon="pi pi-plus"
+                (onClick)="initNewStaff()"
+                styleClass="p-button-primary">
+        </p-button>
 
-<app-card>
+    </button-toolbar>
 
-  <p-table
-    [value]="users"
-    [loading]="loading"
-    [paginator]="true"
-    [rows]="10"
-    [showCurrentPageReport]="true"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    [rowsPerPageOptions]="[10, 25, 50]"
-    styleClass="p-datatable-gridlines">
+    <app-card>
 
-    <ng-template pTemplate="header">
-      <tr>
-<!--        <th>SystemId</th>-->
-        <th>Reference No</th>
-        <th>First Name</th>
-        <th>Surname</th>
-        <th>Mobile No</th>
-        <th>Teaching</th>
-        <th>Actions</th>
-      </tr>
-    </ng-template>
+        <p-table
+                [value]="staffList"
+                [loading]="loading"
+                [paginator]="true"
+                [rows]="10"
+                [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [rowsPerPageOptions]="[10, 25, 50]"
+                styleClass="p-datatable-gridlines">
 
-    <ng-template pTemplate="body" let-user>
-      <tr>
-<!--        <td>{{ user.username }}</td>-->
-        <td>{{ user.referenceNo }}</td>
-        <td>{{ user.firstName }}</td>
-        <td>{{ user.surname }}</td>
-        <td>{{ user.mobileNo }}</td>
-        <td>
-          <i class="pi" [ngClass]="user.teachingStaff ? 'pi-check-circle text-green-500' : 'pi-times-circle text-red-500'"></i>
-        </td>
-        <td>
-          <p-button
-            icon="pi pi-pencil"
-            (onClick)="editUser(user)"
-            styleClass="p-button-rounded p-button-text p-button-info mr-1"
-            pTooltip="Edit">
-          </p-button>
+            <ng-template pTemplate="header">
+                <tr>
+                    <!--        <th>SystemId</th>-->
+                    <th>Reference No</th>
+                    <th>First Name</th>
+                    <th>Surname</th>
+                    <th>Mobile No</th>
+                    <th>Teaching</th>
+                    <th>Actions</th>
+                </tr>
+            </ng-template>
 
-          <p-button
-            icon="pi pi-key"
-            (onClick)="openPasswordDialog(user)"
-            styleClass="p-button-rounded p-button-text p-button-warning mr-1"
-            pTooltip="Change Password">
-          </p-button>
+            <ng-template pTemplate="body" let-user>
+                <tr>
+                    <!--        <td>{{ user.username }}</td>-->
+                    <td>{{ user.referenceNo }}</td>
+                    <td>{{ user.firstName }}</td>
+                    <td>{{ user.surname }}</td>
+                    <td>{{ user.mobileNo }}</td>
+                    <td>
+                        <i class="pi" [ngClass]="user.teachingStaff ? 'pi-check-circle text-green-500' : 'pi-times-circle text-red-500'"></i>
+                    </td>
+                    <td>
+                        <p-button
+                                icon="pi pi-pencil"
+                                (onClick)="editUser(user)"
+                                styleClass="p-button-rounded p-button-text p-button-info mr-1"
+                                pTooltip="Edit">
+                        </p-button>
 
-          <p-button
-            icon="pi pi-shield"
-            (onClick)="openPermRolesDialog(user)"
-            styleClass="p-button-rounded p-button-text p-button-help mr-1"
-            pTooltip="Permissions & Roles">
-          </p-button>
+                        <p-button
+                                icon="pi pi-key"
+                                (onClick)="openPasswordDialog(user)"
+                                styleClass="p-button-rounded p-button-text p-button-warning mr-1"
+                                pTooltip="Change Password">
+                        </p-button>
 
-          <p-button *ngIf="false"
-                    icon="pi pi-trash"
-                    (onClick)="deleteUser(user)"
-                    styleClass="p-button-rounded p-button-text p-button-danger"
-                    pTooltip="Delete">
-          </p-button>
-        </td>
-      </tr>
-    </ng-template>
+                        <p-button
+                                icon="pi pi-shield"
+                                (onClick)="openPermRolesDialog(user)"
+                                styleClass="p-button-rounded p-button-text p-button-help mr-1"
+                                pTooltip="Permissions & Roles">
+                        </p-button>
 
-    <ng-template pTemplate="emptymessage">
-      <tr>
-        <td colspan="11" class="text-center">No staff found</td>
-      </tr>
-    </ng-template>
-  </p-table>
+                        <p-button *ngIf="false"
+                                  icon="pi pi-trash"
+                                  (onClick)="deleteUser(user)"
+                                  styleClass="p-button-rounded p-button-text p-button-danger"
+                                  pTooltip="Delete">
+                        </p-button>
+                    </td>
+                </tr>
+            </ng-template>
 
-</app-card>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="11" class="text-center">No staff found</td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+    </app-card>
+
+
+</div>
+
+<div *ngIf="formView.createView" >
+    <app-card [title]="editingUser ? 'Edit Staff' : 'Create Staff'">
+
+
+        <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+            <!-- Row 1: Username + Reference No -->
+            <div class="row">
+                <!--      <div class="col-12 col-md-6 mb-3">-->
+                <!--        <div class="row">-->
+                <!--          <div class="col-12 col-sm-4">-->
+                <!--            <label for="username">Username *</label>-->
+                <!--          </div>-->
+                <!--          <div class="col-12 col-sm-8">-->
+                <!--            <input pInputText id="username" formControlName="username" InputRequired class="w-full" />-->
+                <!--          </div>-->
+                <!--        </div>-->
+                <!--      </div>-->
+                <div class="col-12 col-md-6 mb-3">
+                    <div class="row">
+                        <div class="col-12 col-sm-4">
+                            <label for="referenceNo">Staff No</label>
+                        </div>
+                        <div class="col-12 col-sm-8">
+                            <input pInputText id="referenceNo" formControlName="referenceNo" appInputRequired class="w-full" required/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 2: First Name + Surname -->
+            <div class="row">
+                <div class="col-12 col-md-6 mb-3">
+                    <div class="row">
+                        <div class="col-12 col-sm-4">
+                            <label for="firstName">First Name *</label>
+                        </div>
+                        <div class="col-12 col-sm-8">
+                            <input pInputText id="firstName" formControlName="firstName" appInputRequired class="w-full" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 mb-3">
+                    <div class="row">
+                        <div class="col-12 col-sm-4">
+                            <label for="surname">Surname *</label>
+                        </div>
+                        <div class="col-12 col-sm-8">
+                            <input pInputText id="surname" formControlName="surname" appInputRequired class="w-full" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 3: Other Names + Date of Birth -->
+            <div class="row">
+                <div class="col-12 col-md-6 mb-3">
+                    <div class="row">
+                        <div class="col-12 col-sm-4">
+                            <label for="othernames">Other Names</label>
+                        </div>
+                        <div class="col-12 col-sm-8">
+                            <input pInputText id="othernames" formControlName="othernames" class="w-full" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 mb-3">
+                    <div class="row">
+                        <div class="col-12 col-sm-4">
+                            <label for="dateOfBirth">Date of Birth</label>
+                        </div>
+                        <div class="col-12 col-sm-8">
+                            <input id="dateOfBirth" type="date" formControlName="dateOfBirth" class="w-full" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 4: Gender + Email Address -->
+            <div class="row">
+                <div class="col-12 col-md-6 mb-3">
+                    <div class="row">
+                        <div class="col-12 col-sm-4">
+                            <label for="gender">Sex</label>
+                        </div>
+                        <div class="col-12 col-sm-8">
+                            <p-select id="region"
+                                      [options]="sexList"
+                                      optionLabel="itemName"
+                                      optionValue="id"
+                                      formControlName="gender"
+                                      styleClass="w-full"></p-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 mb-3">
+                    <div class="row">
+                        <div class="col-12 col-sm-4">
+                            <label for="emailAddress">Email Address</label>
+                        </div>
+                        <div class="col-12 col-sm-8">
+                            <input pInputText id="emailAddress" formControlName="emailAddress" class="w-full" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 5: Mobile No + Other Contact Nos -->
+            <div class="row">
+                <div class="col-12 col-md-6 mb-3">
+                    <div class="row">
+                        <div class="col-12 col-sm-4">
+                            <label for="mobileNo">Mobile No *</label>
+                        </div>
+                        <div class="col-12 col-sm-8">
+                            <input pInputText id="mobileNo" formControlName="mobileNo" appInputRequired class="w-full" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 mb-3">
+                    <div class="row">
+                        <div class="col-12 col-sm-4">
+                            <label for="otherContactNos">Other Contact Nos</label>
+                        </div>
+                        <div class="col-12 col-sm-8">
+                            <input pInputText id="otherContactNos" formControlName="otherContactNos" class="w-full" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 6: Region + Religion -->
+            <div class="row">
+                <div class="col-12 col-md-6 mb-3">
+                    <div class="row">
+                        <div class="col-12 col-sm-4">
+                            <label for="region">Region</label>
+                        </div>
+                        <div class="col-12 col-sm-8">
+                            <p-select id="region"
+                                      [options]="regionsList"
+                                      optionLabel="itemName"
+                                      optionValue="id"
+                                      formControlName="region"
+                                      styleClass="w-full"></p-select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 mb-3">
+                    <div class="row">
+                        <div class="col-12 col-sm-4">
+                            <label for="religion">Religion</label>
+                        </div>
+                        <div class="col-12 col-sm-8">
+                            <p-select id="religion"
+                                      [options]="religionOptions"
+                                      optionLabel="itemName"
+                                      optionValue="id"
+                                      formControlName="religion"
+                                      styleClass="w-full"></p-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 7: Home Town + (Spacer) -->
+            <div class="row">
+                <div class="col-12 col-md-6 mb-3">
+                    <div class="row">
+                        <div class="col-12 col-sm-4">
+                            <label for="homeTown">Home Town</label>
+                        </div>
+                        <div class="col-12 col-sm-8">
+                            <input pInputText id="homeTown" formControlName="homeTown" class="w-full" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 mb-3"></div>
+            </div>
+
+            <!-- Full-width: Postal Address -->
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <div class="row">
+                        <div class="col-12 col-md-2 col-lg-2 col-xl-2">
+                            <label for="postalAddress">Postal Address</label>
+                        </div>
+                        <div class="col-12 col-md-10 col-lg-10 col-xl-10">
+                            <textarea id="postalAddress"  pTextarea formControlName="postalAddress" class="w-full" rows="2"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Full-width: Residential Address -->
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <div class="row">
+                        <div class="col-12 col-md-2 col-lg-2 col-xl-2">
+                            <label for="residentialAddress">Residential Address</label>
+                        </div>
+                        <div class="col-12 col-md-10 col-lg-10 col-xl-10">
+                            <textarea id="residentialAddress" pTextarea formControlName="residentialAddress" class="w-full" rows="2"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 8: Toggles (Teaching Staff + Administrator) -->
+            <div class="row">
+                <div class="col-12 col-md-6 mb-3">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-sm-4">
+                            <label for="teachingStaff">Teaching Staff</label>
+                        </div>
+                        <div class="col-12 col-sm-8 d-flex align-items-center">
+                            <p-toggleSwitch inputId="teachingStaff" formControlName="teachingStaff"></p-toggleSwitch>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 mb-3">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-sm-4">
+                            <label for="administrator">Administrator</label>
+                        </div>
+                        <div class="col-12 col-sm-8 d-flex align-items-center">
+                            <p-toggleSwitch inputId="administrator" formControlName="administrator"></p-toggleSwitch>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 9: Toggles (Class Teacher + Spacer) -->
+            <div class="row">
+                <div class="col-12 col-md-6 mb-3">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-sm-4">
+                            <label for="classTeacher">Class Teacher</label>
+                        </div>
+                        <div class="col-12 col-sm-8 d-flex align-items-center">
+                            <p-toggleSwitch inputId="classTeacher" formControlName="classTeacher"></p-toggleSwitch>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 mb-3"></div>
+            </div>
+
+            <button-toolbar>
+                <close-button
+                        type="button"
+                        label="Cancel" (click)="formView.resetToListView()">
+                </close-button>
+                <p-button
+                        type="button"
+                        [label]="editingUser ? 'Update Staff' : 'Create Staff'"
+                        icon="pi pi-check"
+                        (onClick)="onSubmit()"
+                        [loading]="loading"
+                        styleClass="p-button-primary">
+                </p-button>
+            </button-toolbar>
+
+        </form>
 
 
 
-<!-- User Form Dialog -->
-<p-dialog
-  [(visible)]="showUserDialog"
-  [header]="editingUser ? 'Edit Staff' : 'Create Staff'"
-  [modal]="true"
-  [closable]="true"
-  [draggable]="false"
-  [resizable]="false"
-  styleClass="p-fluid"
-  [style]="{width: '70vw'}"
-  [breakpoints]="{'960px': '85vw', '640px': '95vw'}"
-  (onHide)="closeUserDialog()">
 
-  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-    <!-- Row 1: Username + Reference No -->
-    <div class="row">
-      <div class="col-12 col-md-6 mb-3">
-        <div class="row">
-          <div class="col-12 col-sm-4">
-            <label for="username">Username *</label>
-          </div>
-          <div class="col-12 col-sm-8">
-            <input pInputText id="username" formControlName="username" [class.ng-invalid]="isFieldInvalid('username')" class="w-full" />
-            <small class="p-error" *ngIf="isFieldInvalid('username')">{{ getFieldError('username') }}</small>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-md-6 mb-3">
-        <div class="row">
-          <div class="col-12 col-sm-4">
-            <label for="referenceNo">Reference No</label>
-          </div>
-          <div class="col-12 col-sm-8">
-            <input pInputText id="referenceNo" formControlName="referenceNo" class="w-full" />
-          </div>
-        </div>
-      </div>
-    </div>
+    </app-card>
+</div>
 
-    <!-- Row 2: First Name + Surname -->
-    <div class="row">
-      <div class="col-12 col-md-6 mb-3">
-        <div class="row">
-          <div class="col-12 col-sm-4">
-            <label for="firstName">First Name *</label>
-          </div>
-          <div class="col-12 col-sm-8">
-            <input pInputText id="firstName" formControlName="firstName" [class.ng-invalid]="isFieldInvalid('firstName')" class="w-full" />
-            <small class="p-error" *ngIf="isFieldInvalid('firstName')">{{ getFieldError('firstName') }}</small>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-md-6 mb-3">
-        <div class="row">
-          <div class="col-12 col-sm-4">
-            <label for="surname">Surname *</label>
-          </div>
-          <div class="col-12 col-sm-8">
-            <input pInputText id="surname" formControlName="surname" [class.ng-invalid]="isFieldInvalid('surname')" class="w-full" />
-            <small class="p-error" *ngIf="isFieldInvalid('surname')">{{ getFieldError('surname') }}</small>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- Row 3: Other Names + Date of Birth -->
-    <div class="row">
-      <div class="col-12 col-md-6 mb-3">
-        <div class="row">
-          <div class="col-12 col-sm-4">
-            <label for="othernames">Other Names</label>
-          </div>
-          <div class="col-12 col-sm-8">
-            <input pInputText id="othernames" formControlName="othernames" class="w-full" />
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-md-6 mb-3">
-        <div class="row">
-          <div class="col-12 col-sm-4">
-            <label for="dateOfBirth">Date of Birth</label>
-          </div>
-          <div class="col-12 col-sm-8">
-            <input id="dateOfBirth" type="date" formControlName="dateOfBirth" class="w-full" />
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Row 4: Gender + Email Address -->
-    <div class="row">
-      <div class="col-12 col-md-6 mb-3">
-        <div class="row">
-          <div class="col-12 col-sm-4">
-            <label for="gender">Gender</label>
-          </div>
-          <div class="col-12 col-sm-8">
-            <input pInputText id="gender" formControlName="gender" class="w-full" />
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-md-6 mb-3">
-        <div class="row">
-          <div class="col-12 col-sm-4">
-            <label for="emailAddress">Email Address</label>
-          </div>
-          <div class="col-12 col-sm-8">
-            <input pInputText id="emailAddress" formControlName="emailAddress" [class.ng-invalid]="isFieldInvalid('emailAddress')" class="w-full" />
-            <small class="p-error" *ngIf="isFieldInvalid('emailAddress')">{{ getFieldError('emailAddress') }}</small>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Row 5: Mobile No + Other Contact Nos -->
-    <div class="row">
-      <div class="col-12 col-md-6 mb-3">
-        <div class="row">
-          <div class="col-12 col-sm-4">
-            <label for="mobileNo">Mobile No *</label>
-          </div>
-          <div class="col-12 col-sm-8">
-            <input pInputText id="mobileNo" formControlName="mobileNo" [class.ng-invalid]="isFieldInvalid('mobileNo')" class="w-full" />
-            <small class="p-error" *ngIf="isFieldInvalid('mobileNo')">{{ getFieldError('mobileNo') }}</small>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-md-6 mb-3">
-        <div class="row">
-          <div class="col-12 col-sm-4">
-            <label for="otherContactNos">Other Contact Nos</label>
-          </div>
-          <div class="col-12 col-sm-8">
-            <input pInputText id="otherContactNos" formControlName="otherContactNos" class="w-full" />
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Row 6: Region + Religion -->
-    <div class="row">
-      <div class="col-12 col-md-6 mb-3">
-        <div class="row">
-          <div class="col-12 col-sm-4">
-            <label for="region">Region</label>
-          </div>
-          <div class="col-12 col-sm-8">
-            <input pInputText id="region" formControlName="region" class="w-full" />
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-md-6 mb-3">
-        <div class="row">
-          <div class="col-12 col-sm-4">
-            <label for="religion">Religion</label>
-          </div>
-          <div class="col-12 col-sm-8">
-            <input pInputText id="religion" formControlName="religion" class="w-full" />
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Row 7: Home Town + (Spacer) -->
-    <div class="row">
-      <div class="col-12 col-md-6 mb-3">
-        <div class="row">
-          <div class="col-12 col-sm-4">
-            <label for="homeTown">Home Town</label>
-          </div>
-          <div class="col-12 col-sm-8">
-            <input pInputText id="homeTown" formControlName="homeTown" class="w-full" />
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-md-6 mb-3"></div>
-    </div>
-
-    <!-- Full-width: Postal Address -->
-    <div class="row">
-      <div class="col-12 mb-3">
-        <div class="row">
-          <div class="col-12 col-md-2 col-lg-2 col-xl-2">
-            <label for="postalAddress">Postal Address</label>
-          </div>
-          <div class="col-12 col-md-10 col-lg-10 col-xl-10">
-            <textarea id="postalAddress"  pTextarea formControlName="postalAddress" class="w-full" rows="2"></textarea>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Full-width: Residential Address -->
-    <div class="row">
-      <div class="col-12 mb-3">
-        <div class="row">
-          <div class="col-12 col-md-2 col-lg-2 col-xl-2">
-            <label for="residentialAddress">Residential Address</label>
-          </div>
-          <div class="col-12 col-md-10 col-lg-10 col-xl-10">
-            <textarea id="residentialAddress" pTextarea formControlName="residentialAddress" class="w-full" rows="2"></textarea>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Row 8: Toggles (Teaching Staff + Administrator) -->
-    <div class="row">
-      <div class="col-12 col-md-6 mb-3">
-        <div class="row align-items-center">
-          <div class="col-12 col-sm-4">
-            <label for="teachingStaff">Teaching Staff</label>
-          </div>
-          <div class="col-12 col-sm-8 d-flex align-items-center">
-            <p-toggleSwitch inputId="teachingStaff" formControlName="teachingStaff"></p-toggleSwitch>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-md-6 mb-3">
-        <div class="row align-items-center">
-          <div class="col-12 col-sm-4">
-            <label for="administrator">Administrator</label>
-          </div>
-          <div class="col-12 col-sm-8 d-flex align-items-center">
-            <p-toggleSwitch inputId="administrator" formControlName="administrator"></p-toggleSwitch>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Row 9: Toggles (Class Teacher + Spacer) -->
-    <div class="row">
-      <div class="col-12 col-md-6 mb-3">
-        <div class="row align-items-center">
-          <div class="col-12 col-sm-4">
-            <label for="classTeacher">Class Teacher</label>
-          </div>
-          <div class="col-12 col-sm-8 d-flex align-items-center">
-            <p-toggleSwitch inputId="classTeacher" formControlName="classTeacher"></p-toggleSwitch>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 col-md-6 mb-3"></div>
-    </div>
-  </form>
-
-  <ng-template pTemplate="footer">
-    <p-button
-      type="button"
-      label="Cancel"
-      icon="pi pi-times"
-      (onClick)="closeUserDialog()"
-      styleClass="p-button-text">
-    </p-button>
-    <p-button
-      type="button"
-      [label]="editingUser ? 'Update Staff' : 'Create Staff'"
-      icon="pi pi-check"
-      (onClick)="onSubmit()"
-      [loading]="loading"
-      styleClass="p-button-primary">
-    </p-button>
-  </ng-template>
-</p-dialog>
 
 <!-- Password Update Dialog -->
 <p-dialog
@@ -376,11 +385,8 @@
           type="password"
           id="newPassword"
           formControlName="newPassword"
-          [class.ng-invalid]="isPasswordFieldInvalid('newPassword')"
+          InputRequired
           class="w-full" />
-        <small class="p-error" *ngIf="isPasswordFieldInvalid('newPassword')">
-          {{ getPasswordFieldError('newPassword') }}
-        </small>
       </div>
     </div>
 
@@ -394,11 +400,8 @@
           type="password"
           id="confirmPassword"
           formControlName="confirmPassword"
-          [class.ng-invalid]="isPasswordFieldInvalid('confirmPassword')"
+          InputRequired
           class="w-full" />
-        <small class="p-error" *ngIf="isPasswordFieldInvalid('confirmPassword')">
-          {{ getPasswordFieldError('confirmPassword') }}
-        </small>
       </div>
     </div>
   </form>

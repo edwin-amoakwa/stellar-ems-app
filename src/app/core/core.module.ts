@@ -63,6 +63,9 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
 import { NgbDropdownModule, NgbNavModule, NgbModule, NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import {CardComponent} from '../theme/shared/components/card/card.component';
 import {TagModule} from 'primeng/tag';
+import { InputRequiredDirective } from './directives/input-required.directive';
+import {CloseButtonComponent} from "../components/close-button/close-button.component";
+import {ButtonToolbarComponent} from "../theme/shared/components/button-toolbar/button-toolbar.component";
 
 
 @NgModule({
@@ -131,10 +134,14 @@ import {TagModule} from 'primeng/tag';
     NgbNavModule,
     NgbModule,
     NgbCollapseModule,
-    NgScrollbarModule
+    NgScrollbarModule,
+      InputRequiredDirective,
+      CloseButtonComponent,
+      ButtonToolbarComponent
   ],
   exports:[
     CommonModule,
+    InputRequiredDirective,
     FormsModule,
     ReactiveFormsModule,
     SplitButtonModule,
@@ -196,7 +203,9 @@ import {TagModule} from 'primeng/tag';
     NgbNavModule,
     NgbModule,
     NgbCollapseModule,
-    NgScrollbarModule
+    NgScrollbarModule,
+      CloseButtonComponent,
+      ButtonToolbarComponent
   ]
 })
 export class CoreModule { }

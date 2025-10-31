@@ -91,4 +91,43 @@ export class StaticDataService {
     ];
   }
 
+    public static religion(): any[] {
+        return [
+            { id: 'CHRISTIAN', itemName: 'Christian' },
+            { id: 'MOSLEM', itemName: 'Moslem' },
+            { id: 'TRADITIONALIST', itemName: 'Traditionalist' },
+            { id: 'OTHER', itemName: 'Other' },
+        ];
+    }
+
+
+    public static gender(): any[] {
+        return [
+            { id: 'MALE', itemName: 'Male' },
+            { id: 'FEMALE', itemName: 'Female' }
+        ];
+    }
+
+
+    public static regions(): any[] {
+        return [
+            { id: 'GREATER_ACCRA', itemName: 'Greater Accra Region' },
+            { id: 'CENTRAL_REGION', itemName: 'Central Region' },
+            { id: 'ASHANTI_REGION', itemName: 'Ashanti Region' },
+            { id: 'BONO_REGION', itemName: 'Bono Region' },
+            { id: 'BONO_EAST_REGION', itemName: 'Bono East Region' },
+            { id: 'AHAFO_REGION', itemName: 'Ahafo Region' },
+            { id: 'NORTHERN_REGION', itemName: 'Northern Region' },
+            { id: 'NORTH_EAST_REGION', itemName: 'North East Region' },
+            { id: 'SAVANNAH_REGION', itemName: 'Savannah Region' },
+            { id: 'UPPER_EAST_REGION', itemName: 'Upper East Region' },
+            { id: 'UPPER_WEST_REGION', itemName: 'Upper West Region' },
+            { id: 'EASTERN_REGION', itemName: 'Eastern Region' },
+            { id: 'WESTERN_REGION', itemName: 'Western Region' },
+            { id: 'WESTERN_NORTH_REGION', itemName: 'Western North Region' },
+            { id: 'OTI_REGION', itemName: 'Oti Region' },
+            { id: 'VOLTA_REGION', itemName: 'Volta Region' },
+        ];
+    }
+
 }

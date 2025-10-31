@@ -4,12 +4,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormsModule } 
 
 // PrimNG imports
 import { MessageService } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { DialogModule } from 'primeng/dialog';
-import { DropdownModule } from 'primeng/dropdown';
-import { InputTextModule } from 'primeng/inputtext';
-import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 
@@ -20,6 +16,7 @@ import { StaffService } from './staff.service';
 import {ButtonToolbarComponent} from '../theme/shared/components/button-toolbar/button-toolbar.component';
 import {CardComponent} from '../theme/shared/components/card/card.component';
 import {CoreModule} from "../core/core.module";
+import {FormView} from "../core/form-view";
 
 // Permissions model interfaces
 interface PermissionAction {
@@ -40,12 +37,6 @@ interface PermissionPage {
   standalone: true,
   imports: [
     CoreModule,
-    CardModule,
-    DialogModule,
-    ToastModule,
-    ToggleSwitchModule,
-    ButtonToolbarComponent,
-    CardComponent
   ],
   providers: [MessageService],
   templateUrl: './staff.component.html',
@@ -57,9 +48,9 @@ export class StaffComponent implements OnInit {
   private messageService = inject(MessageService);
   private notificationService = inject(NotificationService);
 
-  users: any[] = [];
+  formView:FormView = new FormView();
+  staffList: any[] = [];
   userForm!: FormGroup;
-  showUserDialog = false;
   editingUser: any | null = null;
   loading = false;
 
@@ -104,6 +95,9 @@ export class StaffComponent implements OnInit {
   // Dropdown options
   accountCategoryOptions: any[] = StaticDataService.accountCategories();
   accountStatusOptions: any[] = StaticDataService.accountStatuses();
+  religionOptions: any[] = StaticDataService.religion();
+  regionsList: any[] = StaticDataService.regions();
+  sexList: any[] = StaticDataService.gender();
 
   ngOnInit() {
     this.initializeForm();
@@ -115,8 +109,8 @@ export class StaffComponent implements OnInit {
     this.userForm = this.fb.group({
       id: [null],
       systemId: [''],
-      username: ['', [Validators.required]],
-      referenceNo: [''],
+      username: [''],
+      referenceNo: ['',[Validators.required]],
       dateOfBirth: [''],
       gender: [''],
       surname: ['', [Validators.required]],
@@ -148,7 +142,7 @@ export class StaffComponent implements OnInit {
       const response = await this.userService.getUsers();
 
       if (response.success) {
-        this.users = response.data;
+        this.staffList = response.data;
       } else {
         this.notificationService.error(response.message|| 'Failed to load users');
         // this.messageService.add({
@@ -173,7 +167,7 @@ export class StaffComponent implements OnInit {
     try {
       const response = await this.userService.saveUser(user);
       if (response.success) {
-        CollectionUtil.add(this.users, response.data);
+        CollectionUtil.add(this.staffList, response.data);
         this.closeUserDialog();
         this.messageService.add({
           severity: 'success',
@@ -190,6 +184,7 @@ export class StaffComponent implements OnInit {
   }
 
   async onSubmit() {
+      console.log(this.userForm.invalid);
     if (this.userForm.invalid) {
       Object.keys(this.userForm.controls).forEach(key => {
         this.userForm.get(key)?.markAsTouched();
@@ -207,29 +202,8 @@ export class StaffComponent implements OnInit {
 
   editUser(user: any) {
     this.editingUser = user;
-    this.userForm.patchValue({
-      id: user.id ?? null,
-      systemId: user.systemId ?? '',
-      username: user.username ?? '',
-      referenceNo: user.referenceNo ?? '',
-      dateOfBirth: user.dateOfBirth ?? '',
-      gender: user.gender ?? '',
-      surname: user.surname ?? '',
-      othernames: user.othernames ?? '',
-      firstName: user.firstName ?? '',
-      postalAddress: user.postalAddress ?? '',
-      mobileNo: user.mobileNo ?? '',
-      otherContactNos: user.otherContactNos ?? '',
-      emailAddress: user.emailAddress ?? '',
-      region: user.region ?? '',
-      religion: user.religion ?? '',
-      homeTown: user.homeTown ?? '',
-      teachingStaff: !!user.teachingStaff,
-      administrator: !!user.administrator,
-      classTeacher: !!user.classTeacher,
-      residentialAddress: user.residentialAddress ?? ''
-    });
-    this.showUserDialog = true;
+    this.userForm.patchValue(user);
+    this.formView.resetToCreateView();
   }
 
   async deleteUser(user: any) {
@@ -256,14 +230,15 @@ export class StaffComponent implements OnInit {
     }
   }
 
-  openNewUserDialog() {
+  initNewStaff() {
     this.editingUser = null;
     this.resetForm();
-    this.showUserDialog = true;
+    this.formView.resetToCreateView();
+
   }
 
   closeUserDialog() {
-    this.showUserDialog = false;
+    this.formView.resetToListView();
     this.resetForm();
   }
 

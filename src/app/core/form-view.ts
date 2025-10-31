@@ -1,7 +1,7 @@
 
 export class FormView
 {
-    listView:boolean = false;
+    listView:boolean = true;
     createView:boolean = false;
     detailView:boolean = false;
 

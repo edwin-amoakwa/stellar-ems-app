@@ -1,5 +1,5 @@
 // angular import
-import {Component, inject} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {Router, RouterModule} from '@angular/router';
 import {UntypedFormBuilder, Validators, ReactiveFormsModule, FormGroup} from '@angular/forms';
 import {AuthService, LoginPayload} from '../../auth.service';
@@ -12,7 +12,7 @@ import {CommonModule} from '@angular/common';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit{
   private authService = inject(AuthService);
   private router = inject(Router);
   private fb = inject(UntypedFormBuilder);
@@ -29,7 +29,14 @@ export class LoginComponent {
     });
   }
 
-  togglePasswordVisibility() {
+ngOnInit(): void {
+      if(UserSession.isLoggedIn())
+      {
+          this.router.navigate(['/dashboard']);
+      }
+}
+
+    togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
 
