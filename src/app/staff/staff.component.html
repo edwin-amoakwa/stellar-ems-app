@@ -113,7 +113,7 @@
                             <label for="referenceNo">Staff No</label>
                         </div>
                         <div class="col-12 col-sm-8">
-                            <input pInputText id="referenceNo" formControlName="referenceNo" appInputRequired class="w-full" required/>
+                            <input pInputText id="referenceNo" formControlName="referenceNo" appValidateInput class="w-full" />
                         </div>
                     </div>
                 </div>
@@ -127,7 +127,7 @@
                             <label for="firstName">First Name *</label>
                         </div>
                         <div class="col-12 col-sm-8">
-                            <input pInputText id="firstName" formControlName="firstName" appInputRequired class="w-full" />
+                            <input pInputText id="firstName" formControlName="firstName" appValidateInput class="w-full" />
                         </div>
                     </div>
                 </div>
@@ -137,7 +137,7 @@
                             <label for="surname">Surname *</label>
                         </div>
                         <div class="col-12 col-sm-8">
-                            <input pInputText id="surname" formControlName="surname" appInputRequired class="w-full" />
+                            <input pInputText id="surname" formControlName="surname" appValidateInput class="w-full" />
                         </div>
                     </div>
                 </div>
@@ -151,7 +151,7 @@
                             <label for="othernames">Other Names</label>
                         </div>
                         <div class="col-12 col-sm-8">
-                            <input pInputText id="othernames" formControlName="othernames" class="w-full" />
+                            <input pInputText id="othernames" formControlName="othernames"  class="w-full" />
                         </div>
                     </div>
                 </div>
@@ -179,7 +179,7 @@
                                       [options]="sexList"
                                       optionLabel="itemName"
                                       optionValue="id"
-                                      formControlName="gender"
+                                      formControlName="gender" appValidateInput
                                       styleClass="w-full"></p-select>
                         </div>
                     </div>
@@ -204,7 +204,7 @@
                             <label for="mobileNo">Mobile No *</label>
                         </div>
                         <div class="col-12 col-sm-8">
-                            <input pInputText id="mobileNo" formControlName="mobileNo" appInputRequired class="w-full" />
+                            <input pInputText id="mobileNo" formControlName="mobileNo" appValidateInput class="w-full" />
                         </div>
                     </div>
                 </div>
@@ -342,7 +342,7 @@
                         label="Cancel" (click)="formView.resetToListView()">
                 </close-button>
                 <p-button
-                        type="button"
+                        type="submit"
                         [label]="editingUser ? 'Update Staff' : 'Create Staff'"
                         icon="pi pi-check"
                         (onClick)="onSubmit()"

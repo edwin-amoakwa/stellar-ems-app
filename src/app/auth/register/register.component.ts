@@ -11,7 +11,7 @@ import {Select} from 'primeng/select';
 
 @Component({
   selector: 'app-register',
-  imports: [RouterModule, ReactiveFormsModule, CommonModule, Select],
+  imports: [RouterModule, ReactiveFormsModule, CommonModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })

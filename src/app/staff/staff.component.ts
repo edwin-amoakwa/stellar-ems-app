@@ -1,22 +1,18 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 // PrimNG imports
 import { MessageService } from 'primeng/api';
-import { CardModule } from 'primeng/card';
-import { DialogModule } from 'primeng/dialog';
-import { ToastModule } from 'primeng/toast';
-import { ToggleSwitchModule } from 'primeng/toggleswitch';
 
 import { NotificationService } from '../core/notification.service';
 import { CollectionUtil } from '../core/system.utils';
 import { StaticDataService } from '../static-data.service';
 import { StaffService } from './staff.service';
-import {ButtonToolbarComponent} from '../theme/shared/components/button-toolbar/button-toolbar.component';
-import {CardComponent} from '../theme/shared/components/card/card.component';
 import {CoreModule} from "../core/core.module";
 import {FormView} from "../core/form-view";
+import {ValidateInputDirective} from "../core/directives/input-required.directive";
+
 
 // Permissions model interfaces
 interface PermissionAction {
@@ -35,9 +31,9 @@ interface PermissionPage {
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [
-    CoreModule,
-  ],
+    imports: [
+        CoreModule
+    ],
   providers: [MessageService],
   templateUrl: './staff.component.html',
   styleUrl: './staff.component.scss'
@@ -110,16 +106,16 @@ export class StaffComponent implements OnInit {
       id: [null],
       systemId: [''],
       username: [''],
-      referenceNo: ['',[Validators.required]],
+      referenceNo: [''],
       dateOfBirth: [''],
       gender: [''],
-      surname: ['', [Validators.required]],
+      surname: [''],
       othernames: [''],
-      firstName: ['', [Validators.required]],
+      firstName: [''],
       postalAddress: [''],
-      mobileNo: ['', [Validators.required]],
+      mobileNo: [''],
       otherContactNos: [''],
-      emailAddress: ['', [Validators.email]],
+      emailAddress: [''],
       region: [''],
       religion: [''],
       homeTown: [''],
@@ -185,12 +181,10 @@ export class StaffComponent implements OnInit {
 
   async onSubmit() {
       console.log(this.userForm.invalid);
-    if (this.userForm.invalid) {
-      Object.keys(this.userForm.controls).forEach(key => {
-        this.userForm.get(key)?.markAsTouched();
-      });
-      return;
-    }
+      if (ValidateInputDirective.invalidForm(this.userForm)) {
+          console.log(this.userForm.invalid);
+          return;
+      }
 
     const userData = this.userForm.value;
     if (this.editingUser) {
