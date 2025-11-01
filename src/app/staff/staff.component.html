@@ -14,15 +14,29 @@
 
     <app-card>
 
-        <p-table
-                [value]="staffList"
+        <p-table #dataTable
+                [value]="staffList" dataKey="id"
                 [loading]="loading"
                 [paginator]="true"
                 [rows]="10"
                 [showCurrentPageReport]="true"
                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                 [rowsPerPageOptions]="[10, 25, 50]"
+                [globalFilterFields]="['referenceNo', 'firstName', 'surname', 'mobileNo']"
                 styleClass="p-datatable-gridlines">
+
+            <ng-template #caption>
+                <div class="clearfix">
+                    <div class="flex justify-content-end float-end">
+                        <p-iconfield iconPosition="left" >
+                            <p-inputicon>
+                                <i class="pi pi-search"></i>
+                            </p-inputicon>
+                            <input pInputText type="text" (input)="dataTable.filterGlobal($any($event.target).value, 'contains')" placeholder="Search keyword" />
+                        </p-iconfield>
+                    </div>
+                </div>
+            </ng-template>
 
             <ng-template pTemplate="header">
                 <tr>
