@@ -448,4 +448,13 @@ export class ObjectUtil {
       return content;
   }
 
+  public static booleanFalse(object, ...keys)
+  {
+    for(const key of keys)
+    {
+        object.set(key,false);
+    }
+    return object;
+  }
+
 }

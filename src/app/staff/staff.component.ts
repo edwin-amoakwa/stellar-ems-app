@@ -44,6 +44,7 @@ export class StaffComponent implements OnInit {
   private messageService = inject(MessageService);
   private notificationService = inject(NotificationService);
 
+  defaultStaff:any = {};
   formView:FormView = new FormView();
   staffList: any[] = [];
   userForm!: FormGroup;
@@ -107,7 +108,7 @@ export class StaffComponent implements OnInit {
       systemId: [''],
       username: [''],
       referenceNo: [''],
-      dateOfBirth: [''],
+      dateOfBirth: [null],
       gender: [''],
       surname: [''],
       othernames: [''],
@@ -125,6 +126,9 @@ export class StaffComponent implements OnInit {
       residentialAddress: ['']
     });
 
+    this.defaultStaff = this.userForm.getRawValue();
+    console.log("default value ....",this.defaultStaff);
+
     this.passwordForm = this.fb.group({
       newPassword: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required]]
@@ -139,21 +143,10 @@ export class StaffComponent implements OnInit {
 
       if (response.success) {
         this.staffList = response.data;
-      } else {
-        this.notificationService.error(response.message|| 'Failed to load users');
-        // this.messageService.add({
-        //   severity: 'error',
-        //   summary: 'Error',
-        //   detail: response.message || 'Failed to load users'
-        // });
       }
+
     } catch (error: any) {
-      this.notificationService.error( 'Failed to load users');
-      // this.messageService.add({
-      //   severity: 'error',
-      //   summary: 'Error',
-      //   detail: 'Failed to load users'
-      // });
+
     } finally {
       this.loading = false;
     }
@@ -165,17 +158,8 @@ export class StaffComponent implements OnInit {
       if (response.success) {
         CollectionUtil.add(this.staffList, response.data);
         this.closeUserDialog();
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: this.editingUser ? 'User updated successfully' : 'User created successfully'
-        });
-      } else {
-        this.notificationService.error(response.message || (this.editingUser ? 'Failed to update user' : 'Failed to create user'));
       }
     } catch (error: any) {
-      const errorMessage = this.editingUser ? 'Failed to update user' : 'Failed to create user';
-      this.notificationService.error(errorMessage);
     }
   }
 
@@ -190,7 +174,6 @@ export class StaffComponent implements OnInit {
     if (this.editingUser) {
       userData.id = this.editingUser.id;
     }
-
     await this.saveUser(userData);
   }
 
@@ -200,24 +183,17 @@ export class StaffComponent implements OnInit {
     this.formView.resetToCreateView();
   }
 
-  async deleteUser(user: any) {
-    if (confirm(`Are you sure you want to delete user "${user.accountName}"?`)) {
+  async deleteUser(staff: any) {
+    if (confirm(`Are you sure you want to delete Staff "${staff.fullname}"?`)) {
       try {
         this.loading = true;
-        const response = await this.userService.deleteUser(user.id!);
+        const response = await this.userService.deleteUser(staff.id!);
 
         if (response.success) {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'User deleted successfully'
-          });
-          await this.loadUsers();
-        } else {
-          this.notificationService.error(response.message || 'Failed to delete user');
+          CollectionUtil.remove(this.staffList, staff.id);
         }
       } catch (error: any) {
-        this.notificationService.error('Failed to delete user');
+        this.notificationService.error('Failed to delete Staff');
       } finally {
         this.loading = false;
       }
@@ -237,40 +213,9 @@ export class StaffComponent implements OnInit {
   }
 
   resetForm() {
-    this.userForm.reset();
+    this.userForm.reset(this.defaultStaff);
   }
 
-  isFieldInvalid(fieldName: string): boolean {
-    const field = this.userForm.get(fieldName);
-    return !!(field && field.invalid && (field.dirty || field.touched));
-  }
-
-  getFieldError(fieldName: string): string {
-    const field = this.userForm.get(fieldName);
-    if (field?.errors) {
-      if (field.errors['required']) {
-        return `${this.getFieldLabel(fieldName)} is required`;
-      }
-      if (field.errors['email']) {
-        return 'Please enter a valid email address';
-      }
-    }
-    return '';
-  }
-
-  getFieldLabel(fieldName: string): string {
-    const labels: { [key: string]: string } = {
-      'accountName': 'Account Name',
-      'emailAddress': 'Email Address',
-      'phoneNo': 'Phone Number',
-      'accountCategory': 'Account Category',
-      'merchantName': 'Merchant Name',
-      'merchantId': 'Merchant ID',
-      'accountStatus': 'Account Status',
-      'userCategory': 'User Category'
-    };
-    return labels[fieldName] || fieldName;
-  }
 
   // Password dialog methods
   openPasswordDialog(user: any) {
@@ -330,32 +275,6 @@ export class StaffComponent implements OnInit {
     } finally {
       this.passwordLoading = false;
     }
-  }
-
-  isPasswordFieldInvalid(fieldName: string): boolean {
-    const field = this.passwordForm.get(fieldName);
-    return !!(field && field.invalid && (field.dirty || field.touched));
-  }
-
-  getPasswordFieldError(fieldName: string): string {
-    const field = this.passwordForm.get(fieldName);
-    if (field?.errors) {
-      if (field.errors['required']) {
-        return `${this.getPasswordFieldLabel(fieldName)} is required`;
-      }
-      if (field.errors['minlength']) {
-        return `${this.getPasswordFieldLabel(fieldName)} must be at least 6 characters`;
-      }
-    }
-    return '';
-  }
-
-  getPasswordFieldLabel(fieldName: string): string {
-    const labels: { [key: string]: string } = {
-      'newPassword': 'New Password',
-      'confirmPassword': 'Confirm Password'
-    };
-    return labels[fieldName] || fieldName;
   }
 
   // Permissions & Roles dialog methods
