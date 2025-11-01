@@ -28,18 +28,18 @@
                 <i class="input-icon">👤</i>
                 <input
                   type="text"
-                  id="emailAddress"
-                  formControlName="emailAddress"
+                  id="username"
+                  formControlName="username"
                   class="form-input"
                   placeholder=" "
                   autocomplete="emailAddress"
-                  [class.error]="emailAddress?.invalid && emailAddress?.touched"
+                  [class.error]="username?.invalid && username?.touched"
                   aria-describedby="usernameHelp"
                 />
                 <label for="username" class="form-label">Username</label>
               </div>
-              <div id="usernameHelp" *ngIf="emailAddress?.invalid && emailAddress?.touched" class="field-error">
-                <small *ngIf="emailAddress?.errors?.['required']">Username is required</small>
+              <div id="usernameHelp" *ngIf="username?.invalid && username?.touched" class="field-error">
+                <small *ngIf="username?.errors?.['required']">Username is required</small>
               </div>
             </div>
 

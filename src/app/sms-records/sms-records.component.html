@@ -3,43 +3,70 @@
 <app-card title="SMS Records">
   <div class="card-body">
     <!-- Filter Section -->
-    <div class="row mb-3">
+    <div class="row mb-3 g-3">
       <div class="col-md-3">
-        <label for="finalStatus" class="form-label">Final Status</label>
-        <p-dropdown
-          id="finalStatus"
-          [options]="smsStatusList"
-          [(ngModel)]="filterParam.smsStatus"
-          optionLabel="itemName"
-          optionValue="id"
-          placeholder="Select Final Status"
-          [showClear]="true"
-          (onChange)="onFilterChange()"
-          styleClass="w-100">
+        <label for="phoneNo" class="form-label">Phone No</label>
+        <input pInputText id="phoneNo" [(ngModel)]="filterParam.phoneNo" placeholder="Enter phone number" class="w-100" />
+      </div>
+      <div class="col-md-3">
+        <label for="referenceNo" class="form-label">Reference No</label>
+        <input pInputText id="referenceNo" [(ngModel)]="filterParam.referenceNo" placeholder="Enter reference no" class="w-100" />
+      </div>
+      <div class="col-md-3">
+        <label for="relatedPersonName" class="form-label">Related Person</label>
+        <input pInputText id="relatedPersonName" [(ngModel)]="filterParam.relatedPersonName" placeholder="Enter name" class="w-100" />
+      </div>
+      <div class="col-md-3">
+        <label for="sentStatus" class="form-label">Sent Status</label>
+        <p-dropdown id="sentStatus"
+                    [options]="sentStatusOptions"
+                    [(ngModel)]="filterParam.sentStatus"
+                    optionLabel="label"
+                    optionValue="value"
+                    placeholder="All"
+                    [showClear]="true"
+                    styleClass="w-100">
         </p-dropdown>
       </div>
       <div class="col-md-3">
-        <label for="senderId" class="form-label">Sender ID</label>
-        <p-dropdown
-          id="senderId"
-          [options]="senderIdOptions"
-          [(ngModel)]="filterParam.senderId"
-          optionLabel="senderId"
-          optionValue="senderId"
-          placeholder="Select Sender ID"
-          [showClear]="true"
-          (onChange)="onFilterChange()"
-          styleClass="w-100">
+        <label for="emailSent" class="form-label">Email Sent</label>
+        <p-dropdown id="emailSent"
+                    [options]="yesNoOptions"
+                    [(ngModel)]="filterParam.emailSent"
+                    optionLabel="label"
+                    optionValue="value"
+                    placeholder="All"
+                    [showClear]="true"
+                    styleClass="w-100">
         </p-dropdown>
       </div>
-      <div class="col-md-3 d-flex align-items-end">
-        <p-button
-          label="Clear Filters"
-          icon="pi pi-filter-slash"
-          severity="secondary"
-          size="small"
-          (onClick)="clearFilters()">
-        </p-button>
+      <div class="col-md-3">
+        <label for="smsSent" class="form-label">SMS Sent</label>
+        <p-dropdown id="smsSent"
+                    [options]="yesNoOptions"
+                    [(ngModel)]="filterParam.smsSent"
+                    optionLabel="label"
+                    optionValue="value"
+                    placeholder="All"
+                    [showClear]="true"
+                    styleClass="w-100">
+        </p-dropdown>
+      </div>
+      <div class="col-md-3">
+        <label for="whatsAppSent" class="form-label">WhatsApp Sent</label>
+        <p-dropdown id="whatsAppSent"
+                    [options]="yesNoOptions"
+                    [(ngModel)]="filterParam.whatsAppSent"
+                    optionLabel="label"
+                    optionValue="value"
+                    placeholder="All"
+                    [showClear]="true"
+                    styleClass="w-100">
+        </p-dropdown>
+      </div>
+      <div class="col-md-3 d-flex align-items-end gap-2">
+        <p-button label="Search" icon="pi pi-search" severity="primary" size="small" (onClick)="loadSmsRecords()"></p-button>
+        <p-button label="Clear Filters" icon="pi pi-filter-slash" severity="secondary" size="small" (onClick)="clearFilters()"></p-button>
       </div>
     </div>
 
@@ -49,62 +76,56 @@
       [loading]="isLoading"
       [paginator]="true"
       [rows]="20"
-      [responsive]="true"
       styleClass="p-datatable-sm"
       [scrollable]="true"
       scrollHeight="600px"
-      dataKey="id">
+      dataKey="referenceNo">
 
-      <ng-template #header>
+      <ng-template pTemplate="header">
         <tr>
-          <th ></th>
-          <th >Mobile No</th>
-          <th >Sender ID</th>
-          <th >Application</th>
-          <th >Recipient</th>
-          <th >SMS Text</th>
-<!--          <th >SMS Provider</th>-->
-          <th >SMS Status</th>
-          <th > Cost</th>
-          <th >Pages</th>
+          <th style="width:40px"></th>
+          <th>Phone No</th>
+          <th>Message</th>
+          <th>Reference No</th>
+          <th>Related Person</th>
+          <th>Person Type</th>
+          <th>Sent Status</th>
+          <th>Email Sent</th>
+          <th>SMS Sent</th>
+          <th>WhatsApp Sent</th>
         </tr>
       </ng-template>
 
-      <ng-template #body  let-record let-expanded="expanded">
+      <ng-template pTemplate="body" let-record let-expanded="expanded">
         <tr>
           <td>
-            <p-button
-              type="button"
-              pRipple
-              [pRowToggler]="record"
-              [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
-              severity="secondary"
-              size="small"
-              [text]="true">
-            </p-button>
+            <p-button type="button" [pRowToggler]="record" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" severity="secondary" size="small" [text]="true"></p-button>
           </td>
-          <td>{{ record.mobileNo }}</td>
-          <td>{{ record.senderId }}</td>
-          <td>{{ record.application }}</td>
-          <td>{{ record.receipient }}</td>
+          <td>{{ record.phoneNo }}</td>
           <td>
-            <div class="text-truncate" style="max-width: 200px;" [pTooltip]="record.smsText">
-              {{ truncateText(record.smsText, 50) }}
+            <div class="text-truncate" style="max-width: 260px;" [pTooltip]="record.message">
+              {{ truncateText(record.message, 60) }}
             </div>
           </td>
-<!--          <td>{{ record.smsProviderLabel }}</td>-->
+          <td>{{ record.referenceNo }}</td>
+          <td>{{ record.relatedPersonName }}</td>
+          <td>{{ record.relatedPersonType }}</td>
           <td>
-            <p-tag
-              [value]="record.smsStatusLabel"
-              [severity]="getSmsStatusSeverity(record.smsStatusLabel)">
-            </p-tag>
+            <p-tag [value]="record.sentStatus" [severity]="getSmsStatusSeverity(record.sentStatus)"></p-tag>
           </td>
-          <td>{{ formatCurrency(record.buyPrice) }}</td>
-          <td>{{ record.pageCount }}</td>
+          <td>
+            <p-tag [value]="record.emailSent ? 'YES' : 'NO'" [severity]="getYesNoSeverity(record.emailSent)"></p-tag>
+          </td>
+          <td>
+            <p-tag [value]="record.smsSent ? 'YES' : 'NO'" [severity]="getYesNoSeverity(record.smsSent)"></p-tag>
+          </td>
+          <td>
+            <p-tag [value]="record.whatsAppSent ? 'YES' : 'NO'" [severity]="getYesNoSeverity(record.whatsAppSent)"></p-tag>
+          </td>
         </tr>
       </ng-template>
 
-      <ng-template #expandedrow  let-record>
+      <ng-template pTemplate="rowexpansion" let-record>
         <tr>
           <td colspan="10">
             <div class="p-3">
@@ -112,66 +133,28 @@
               <div class="row">
                 <div class="col-md-4">
                   <div class="mb-2">
-                    <strong>Internal Status:</strong>
-                    <span class="ms-2">{{ record.internalStatus }}</span>
+                    <strong>Group Message:</strong>
+                    <p-tag class="ms-2" [value]="record.groupMessage ? 'YES' : 'NO'" [severity]="getYesNoSeverity(record.groupMessage)"></p-tag>
                   </div>
                   <div class="mb-2">
-                    <strong>External ID:</strong>
-                    <span class="ms-2">{{ record.externalId }}</span>
-                  </div>
-                  <div class="mb-2">
-                    <strong>Provider Status:</strong>
-                    <span class="ms-2">{{ record.providerStatus }}</span>
-                  </div>
-                  <div class="mb-2">
-                    <strong>Processing No:</strong>
-                    <span class="ms-2">{{ record.processingNo }}</span>
-                  </div>
-                  <div class="mb-2">
-                    <strong>URL Reached:</strong>
-                    <p-tag
-                      class="ms-2"
-                      [value]="record.urlReached ? 'Yes' : 'No'"
-                      [severity]="record.urlReached ? 'success' : 'danger'">
-                    </p-tag>
+                    <strong>Pages Count:</strong>
+                    <span class="ms-2">{{ record.pagesCount }}</span>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="mb-2">
-                    <strong>Delivered Time:</strong>
-                    <span class="ms-2">{{ formatDateTime(record.deliveredTime) }}</span>
+                    <strong>Unit Price:</strong>
+                    <span class="ms-2">{{ formatCurrency(record.unitPrice) }}</span>
                   </div>
                   <div class="mb-2">
-                    <strong>Callback URL:</strong>
-                    <span class="ms-2" [pTooltip]="record.callBackUrl">
-                      {{ truncateText(record.callBackUrl, 30) }}
-                    </span>
-                  </div>
-                  <div class="mb-2">
-                    <strong>Feedback:</strong>
-                    <p-tag
-                      class="ms-2"
-                      [value]="record.feedBackReceived ? 'Yes' : 'No'"
-                      [severity]="record.feedBackReceived ? 'success' : 'warning'">
-                    </p-tag>
-                  </div>
-                  <div class="mb-2">
-                    <strong>Feedback Count:</strong>
-                    <span class="ms-2">{{ record.feedbackRequestCount }}</span>
-                  </div>
-                  <div class="mb-2">
-                    <strong>Batch ID:</strong>
-                    <span class="ms-2">{{ record.batchId }}</span>
+                    <strong>SMS Cost:</strong>
+                    <span class="ms-2">{{ formatCurrency(record.smsCost) }}</span>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="mb-2">
-                    <strong>Created Date:</strong>
-                    <span class="ms-2">{{ formatDateTime(record.createdDate) }}</span>
-                  </div>
-                  <div class="mb-2">
-                    <strong>Modified Date:</strong>
-                    <span class="ms-2">{{ formatDateTime(record.modifiedDate) }}</span>
+                    <strong>Created Date/Time:</strong>
+                    <span class="ms-2">{{ formatDateTime(record.createdDateTime || record.createdDate) }}</span>
                   </div>
                 </div>
               </div>

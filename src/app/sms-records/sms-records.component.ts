@@ -14,10 +14,6 @@ import { TooltipModule } from 'primeng/tooltip';
 import { NotificationService } from '../core/notification.service';
 import { CardComponent } from '../theme/shared/components/card/card.component';
 import { SmsRecordsService } from './sms-records.service';
-import {StaticDataService} from '../static-data.service';
-import {ConfigService} from '../config.service';
-
-
 
 @Component({
   selector: 'app-sms-records',
@@ -38,26 +34,38 @@ import {ConfigService} from '../config.service';
 })
 export class SmsRecordsComponent implements OnInit {
   private smsRecordsService = inject(SmsRecordsService);
-  private configService = inject(ConfigService);
   private notificationService = inject(NotificationService);
 
   smsRecords: any[] = [];
   isLoading: boolean = false;
 
-  // Filter options
-  smsStatusList: any[] = StaticDataService.smsFinalStatus();
-  senderIdOptions: any[] = [];
-  filterParam:any = {}
+  // Filter options and state
+  sentStatusOptions = [
+    { label: 'SENT', value: 'SENT' },
+    { label: 'FAILED', value: 'FAILED' }
+  ];
+  yesNoOptions = [
+    { label: 'YES', value: true },
+    { label: 'NO', value: false }
+  ];
+
+  filterParam: any = {
+    phoneNo: undefined,
+    referenceNo: undefined,
+    relatedPersonName: undefined,
+    sentStatus: undefined,
+    emailSent: undefined,
+    smsSent: undefined,
+    whatsAppSent: undefined
+  };
 
   ngOnInit() {
     this.loadSmsRecords();
-    this.loadFilterOptions();
   }
 
   async loadSmsRecords() {
     this.isLoading = true;
     try {
-
       const response = await this.smsRecordsService.getSmsRecords(this.filterParam);
       this.smsRecords = response.data || [];
     } catch (error) {
@@ -69,52 +77,37 @@ export class SmsRecordsComponent implements OnInit {
     }
   }
 
-  async loadFilterOptions() {
-    try {
-
-
-
-      // Load sender ID options
-      const senderIdResponse = await this.configService.getSenderIds();
-      this.senderIdOptions = senderIdResponse.data || [];
-    } catch (error) {
-      console.error('Error loading filter options:', error);
-    }
-  }
-
-  onFilterChange() {
-    this.loadSmsRecords();
-  }
 
   clearFilters() {
-this.filterParam = {}
+    this.filterParam = {
+      phoneNo: undefined,
+      referenceNo: undefined,
+      relatedPersonName: undefined,
+      sentStatus: undefined,
+      emailSent: undefined,
+      smsSent: undefined,
+      whatsAppSent: undefined
+    };
     this.loadSmsRecords();
-  }
-
-  getFinalStatusSeverity(status: string): 'success' | 'warning' | 'danger' | 'info' {
-    switch (status?.toLowerCase()) {
-      case 'delivered':
-        return 'success';
-      case 'pending':
-        return 'warning';
-      case 'failed':
-        return 'danger';
-      default:
-        return 'info';
-    }
   }
 
   getSmsStatusSeverity(status: string): 'success' | 'warning' | 'danger' | 'info' {
     switch (status?.toLowerCase()) {
       case 'sent':
         return 'success';
-      case 'pending':
-        return 'warning';
       case 'failed':
         return 'danger';
       default:
         return 'info';
     }
+  }
+
+  getYesNoSeverity(value: boolean | string | null | undefined): 'success' | 'secondary' {
+    // Green for true/"YES", Gray (secondary) for false/"NO"/null/undefined
+    if (value === true || (typeof value === 'string' && value.toLowerCase() === 'yes')) {
+      return 'success';
+    }
+    return 'secondary';
   }
 
   formatDateTime(date: Date | string): string {

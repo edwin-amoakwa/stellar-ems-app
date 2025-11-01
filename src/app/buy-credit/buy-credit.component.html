@@ -1,20 +1,20 @@
-<h1 class="page-title">Add Funds</h1>
+<h1 class="page-title">Buy Message Credit</h1>
 
 <button-toolbar>
   <button
     pButton
     type="button"
-    label="New Payment"
+    label="Buy Credit"
     icon="pi pi-plus"
     class="p-button-primary"
     (click)="openCreate()"
-    pTooltip="Create new payment">
+    pTooltip="Buy Credit">
   </button>
 </button-toolbar>
 
 <!-- Create Payment Form -->
 <div class="col-sm-12 mb-4" *ngIf="formView.createView">
-  <app-card title="Create Payment">
+  <app-card title="Buy Credit">
     <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
       <!-- Form of Payment -->
       <div class="row mb-3">
@@ -108,7 +108,7 @@
         <ng-template pTemplate="header">
           <tr>
             <th style="width: 5rem"></th>
-            <th>Value Date</th>
+            <th>Date</th>
             <th>Amount</th>
             <th>Paid</th>
             <th>Form of Payment</th>

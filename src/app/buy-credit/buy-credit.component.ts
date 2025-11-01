@@ -42,10 +42,10 @@ import { ButtonToolbarComponent } from '../theme/shared/components/button-toolba
     ButtonToolbarComponent
   ],
   providers: [MessageService],
-  templateUrl: './payments.component.html',
-  styleUrls: ['./payments.component.scss']
+  templateUrl: './buy-credit.component.html',
+  styleUrls: ['./buy-credit.component.scss']
 })
-export class PaymentsComponent implements OnInit {
+export class BuyCreditComponent implements OnInit {
   private fb = inject(FormBuilder);
   private paymentService = inject(PaymentService);
   private notificationService = inject(NotificationService);

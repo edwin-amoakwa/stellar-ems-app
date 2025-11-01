@@ -13,7 +13,7 @@ import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 
 // project import
-import { ApplicationService } from '../applications/application.service';
+import { SchoolClassService } from '../school-class/school-class.service';
 import { ConfigService } from '../config.service';
 import { NotificationService } from '../core/notification.service';
 import { MessageBox } from '../message-helper';
@@ -30,7 +30,7 @@ import { ButtonToolbarComponent } from '../theme/shared/components/button-toolba
 export class SenderIdComponent implements OnInit {
   private configService = inject(ConfigService);
   private notificationService = inject(NotificationService);
-  private applicationService = inject(ApplicationService);
+  private applicationService = inject(SchoolClassService);
   private formBuilder = inject(FormBuilder);
 
   formView = FormView.listView();
@@ -85,7 +85,7 @@ export class SenderIdComponent implements OnInit {
 
   async loadApplications() {
     try {
-      const response = await this.applicationService.getApplications();
+      const response = await this.applicationService.getClassesList();
       this.applications = response.data || [];
     } catch (error) {
       console.error('Error loading applications:', error);

@@ -66,6 +66,7 @@ import {TagModule} from 'primeng/tag';
 import { ValidateInputDirective} from './directives/input-required.directive';
 import {CloseButtonComponent} from "../components/close-button/close-button.component";
 import {ButtonToolbarComponent} from "../theme/shared/components/button-toolbar/button-toolbar.component";
+import {DropdownModule} from "primeng/dropdown";
 
 
 @NgModule({
@@ -127,10 +128,10 @@ import {ButtonToolbarComponent} from "../theme/shared/components/button-toolbar/
     DialogModule,
     ConfirmDialog,
     ConfirmDialogModule,
-
     CardComponent,
     NgbDropdownModule,
     NgbDropdownModule,
+      DropdownModule,
     NgbNavModule,
     NgbModule,
     NgbCollapseModule,
@@ -196,7 +197,7 @@ import {ButtonToolbarComponent} from "../theme/shared/components/button-toolbar/
     DialogModule,
     ConfirmDialog,
     ConfirmDialogModule,
-
+DropdownModule,
 
     CardComponent,
     NgbDropdownModule,

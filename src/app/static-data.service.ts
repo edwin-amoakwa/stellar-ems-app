@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 
@@ -7,17 +6,10 @@ import { Injectable } from '@angular/core';
 })
 export class StaticDataService {
 
-  constructor(private http: HttpClient) { }
-
-  // public async getProductList()
-  // {
-  //   return await this.http.get<ApiResponse<any>>(`${environment.baseApi}/account/accounts/list`, {}).toPromise();
-  // }
-
 
   public static formsOfPayment():any[]
   {
-    let data = [
+    const data = [
       { id: 'BANK_TRANSFER', itemName: 'Bank Transfer' },
       { id: 'MTN_MOBILE_MONEY', itemName: 'MTN Mobile Money' },
       { id: 'CASH', itemName: 'Cash' },
@@ -31,7 +23,7 @@ export class StaticDataService {
 
   public static accountCategories():any[]
   {
-    let data = [
+    const data = [
       { id: 'ADMIN', itemName: 'Administrator' },
       { id: 'VIEWER', itemName: 'Viewer' },
     ];
@@ -108,6 +100,17 @@ export class StaticDataService {
         ];
     }
 
+    public static educationLevels(): any[] {
+        return [
+            { id: 'DAY_CARE', itemName: 'Day Care' },
+            { id: 'PRE_SCHOOL', itemName: 'Pre School' },
+            { id: 'PRIMARY', itemName: 'Primary School' },
+            { id: 'UPPER_PRIMARY', itemName: 'Upper Primary' },
+            { id: 'LOWER_PRIMARY', itemName: 'Lower Primary' },
+            { id: 'JHS', itemName: 'Junior High School' },
+            { id: 'SHS', itemName: 'Senior High School' }
+        ];
+    }
 
     public static regions(): any[] {
         return [

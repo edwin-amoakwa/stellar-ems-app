@@ -27,18 +27,25 @@
 
 
 
-        <a class="menu-item" *ngIf="allow('/applications')" routerLink="/applications" routerLinkActive="active">
+        <a class="menu-item" *ngIf="allow('/attendance-devices')" routerLink="/attendance-devices" routerLinkActive="active">
         <i class="pi pi-briefcase" aria-hidden="true"></i>
-        <span>Applications</span>
+        <span>Attendance Devices</span>
       </a>
 
-      <a class="menu-item" *ngIf="allow('/sender-id')" routerLink="/sender-id" routerLinkActive="active">
-        <i class="pi pi-id-card" aria-hidden="true"></i>
-        <span>Sender IDs</span>
+        <a class="menu-item" *ngIf="allow('/settings')" routerLink="/settings" routerLinkActive="active">
+            <i class="pi pi-briefcase" aria-hidden="true"></i>
+            <span>Settings</span>
+        </a>
+
+        <a class="menu-item" *ngIf="allow('/classes')" routerLink="/classes" routerLinkActive="active">
+        <i class="pi pi-briefcase" aria-hidden="true"></i>
+        <span>Classes</span>
       </a>
-      <a class="menu-item" *ngIf="allow('/add-funds')" routerLink="/add-funds" routerLinkActive="active">
+
+
+      <a class="menu-item" *ngIf="allow('/buy-credit')" routerLink="/buy-credit" routerLinkActive="active">
         <i class="pi pi-wallet" aria-hidden="true"></i>
-        <span>Add Funds</span>
+        <span>Buy Message Credit</span>
       </a>
 
 <!--      <a class="menu-item" routerLink="/providers" routerLinkActive="active">-->
@@ -62,6 +69,11 @@
       </a>
 
 
+        <a class="menu-item" *ngIf="allow('/sender-id')" routerLink="/sender-id" routerLinkActive="active">
+            <i class="pi pi-id-card" aria-hidden="true"></i>
+            <span>Sender IDs</span>
+        </a>
+
 
 
       <a class="menu-item" *ngIf="allow('/notification-settings')" routerLink="/notification-settings" routerLinkActive="active">
@@ -71,14 +83,13 @@
 
     </nav>
 
-      <div id="termDetails" class="term-details">
+      <div id="termDetails" class="flex justify-content-center term-details">
+          <div><strong>Academic Year:</strong> {{ termDetails.academicYearName }}</div>
+          <div><strong>Term:</strong> {{ termDetails.termEnumLabel }}</div>
         <div><strong>Term Code:</strong> {{ termDetails.termCode }}</div>
-        <div><strong>Term No:</strong> {{ termDetails.termNo }}</div>
-        <div><strong>Academic Year:</strong> {{ termDetails.academicYearName }}</div>
-        <div><strong>Start Date:</strong> {{ termDetails.startDate }}</div>
-        <div><strong>End Date:</strong> {{ termDetails.endDate }}</div>
-        <div><strong>Next Term Begins:</strong> {{ termDetails.nextTermBeginDate }}</div>
-        <div><strong>Status:</strong> {{ termDetails.termEnumLabel }}</div>
+        <div><strong>Start Date:</strong> {{ termDetails.startDate | date}}</div>
+        <div><strong>End Date:</strong> {{ termDetails.endDate | date }}</div>
+        <div><strong>Next Term Begins:</strong> {{ termDetails.nextTermBeginDate |date}}</div>
       </div>
 
   </aside>

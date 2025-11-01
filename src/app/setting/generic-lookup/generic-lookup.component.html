@@ -1,0 +1,97 @@
+<div>
+  <div class="grid-control">
+    <button class="btn btn-primary" (click)="openForm()"><i class="mdi mdi-account-plus"></i> Add
+      {{lookup.label}}</button>
+  </div>
+  <div class="row no-gutters">
+    <div class="col-md-4 side-form" *ngIf="showForm">
+      <div class="card">
+        <div class="card-body">
+          <button class="btn btn-link close-btn" data-toggle="tooltip" data-placement="top" title="Close Form"
+            (click)="closeForm()"><i class="mdi mdi-cancel"></i></button>
+          <h6 class="card-subtitle mb-2">Enter details</h6>
+          <form [formGroup]="lookupForm" (ngSubmit)="save(lookupForm.value)">
+            <!-- <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" class="form-control" id="name" formControlName="name" required>
+            </div>
+
+            <div class="form-group">
+              <label for="notes">Description</label>
+              <textarea class="form-control" id="notes" rows="3" formControlName="notes"></textarea>
+            </div> -->
+
+            <div class="mb-3" *ngFor="let field of lookup.fields">
+              <label *ngIf="field.type != 'boolean'">{{field.label}}</label>
+              <input *ngIf="field.type == 'text'" class="form-control" type="text" [formControlName]="field.name"
+                [required]="field.required" [readonly]="field.readonly" [maxlength]="field.maxlength"
+                [minlength]="field.minlength">
+              <input *ngIf="field.type == 'number'" class="form-control" type="number" [formControlName]="field.name"
+                [required]="field.required" [readonly]="field.readonly" [min]="field.min" [max]="field.max">
+
+              <input *ngIf="field.type == 'date'" type="date" class="form-control" [formControlName]="field.name"
+                [required]="field.required">
+
+              <textarea *ngIf="field.type == 'textarea'" class="form-control" id="notes" rows="3"
+                [formControlName]="field.name" [readonly]="field.readonly"></textarea>
+
+              <div *ngIf="field.type == 'select'">
+
+                <span class="p-float-label p-field">
+                  <p-select [formControlName]="field.name" optionValue="id" [options]="field.source"
+                      placeholder="-- Select One --" optionLabel="{{field.bindLabel || 'itemName'}}" [filter]="true"></p-select >
+              </span>
+
+                <!-- <ng-select *ngIf="!field.enum" [items]="field.source" bindLabel="{{field.bindLabel || 'name'}}"
+                  bindValue="id" [formControlName]="field.name">
+                </ng-select>
+                <ng-select *ngIf="field.enum" [items]="field.source" bindLabel="label" bindValue="value"
+                  [formControlName]="field.name">
+                </ng-select> -->
+              </div>
+              <div class="custom-control custom-checkbox" *ngIf="field.type == 'boolean'">
+                <input type="checkbox" class="custom-control-input" [id]="field.name" [formControlName]="field.name">
+                <label class="custom-control-label" [for]="field.name">{{field.label}}</label>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-success">Save Changes</button>
+            <button type="button" class="btn btn-secondary" (click)="closeForm()">Cancel</button>
+            <button type="button" class="btn btn-danger pull-right" (click)="delete(lookupForm.value)"
+              *ngIf="lookupForm.value.id">Delete</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div [ngClass]="showForm ? 'col-md-8' : 'col-md-12'" class="side-grid">
+      <div class="card">
+        <div class="card-body no-padding">
+          <div class="table-responsive-sm">
+            <table class="table table-hover mb-0">
+              <thead>
+                <tr>
+                  <th class="num_col_1">#</th>
+                  <th *ngFor="let field of lookup.fields">{{field.label}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let record of records; let i = index;" class="pointer" (click)="openForm(record)">
+                  <td>{{i+1}}</td>
+                  <td *ngFor="let field of lookup.fields">
+                    <span *ngIf="field.type == 'boolean'">{{record[field.name] ? 'Yes' : 'No'}}</span>
+                    <span *ngIf="field.type != 'boolean' && field.type != 'date'">
+                      {{record[(field.displayField || field.name)]}}
+                    </span>
+                    <span *ngIf="field.type == 'date'">
+                      {{record[field.name] | date: 'mediumDate'}}
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

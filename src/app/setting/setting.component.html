@@ -1,0 +1,36 @@
+
+ <div >
+    <h5>Application Settings</h5>
+    <p class="d-block text-muted">Configure application to fit your school.</p>
+    <hr>
+  </div>
+
+  <div class="row">
+
+    <div class="col-lg-3">
+
+      <div class="card " style="padding: 5px">
+        <!--      <p-select [(ngModel)]="selectedModelId" optionValue="name" [options]="models"-->
+        <!--                  (ngModelChange)="openLookUp(selectedModelId)" class="float-end"-->
+        <!--                  placeholder=" &#45;&#45; Select Settings Item &#45;&#45; " optionLabel="label" [filter]="true"></p-select >-->
+
+
+        <h3>Configurable Items</h3>
+        <ul class="heroes">
+          <li *ngFor="let model of models; let i = index">
+            <a type="button" (click)="openLookUp(model.name)" style="margin: 5px;">
+              <span class="badge">{{i + 1}}</span>
+              <span class="name">{{model.label}}</span>
+            </a>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+
+    <div class="col-lg-9">
+      <router-outlet></router-outlet>
+    </div>
+
+  </div>

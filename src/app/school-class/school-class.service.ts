@@ -7,15 +7,15 @@ import { ApiResponse } from '../core/ApiResponse';
 @Injectable({
   providedIn: 'root'
 })
-export class ApplicationService {
+export class SchoolClassService {
   private http = inject(HttpClient);
-  private apiUrl = `${environment.baseUrl}/applications`;
+  private apiUrl = `${environment.baseUrl}/school-classes`;
 
-  async getApplications(): Promise<ApiResponse<any[]>> {
+  async getClassesList(): Promise<ApiResponse<any[]>> {
     return await firstValueFrom(this.http.get<ApiResponse<any[]>>(this.apiUrl));
   }
 
-  async saveApplication(application: any): Promise<ApiResponse<any>> {
+  async saveClass(application: any): Promise<ApiResponse<any>> {
     if(!application.id)
     {
       return await firstValueFrom(this.http.post<ApiResponse<any>>(this.apiUrl, application));
