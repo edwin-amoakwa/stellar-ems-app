@@ -229,3 +229,9 @@
   border-radius: 6px;
   margin-left: 4px;
 }
+
+
+/* Term details styling */
+.term-details {
+  font-size: 0.85rem; /* make the font smaller */
+}

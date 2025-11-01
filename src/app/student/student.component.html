@@ -1,12 +1,12 @@
-<h1 class="page-title">Staffs</h1>
+<h1 class="page-title">Students</h1>
 
 
 <div *ngIf="formView.listView" >
     <button-toolbar>
         <p-button
-                label="New Staff"
+                label="New Student"
                 icon="pi pi-plus"
-                (onClick)="initNewStaff()"
+                (onClick)="initNewStudent()"
                 styleClass="p-button-primary">
         </p-button>
 
@@ -15,15 +15,15 @@
     <app-card>
 
         <p-table #dataTable
-                [value]="staffList" dataKey="id"
-                [loading]="loading"
-                [paginator]="true"
-                [rows]="10"
-                [showCurrentPageReport]="true"
-                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                [rowsPerPageOptions]="[10, 25, 50]"
-                [globalFilterFields]="['referenceNo', 'firstName', 'surname', 'mobileNo']"
-                styleClass="p-datatable-gridlines">
+                 [value]="studentList" dataKey="id"
+                 [loading]="loading"
+                 [paginator]="true"
+                 [rows]="10"
+                 [showCurrentPageReport]="true"
+                 currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                 [rowsPerPageOptions]="[10, 25, 50]"
+                 [globalFilterFields]="['referenceNo', 'firstName', 'surname', 'mobileNo']"
+                 styleClass="p-datatable-gridlines">
 
             <ng-template #caption>
                 <div class="clearfix">
@@ -41,49 +41,32 @@
             <ng-template pTemplate="header">
                 <tr>
                     <!--        <th>SystemId</th>-->
-                    <th>Reference No</th>
+                    <th>Student No</th>
                     <th>First Name</th>
                     <th>Surname</th>
-                    <th>Mobile No</th>
-                    <th>Teaching</th>
+                    <th>Date of Birth</th>
                     <th>Actions</th>
                 </tr>
             </ng-template>
 
             <ng-template pTemplate="body" let-user>
                 <tr>
-                    <!--        <td>{{ user.username }}</td>-->
                     <td>{{ user.referenceNo }}</td>
                     <td>{{ user.firstName }}</td>
                     <td>{{ user.surname }}</td>
-                    <td>{{ user.mobileNo }}</td>
-                    <td>
-                        <i class="pi" [ngClass]="user.teachingStaff ? 'pi-check-circle text-green-500' : 'pi-times-circle text-red-500'"></i>
-                    </td>
+                    <td>{{ user.dateOfBirth | date}}</td>
+
                     <td>
                         <p-button
                                 icon="pi pi-pencil"
-                                (onClick)="editUser(user)"
+                                (onClick)="editStudent(user)"
                                 styleClass="p-button-rounded p-button-text p-button-info mr-1"
                                 pTooltip="Edit">
                         </p-button>
 
-                        <p-button
-                                icon="pi pi-key"
-                                (onClick)="openPasswordDialog(user)"
-                                styleClass="p-button-rounded p-button-text p-button-warning mr-1"
-                                pTooltip="Change Password">
-                        </p-button>
-
-                        <p-button *ngIf="false"
-                                icon="pi pi-shield"
-                                (onClick)="openPermRolesDialog(user)"
-                                styleClass="p-button-rounded p-button-text p-button-help mr-1"
-                                pTooltip="Permissions & Roles">
-                        </p-button>
 
                         <p-button icon="pi pi-trash"
-                                  (onClick)="deleteUser(user)"
+                                  (onClick)="deleteStudent(user)"
                                   styleClass="p-button-rounded p-button-text p-button-danger"
                                   pTooltip="Delete">
                         </p-button>
@@ -104,10 +87,10 @@
 </div>
 
 <div *ngIf="formView.createView" >
-    <app-card [title]="selectedStaff ? 'Edit Staff' : 'Create Staff'">
+    <app-card [title]="selectedStudent ? 'Edit Student' : 'Create Student'">
 
 
-        <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
             <!-- Row 1: Username + Reference No -->
             <div class="row">
                 <!--      <div class="col-12 col-md-6 mb-3">-->
@@ -123,10 +106,10 @@
                 <div class="col-12 col-md-6 mb-3">
                     <div class="row">
                         <div class="col-12 col-sm-4">
-                            <label for="referenceNo">Staff No</label>
+                            <label for="referenceNo">Student No</label>
                         </div>
                         <div class="col-12 col-sm-8">
-                            <input pInputText id="referenceNo" formControlName="referenceNo" appValidateInput class="w-full" />
+                            <input pInputText id="referenceNo" formControlName="referenceNo" class="w-full" />
                         </div>
                     </div>
                 </div>
@@ -310,44 +293,7 @@
                 </div>
             </div>
 
-            <!-- Row 8: Toggles (Teaching Staff + Administrator) -->
-            <div class="row">
-                <div class="col-12 col-md-6 mb-3">
-                    <div class="row align-items-center">
-                        <div class="col-12 col-sm-4">
-                            <label for="teachingStaff">Teaching Staff</label>
-                        </div>
-                        <div class="col-12 col-sm-8 d-flex align-items-center">
-                            <p-toggleSwitch inputId="teachingStaff" formControlName="teachingStaff"></p-toggleSwitch>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 mb-3">
-                    <div class="row align-items-center">
-                        <div class="col-12 col-sm-4">
-                            <label for="administrator">Administrator</label>
-                        </div>
-                        <div class="col-12 col-sm-8 d-flex align-items-center">
-                            <p-toggleSwitch inputId="administrator" formControlName="administrator"></p-toggleSwitch>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Row 9: Toggles (Class Teacher + Spacer) -->
-            <div class="row">
-                <div class="col-12 col-md-6 mb-3">
-                    <div class="row align-items-center">
-                        <div class="col-12 col-sm-4">
-                            <label for="classTeacher">Class Teacher</label>
-                        </div>
-                        <div class="col-12 col-sm-8 d-flex align-items-center">
-                            <p-toggleSwitch inputId="classTeacher" formControlName="classTeacher"></p-toggleSwitch>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 mb-3"></div>
-            </div>
 
             <button-toolbar>
                 <close-button
@@ -356,7 +302,7 @@
                 </close-button>
                 <p-button
                         type="submit"
-                        [label]="selectedStaff ? 'Update Staff' : 'Create Staff'"
+                        [label]="selectedStudent ? 'Update Student' : 'Create Student'"
                         icon="pi pi-check"
                         (onClick)="onSubmit()"
                         [loading]="loading"
@@ -367,142 +313,6 @@
         </form>
 
 
-
-
     </app-card>
 </div>
 
-
-
-<!-- Password Update Dialog -->
-<p-dialog
-  [(visible)]="showPasswordDialog"
-  header="Change Password"
-  [modal]="true"
-  [closable]="true"
-  [draggable]="false"
-  [resizable]="false"
-  styleClass="p-fluid"
-  [style]="{width: '30vw'}"
-  [breakpoints]="{'960px': '50vw', '640px': '95vw'}"
-  (onHide)="closePasswordDialog()">
-
-  <form [formGroup]="passwordForm" (ngSubmit)="updatePassword()">
-    <div class="row mb-3">
-      <div class="col-4">
-        <label for="newPassword">New Password *</label>
-      </div>
-      <div class="col-8">
-        <input
-          pInputText
-          type="password"
-          id="newPassword"
-          formControlName="newPassword"
-          InputRequired
-          class="w-full" />
-      </div>
-    </div>
-
-    <div class="row mb-3">
-      <div class="col-4">
-        <label for="confirmPassword">Confirm Password *</label>
-      </div>
-      <div class="col-8">
-        <input
-          pInputText
-          type="password"
-          id="confirmPassword"
-          formControlName="confirmPassword"
-          InputRequired
-          class="w-full" />
-      </div>
-    </div>
-  </form>
-
-  <ng-template pTemplate="footer">
-    <p-button
-      type="button"
-      label="Cancel"
-      icon="pi pi-times"
-      (onClick)="closePasswordDialog()"
-      styleClass="p-button-text">
-    </p-button>
-    <p-button
-      type="button"
-      label="Update Password"
-      icon="pi pi-check"
-      (onClick)="updatePassword()"
-      [loading]="passwordLoading"
-      styleClass="p-button-primary">
-    </p-button>
-  </ng-template>
-</p-dialog>
-
-
-
-<!-- Permissions & Roles Dialog -->
-<p-dialog
-  [(visible)]="showPermRolesDialog"
-  header="Permission and Roles"
-  [modal]="true"
-  [closable]="true"
-  [draggable]="false"
-  [resizable]="false"
-  styleClass="p-fluid"
-  [style]="{width: '60vw'}"
-  [breakpoints]="{'960px': '60vw', '640px': '95vw'}"
-  (onHide)="closePermRolesDialog()">
-
-  <div class="mb-3">
-    <p><strong>User:</strong> {{ permRolesUser?.accountName || permRolesUser?.emailAddress }}</p>
-    <p>Configure this user's permissions and roles.</p>
-  </div>
-
-  <div class="permissions-table">
-    <p-table [value]="permissionsData" styleClass="p-datatable-sm p-datatable-gridlines">
-      <ng-template pTemplate="header">
-        <tr>
-          <th>Page</th>
-          <th>Enabled</th>
-          <th class="d-none">Actions</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-page>
-        <tr>
-          <td>{{ page.pageName }}</td>
-<!--          <td>{{ page.pageUrl }}</td>-->
-          <td >
-            <p-toggleSwitch [(ngModel)]="page.enabled"></p-toggleSwitch>
-          </td>
-          <td class="d-none">
-            <div class="flex align-items-center gap-3 flex-wrap">
-              <div *ngFor="let act of page.actions" class="flex align-items-center gap-2 mr-3">
-                <span class="text-sm">{{ act.name }}</span>
-                <p-toggleSwitch [(ngModel)]="act.enabled"></p-toggleSwitch>
-              </div>
-            </div>
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
-  </div>
-
-  <ng-template pTemplate="footer">
-    <p-button
-      type="button"
-      label="Close"
-      icon="pi pi-times"
-      (onClick)="closePermRolesDialog()"
-      styleClass="p-button-text">
-    </p-button>
-    <p-button
-      type="button"
-      label="Save"
-      icon="pi pi-save"
-      (onClick)="savePermissions()"
-      [loading]="permSaveLoading"
-      [disabled]="permLoading || !permissionsData?.length"
-      styleClass="p-button-primary">
-    </p-button>
-  </ng-template>
-</p-dialog>

@@ -52,6 +52,12 @@ export class UserSession {
     return userData ? JSON.parse(userData) : null;
   }
 
+
+    static getAcademicTerm(): any | null {
+        let response = this.getAsJson(UserSession.loginResponse);
+        return response?.academicTerm;
+    }
+
   static allowRoute(url): boolean {
 
       return true;

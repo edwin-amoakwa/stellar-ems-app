@@ -17,7 +17,8 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
   theme: 'light' | 'dark' = 'light';
   showUserMenu = false;
   user:any
-  // userName:anu;
+
+    termDetails = UserSession.getAcademicTerm();
 
   @ViewChild('menuNav') menuNav?: ElementRef<HTMLElement>;
 

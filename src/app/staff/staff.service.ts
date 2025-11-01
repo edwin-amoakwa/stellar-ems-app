@@ -16,14 +16,14 @@ export class StaffService {
   }
 
 
-  async saveUser(user: any): Promise<ApiResponse<any>> {
+  async saveStaff(user: any): Promise<ApiResponse<any>> {
     if(!user.id) {
       return await firstValueFrom(this.http.post<ApiResponse<any>>(this.apiUrl, user));
     }
     return await firstValueFrom(this.http.put<ApiResponse<any>>(`${this.apiUrl}`, user));
   }
 
-  async deleteUser(id: string): Promise<ApiResponse<any>> {
+  async deleteStaff(id: string): Promise<ApiResponse<any>> {
     return await firstValueFrom(this.http.delete<ApiResponse<any>>(`${this.apiUrl}/${id}`));
   }
 

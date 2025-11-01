@@ -40,7 +40,7 @@ interface PermissionPage {
 })
 export class StaffComponent implements OnInit {
   private fb = inject(FormBuilder);
-  private userService = inject(StaffService);
+  private staffService = inject(StaffService);
   private messageService = inject(MessageService);
   private notificationService = inject(NotificationService);
 
@@ -48,7 +48,7 @@ export class StaffComponent implements OnInit {
   formView:FormView = new FormView();
   staffList: any[] = [];
   userForm!: FormGroup;
-  editingUser: any | null = null;
+  selectedStaff: any | null = null;
   loading = false;
 
   // Password dialog properties
@@ -139,7 +139,7 @@ export class StaffComponent implements OnInit {
   async loadUsers() {
     try {
       this.loading = true;
-      const response = await this.userService.getUsers();
+      const response = await this.staffService.getUsers();
 
       if (response.success) {
         this.staffList = response.data;
@@ -154,7 +154,7 @@ export class StaffComponent implements OnInit {
 
   async saveUser(user: any) {
     try {
-      const response = await this.userService.saveUser(user);
+      const response = await this.staffService.saveStaff(user);
       if (response.success) {
         CollectionUtil.add(this.staffList, response.data);
         this.closeUserDialog();
@@ -171,14 +171,14 @@ export class StaffComponent implements OnInit {
       }
 
     const userData = this.userForm.value;
-    if (this.editingUser) {
-      userData.id = this.editingUser.id;
+    if (this.selectedStaff) {
+      userData.id = this.selectedStaff.id;
     }
     await this.saveUser(userData);
   }
 
   editUser(user: any) {
-    this.editingUser = user;
+    this.selectedStaff = user;
     this.userForm.patchValue(user);
     this.formView.resetToCreateView();
   }
@@ -187,7 +187,7 @@ export class StaffComponent implements OnInit {
     if (confirm(`Are you sure you want to delete Staff "${staff.fullname}"?`)) {
       try {
         this.loading = true;
-        const response = await this.userService.deleteUser(staff.id!);
+        const response = await this.staffService.deleteStaff(staff.id!);
 
         if (response.success) {
           CollectionUtil.remove(this.staffList, staff.id);
@@ -201,7 +201,7 @@ export class StaffComponent implements OnInit {
   }
 
   initNewStaff() {
-    this.editingUser = null;
+    this.selectedStaff = null;
     this.resetForm();
     this.formView.resetToCreateView();
 
@@ -258,7 +258,7 @@ export class StaffComponent implements OnInit {
 
     try {
       this.passwordLoading = true;
-      const response = await this.userService.updatePassword(payload);
+      const response = await this.staffService.updatePassword(payload);
 
       if (response.success) {
         this.closePasswordDialog();
@@ -284,7 +284,7 @@ export class StaffComponent implements OnInit {
     this.permLoading = true;
     this.permError = null;
     try {
-      const resp = await this.userService.getUserPermissions(String(user.id ?? user.userId ?? ''));
+      const resp = await this.staffService.getUserPermissions(String(user.id ?? user.userId ?? ''));
       if (resp?.success) {
         const data = (resp.data || []) as any[];
         // Normalize to PermissionPage[] shape if backend differs
@@ -315,7 +315,7 @@ export class StaffComponent implements OnInit {
     if (!this.permRolesUser) return;
     try {
       this.permSaveLoading = true;
-      const resp = await this.userService.saveUserPermissions(String(this.permRolesUser.id ?? this.permRolesUser.userId ?? ''), this.permissionsData);
+      const resp = await this.staffService.saveUserPermissions(String(this.permRolesUser.id ?? this.permRolesUser.userId ?? ''), this.permissionsData);
       if (resp?.success) {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Permissions saved' });
         this.closePermRolesDialog();

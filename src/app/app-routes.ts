@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+
+import { Routes } from '@angular/router';
 import { SenderIdComponent } from './sender-id/sender-id.component';
 import { AuthGuard } from './core/auth.guard';
 import { PaymentsComponent } from './payments/payments.component';
@@ -21,6 +21,7 @@ import { RegisterComponent } from './auth/register/register.component';
 import {PlainComponent} from './layouts/plain/plain.component';
 import {TestComponent} from './test/test.component';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
+import {StudentComponent} from "./student/student.component";
 
 export const routes: Routes = [
   {
@@ -36,6 +37,7 @@ export const routes: Routes = [
       { path: 'providers', component: ProvidersComponent },
       { path: 'test', component: TestComponent },
       { path: 'staffs', component: StaffComponent },
+      { path: 'students', component: StudentComponent },
       { path: 'applications', component: ApplicationsComponent },
       { path: 'group-contacts', component: DistributionGroupsComponent },
       { path: 'send-sms', component: SmsComponent },
