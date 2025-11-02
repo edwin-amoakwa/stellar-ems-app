@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CoreModule } from '../core/core.module';
-import {TermClassComponent} from "../term-class/term-class.component";
-import {StudentSearchComponent} from "../student-search/student-search.component";
+import {TermClassComponent} from "../components/term-class/term-class.component";
+import {StudentSearchComponent} from "../components/student-search/student-search.component";
 
 @Component({
   selector: 'app-class-members',
@@ -12,8 +12,8 @@ import {StudentSearchComponent} from "../student-search/student-search.component
 })
 export class ClassMembersComponent {
 
-
     selectedTermClass: any = null;
+    selectedStudent
 
   isLoading = false;
   error: string | null = null;
@@ -28,4 +28,10 @@ export class ClassMembersComponent {
       this.selectedTermClass = termClass;
     console.log('Selected term class:', termClass);
   }
+
+  selectStudent(student: any) {
+      this.selectedStudent = student;
+      console.log('Selected student:', student);
+  }
+
 }

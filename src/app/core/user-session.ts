@@ -5,7 +5,7 @@ export class UserSession {
   public static readonly UserID: string = 'userId';
   public static readonly schoolId: string = 'schoolId';
   public static readonly User: string = 'user';
-  public static readonly merchant: string = 'merchant';
+  public static readonly school: string = 'school';
   public static readonly loginResponse: string = 'loginResponse';
 
   static login(loginResponse: any): void {
@@ -15,14 +15,11 @@ export class UserSession {
 
     // const { data } = loginResponse;
     const { user } = loginResponse;
-    const { merchant } = loginResponse;
-
     // Save the complete data object to localStorage
     localStorage.setItem('user', JSON.stringify(user));
-    localStorage.setItem(UserSession.merchant, JSON.stringify(merchant));
+    localStorage.setItem(UserSession.school, JSON.stringify(loginResponse.user.school));
 
-    // Save merchantId and userId directly to localStorage
-    localStorage.setItem('merchantId', user.merchantId);
+
     localStorage.setItem('userId', user.id);
     localStorage.setItem(this.SessionId, loginResponse.sessionId);
     localStorage.setItem(this.schoolId, loginResponse.id);
@@ -36,8 +33,8 @@ export class UserSession {
     return this.getAsJson(UserSession.User);
   }
 
-  static getMerchant(): any | null {
-    return this.getAsJson(UserSession.merchant);
+  static getSchool(): any | null {
+    return this.getAsJson(UserSession.loginResponse).user.school;
   }
 
   static getAsJson(key: string): any | null {
@@ -54,7 +51,7 @@ export class UserSession {
 
 
     static getAcademicTerm(): any | null {
-        let response = this.getAsJson(UserSession.loginResponse);
+        const response = this.getAsJson(UserSession.loginResponse);
         return response?.academicTerm;
     }
 
@@ -74,7 +71,7 @@ export class UserSession {
   }
 
   static hasPermission(pageCode, actionName): boolean {
-    let permissions = UserSession.getAsJson(this.loginResponse).permissions;
+    const permissions = UserSession.getAsJson(this.loginResponse).permissions;
 
     const page = permissions.find(
       (p) => {

@@ -15,10 +15,10 @@ import {UserSession} from '../core/user-session';
 })
 export class ProfileComponent implements OnInit {
   user:any = UserSession.getUser();
-  merchant:any = UserSession.getMerchant();
+  school:any = UserSession.getSchool();
 
   ngOnInit() {
-
+console.log(this.school);
   }
 
 

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output, inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { CoreModule } from '../core/core.module';
-import { StudentSearchDataService, StudentSearchFilters } from './student-search.data-service';
+import { CoreModule } from '../../core/core.module';
+import { StudentSearchDataService } from './student-search.data-service';
 import { CommonModule } from '@angular/common';
 import { Subscription, debounceTime, distinctUntilChanged } from 'rxjs';
 
@@ -19,7 +19,7 @@ export class StudentSearchComponent implements OnInit, OnDestroy {
   @Output() studentSelected = new EventEmitter<any>();
 
   form!: FormGroup;
-  items: any[] = [];
+  studentList: any[] = [];
   loading = false;
   error: string | null = null;
   private sub?: Subscription;
@@ -36,7 +36,7 @@ export class StudentSearchComponent implements OnInit, OnDestroy {
     if (cached) {
       const filters = cached.filters || { referenceNo: '', surname: '', firstName: '' };
       this.form.patchValue(filters, { emitEvent: false });
-      this.items = cached.data || [];
+      this.studentList = cached.data || [];
     }
 
     // Auto-search with debounce for subsequent changes (direct API call)
@@ -50,21 +50,17 @@ export class StudentSearchComponent implements OnInit, OnDestroy {
   }
 
   async search(): Promise<void> {
-    const filters = this.form.getRawValue() as StudentSearchFilters;
+    const filters = this.form.getRawValue() ;
+
     this.loading = true;
     this.error = null;
     try {
-      const resp = await this.dataService.search(filters);
-      if (resp?.success) {
-        this.items = resp.data || [];
-      } else {
-        this.items = [];
-        this.error = resp?.message || 'Failed to load students';
+      const response = await this.dataService.search(filters);
+      if (response?.success) {
+        this.studentList = response.data;
       }
+
     } catch (e) {
-      console.error('Student search failed', e);
-      this.items = [];
-      this.error = 'An unexpected error occurred while loading students';
     } finally {
       this.loading = false;
     }

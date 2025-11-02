@@ -4,31 +4,31 @@
   <div class="filters card mb-2 p-2">
     <!-- Student No -->
     <div class="row mb-2 align-items-center">
-      <div class="col-12 col-sm-4 col-md-2">
+      <div class="col-12 col-sm-4 col-md-3">
         <label class="form-label mb-0" for="referenceNo">Student No</label>
       </div>
-      <div class="col-12 col-sm-8 col-md-10">
-        <input pInputText id="referenceNo" type="text" class="w-full" formControlName="referenceNo" placeholder="e.g. STU-0001" />
+      <div class="col-12 col-sm-8 col-md-9">
+        <input pInputText id="referenceNo" type="text" class="w-full" formControlName="referenceNo"  />
       </div>
     </div>
 
     <!-- Surname -->
     <div class="row mb-2 align-items-center">
-      <div class="col-12 col-sm-4 col-md-2">
+      <div class="col-12 col-sm-4 col-md-3">
         <label class="form-label mb-0" for="surname">Surname</label>
       </div>
-      <div class="col-12 col-sm-8 col-md-10">
-        <input pInputText id="surname" type="text" class="w-full" formControlName="surname" placeholder="e.g. Mensah" />
+      <div class="col-12 col-sm-8 col-md-9">
+        <input pInputText id="surname" type="text" class="w-full" formControlName="surname"  />
       </div>
     </div>
 
     <!-- First Name -->
     <div class="row mb-2 align-items-center">
-      <div class="col-12 col-sm-4 col-md-2">
+      <div class="col-12 col-sm-4 col-md-3">
         <label class="form-label mb-0" for="firstName">First Name</label>
       </div>
-      <div class="col-12 col-sm-8 col-md-10">
-        <input pInputText id="firstName" type="text" class="w-full" formControlName="firstName" placeholder="e.g. Ama" />
+      <div class="col-12 col-sm-8 col-md-9">
+        <input pInputText id="firstName" type="text" class="w-full" formControlName="firstName"  />
       </div>
     </div>
 
@@ -57,7 +57,7 @@
 
   <!-- Table Results -->
   <div *ngIf="!loading && !error">
-    <p-table [value]="items" [paginator]="true" [rows]="10" styleClass="p-datatable-sm clickable-table">
+    <p-table [value]="studentList" [paginator]="true" [rows]="10" styleClass="p-datatable-sm clickable-table">
       <ng-template pTemplate="header">
         <tr>
           <th>Student No</th>

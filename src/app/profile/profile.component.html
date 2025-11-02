@@ -46,13 +46,13 @@
       <br />
 
     <app-card title="School Profile">
-      <div *ngIf="merchant">
+      <div *ngIf="school">
         <div class="row mb-3">
           <div class="col-md-3">
-            <strong>Merchant Name:</strong>
+            <strong>School Name:</strong>
           </div>
           <div class="col-md-9">
-            {{ merchant.merchantName }}
+            {{ school.schoolName }}
           </div>
         </div>
 
@@ -61,7 +61,7 @@
             <strong>Primary Contact Name</strong>
           </div>
           <div class="col-md-9">
-            {{ merchant.contactName || 'Not provided' }}
+            {{ school.contactName || 'Not provided' }}
           </div>
         </div>
 
@@ -71,7 +71,7 @@
             <strong>Primary Contact Phone Number:</strong>
           </div>
           <div class="col-md-9">
-            {{ merchant.contactMobileNo || 'Not provided' }}
+            {{ school.contactMobileNo || 'Not provided' }}
           </div>
         </div>
 
@@ -80,7 +80,7 @@
             <strong>SMS Price</strong>
           </div>
           <div class="col-md-9">
-            <span class="badge bg-primary">{{ merchant.currentPrice }}</span>
+            <span class="badge bg-primary">{{ school.currentPrice }}</span>
           </div>
         </div>
 
@@ -89,7 +89,7 @@
             <strong>Account Status:</strong>
           </div>
           <div class="col-md-9">
-            <span class="badge bg-primary">{{ merchant.accountStatus }}</span>
+            <span class="badge bg-primary">{{ school.accountStatus }}</span>
           </div>
         </div>
 

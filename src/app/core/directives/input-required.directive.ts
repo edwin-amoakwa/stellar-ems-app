@@ -75,7 +75,8 @@ export class ValidateInputDirective implements AfterViewInit, OnDestroy {
                 break;
 
             default:
-                if (!/^[A-Za-z0-9\s]+$/.test(value)) return { invalidText: true };
+                if (!/^[A-Za-z0-9\s-]+$/.test(value)) return { invalidText: true };
+                // if (!/^[A-Za-z0-9\s]+$/.test(value)) return { invalidText: true };
                 break;
         }
 

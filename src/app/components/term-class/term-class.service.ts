@@ -1,9 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import { environment } from '../../environments/environment';
-import { ApiResponse } from '../core/ApiResponse';
-import { UserSession } from '../core/user-session';
+import { environment } from '../../../environments/environment';
+import { ApiResponse } from '../../core/ApiResponse';
+import { UserSession } from '../../core/user-session';
 
 export interface TermClass {
   academicTermId: string;

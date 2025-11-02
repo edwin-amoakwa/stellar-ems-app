@@ -15,7 +15,7 @@ import {UserSession} from '../core/user-session';
 })
 export class TestComponent implements OnInit {
   user:any = UserSession.getUser();
-  merchant:any = UserSession.getMerchant();
+  merchant:any = UserSession.getSchool();
 
   ngOnInit() {
 

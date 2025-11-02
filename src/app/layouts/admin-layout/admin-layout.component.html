@@ -27,6 +27,11 @@
 
 
 
+        <a class="menu-item" *ngIf="allow('/class-members')" routerLink="/class-members" routerLinkActive="active">
+            <i class="pi pi-briefcase" aria-hidden="true"></i>
+            <span>Class Members</span>
+        </a>
+
         <a class="menu-item" *ngIf="allow('/attendance-devices')" routerLink="/attendance-devices" routerLinkActive="active">
         <i class="pi pi-briefcase" aria-hidden="true"></i>
         <span>Attendance Devices</span>
@@ -134,7 +139,7 @@
   </header>
 
   <main class="content">
-    <div class="container">
+    <div class="container-fluid">
       <router-outlet />
     </div>
   </main>

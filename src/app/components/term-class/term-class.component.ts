@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output, inject} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {CoreModule} from '../core/core.module';
+import {CoreModule} from '../../core/core.module';
 import {TermClass, TermClassService} from './term-class.service';
 
 @Component({

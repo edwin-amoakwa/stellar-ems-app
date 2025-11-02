@@ -18,7 +18,7 @@ import {UserSession} from '../core/user-session';
 export class DashboardComponent implements OnInit {
   private dashboardService = inject(DashboardService);
 
-  merchant = UserSession.getMerchant();
+  merchant = UserSession.getSchool();
   user = UserSession.getUser();
 
   // Summary data from API
