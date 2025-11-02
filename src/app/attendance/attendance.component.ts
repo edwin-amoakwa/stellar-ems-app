@@ -24,6 +24,9 @@ export class AttendanceComponent {
     private termClassService = inject(TermClassService);
     private attendanceService = inject(AttendanceService);
 
+    // expose enum to template
+    AttendanceFilter = AttendanceFilter;
+
     formView:FormView = new FormView();
     currentFilter: AttendanceFilter = AttendanceFilter.ALL;
 
@@ -64,6 +67,8 @@ export class AttendanceComponent {
     async selectAttendance(attendance: any) {
         this.selectedAttendance = attendance;
         this.formView.resetToDetailView();
+        // reset filter to ALL when opening detail view
+        this.currentFilter = AttendanceFilter.ALL;
 
         const response = await this.attendanceService.getAttendeesList(this.selectedAttendance.id);
         this.attendeesList = response.data ;
@@ -74,6 +79,22 @@ export class AttendanceComponent {
       this.selectedStudent = student;
       console.log('Selected student:', student);
 
+  }
+
+  setFilter(filter: AttendanceFilter) {
+      this.currentFilter = filter;
+  }
+
+  get filteredAttendees() {
+      if (!this.attendeesList) return [];
+      switch (this.currentFilter) {
+          case AttendanceFilter.PRESENT:
+              return this.attendeesList.filter(a => a.present === true);
+          case AttendanceFilter.ABSENT:
+              return this.attendeesList.filter(a => a.present === false);
+          default:
+              return this.attendeesList;
+      }
   }
 
 }
