@@ -80,7 +80,9 @@ export class StudentComponent implements OnInit {
   async loadStudents() {
     try {
       this.loading = true;
-      const response = await this.studentService.getUsers();
+      const param:any = {};
+      param.general = true;
+      const response = await this.studentService.getStudent(param);
 
       if (response.success) {
         this.studentList = response.data;

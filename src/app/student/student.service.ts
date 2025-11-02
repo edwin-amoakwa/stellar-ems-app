@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { ApiResponse } from '../core/ApiResponse';
+import {HttpUtils} from "../core/HttpUtils";
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,9 @@ export class StudentService {
   private http = inject(HttpClient);
   private apiUrl = `${environment.baseUrl}/students`;
 
-  async getUsers(): Promise<ApiResponse<any[]>> {
-    return await firstValueFrom(this.http.get<ApiResponse<any[]>>(this.apiUrl));
+  async getStudent(filter): Promise<ApiResponse<any[]>> {
+      const urlParams = HttpUtils.toUrlParam(filter);
+    return await firstValueFrom(this.http.get<ApiResponse<any[]>>(`${this.apiUrl}?${urlParams}`));
   }
 
 
