@@ -31,7 +31,7 @@ export class AttendanceDeviceComponent implements OnInit {
     this.isLoading = true;
     this.error = null;
     try {
-      const resp = await this.service.getNotificationSettings();
+      const resp = await this.service.getAttendanceDevice();
       this.items = resp?.data ?? [];
     } catch (e: any) {
       console.error('Failed to load notification settings', e);

@@ -1,4 +1,4 @@
-<h1 class="page-title">Class Members</h1>
+<h1 class="page-title">Attendance</h1>
 
 
 <div class="row">
@@ -6,20 +6,9 @@
         <app-card title="Classes" subtitle="Term Classes">
             <app-term-class (termClassSelected)="selectTermClass($event)" ></app-term-class>
         </app-card>
-
     </div>
 
-    <div class="col-lg-4">
-
-        <app-card title="Students" subtitle="Search Student and add to Class">
-
-            <app-student-search (studentSelected)="selectStudent($event)"></app-student-search>
-        </app-card>
-
-    </div>
-
-    <div class="col-lg-6">
-
+    <div class="col-lg-8">
         <app-card title="Members - {{selectedTermClass?.schoolClassName}}" subtitle="List of students in the selected class">
             <div class="card-body">
                 <!-- Loading State -->
@@ -35,7 +24,7 @@
                 </div>
 
                 <!-- Table -->
-                <p-table *ngIf="!isLoading && !error" [value]="studentList" [paginator]="true" [rows]="10" styleClass="p-datatable-sm">
+                <p-table *ngIf="!isLoading && !error" [value]="items" [paginator]="true" [rows]="10" styleClass="p-datatable-sm">
                     <ng-template pTemplate="header">
                         <tr>
                             <th>Student No</th>
@@ -45,7 +34,7 @@
                     <ng-template pTemplate="body" let-item>
                         <tr>
                             <td>{{ item.referenceNo }}</td>
-                            <td>{{ item.fullname }}</td>
+                            <td>{{ item.fullName }}</td>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="emptymessage">
@@ -56,7 +45,6 @@
                 </p-table>
             </div>
         </app-card>
-
     </div>
 </div>
 

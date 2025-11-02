@@ -57,11 +57,31 @@
 
   <!-- Table Results -->
   <div *ngIf="!loading && !error">
-    <p-table [value]="studentList" [paginator]="true" [rows]="10" styleClass="p-datatable-sm clickable-table">
+    <!-- Global filter input -->
+    <div class="mb-2 d-flex align-items-center gap-2">
+      <i class="pi pi-search"></i>
+      <input pInputText type="text" placeholder="Filter students..." (input)="dt.filterGlobal($any($event.target).value, 'contains')" class="w-full" />
+    </div>
+
+    <p-table
+      #dt
+      [value]="studentList"
+      [paginator]="true"
+      [rows]="10"
+      [rowsPerPageOptions]="[10,20,50]"
+      [globalFilterFields]="['referenceNo','fullname']"
+      styleClass="p-datatable-sm clickable-table"
+    >
       <ng-template pTemplate="header">
         <tr>
-          <th>Student No</th>
-          <th> Name</th>
+          <th pSortableColumn="referenceNo">
+            Student No
+            <p-sortIcon field="referenceNo"></p-sortIcon>
+          </th>
+          <th pSortableColumn="fullname">
+            Name
+            <p-sortIcon field="fullname"></p-sortIcon>
+          </th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-item>

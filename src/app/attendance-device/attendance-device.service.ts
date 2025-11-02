@@ -10,7 +10,7 @@ export class AttendanceDeviceService {
   private http = inject(HttpClient);
   private apiUrl = `${environment.baseUrl}/attendance-devices`;
 
-  async getNotificationSettings(): Promise<ApiResponse<any[]>> {
+  async getAttendanceDevice(): Promise<ApiResponse<any[]>> {
     return await firstValueFrom(this.http.get<ApiResponse<any[]>>(this.apiUrl));
   }
 

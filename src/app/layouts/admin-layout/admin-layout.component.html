@@ -32,6 +32,11 @@
             <span>Class Members</span>
         </a>
 
+        <a class="menu-item" *ngIf="allow('/attendance')" routerLink="/attendance" routerLinkActive="active">
+        <i class="pi pi-briefcase" aria-hidden="true"></i>
+        <span>Attendance</span>
+      </a>
+
         <a class="menu-item" *ngIf="allow('/attendance-devices')" routerLink="/attendance-devices" routerLinkActive="active">
         <i class="pi pi-briefcase" aria-hidden="true"></i>
         <span>Attendance Devices</span>
