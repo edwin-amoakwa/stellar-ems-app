@@ -1,0 +1,46 @@
+.term-class-component {
+  .toolbar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 0.5rem;
+  }
+
+  .loading,
+  .error,
+  .empty {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 0;
+  }
+
+  .error { color: #b71c1c; }
+  .empty { color: #616161; }
+
+  .clickable-table {
+    .clickable-row {
+      cursor: pointer;
+      transition: background-color 0.15s ease-in-out;
+    }
+    .clickable-row:hover {
+      background-color: rgba(33, 150, 243, 0.08);
+    }
+  }
+
+  .dropdown-wrapper {
+    width: 100%;
+    .option-item {
+      display: flex;
+      flex-direction: column;
+      .name { font-weight: 600; }
+      .meta { font-size: 0.8rem; color: #666; }
+    }
+  }
+
+  @media (max-width: 768px) {
+    :host ::ng-deep .p-datatable-table > thead > tr > th,
+    :host ::ng-deep .p-datatable-table > tbody > tr > td {
+      white-space: nowrap;
+    }
+  }
+}

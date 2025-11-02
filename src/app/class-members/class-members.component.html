@@ -1,0 +1,58 @@
+<h1 class="page-title">Class Members</h1>
+
+
+<div class="row">
+    <div class="col-lg-2">
+        <app-term-class (termClassSelected)="selectTermClass($event)" ></app-term-class>
+    </div>
+
+    <div class="col-lg-4">
+        <app-student-search></app-student-search>
+    </div>
+
+    <div class="col-lg-6">
+
+    </div>
+</div>
+
+
+<div class="ns-page">
+  <app-card title="Members" subtitle="List of students in the selected class">
+    <div class="card-body">
+      <!-- Loading State -->
+      <div class="loading" *ngIf="isLoading">
+        <p-progressSpinner styleClass="w-2rem h-2rem"></p-progressSpinner>
+        <span class="ml-2">Loading...</span>
+      </div>
+
+      <!-- Error State -->
+      <div *ngIf="!isLoading && error" class="error">
+        <i class="pi pi-exclamation-triangle mr-2"></i>
+        {{ error }}
+      </div>
+
+      <!-- Table -->
+      <p-table *ngIf="!isLoading && !error" [value]="items" [paginator]="true" [rows]="10" styleClass="p-datatable-sm">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Student No</th>
+            <th>Full Name</th>
+            <th>Class</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+          <tr>
+            <td>{{ item.referenceNo }}</td>
+            <td>{{ item.fullName }}</td>
+            <td>{{ item.className }}</td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="3" class="text-center">No members found</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </app-card>
+</div>

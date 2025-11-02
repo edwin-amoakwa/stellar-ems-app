@@ -26,6 +26,7 @@ import {SettingComponent} from "./setting/setting.component";
 import {AppRouteNames} from "./setting/lookup.service";
 import {GenericLookupComponent} from "./setting/generic-lookup/generic-lookup.component";
 import {AttendanceDeviceComponent} from "./attendance-device/attendance-device.component";
+import { ClassMembersComponent } from './class-members/class-members.component';
 
 export const routes: Routes = [
   {
@@ -38,6 +39,7 @@ export const routes: Routes = [
 
         { path: 'staffs', component: StaffComponent },
         { path: 'students', component: StudentComponent },
+        { path: 'class-members', component: ClassMembersComponent },
         { path: 'attendance-devices', component: AttendanceDeviceComponent },
         { path: 'buy-credit', component: BuyCreditComponent },
         // { path: 'settings', component: SettingComponent },

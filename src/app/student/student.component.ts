@@ -11,6 +11,7 @@ import { StudentService } from './student.service';
 import {CoreModule} from "../core/core.module";
 import {FormView} from "../core/form-view";
 import {ValidateInputDirective} from "../core/directives/input-required.directive";
+import { AcademicTermClassesDataService } from './academic-term-classes.data-service';
 
 @Component({
   selector: 'app-users',
@@ -26,6 +27,7 @@ export class StudentComponent implements OnInit {
   private fb = inject(FormBuilder);
   private studentService = inject(StudentService);
   private notificationService = inject(NotificationService);
+  private termClassDataService = inject(AcademicTermClassesDataService);
 
   defaultStudent:any = {};
   formView:FormView = new FormView();
@@ -34,6 +36,10 @@ export class StudentComponent implements OnInit {
   selectedStudent: any | null = null;
   loading = false;
 
+  // Term classes for dropdown
+  termClasses: any[] = [];
+  termClassesLoading = false;
+  termClassesError: string | null = null;
 
   religionOptions: any[] = StaticDataService.religion();
   regionsList: any[] = StaticDataService.regions();
@@ -43,6 +49,7 @@ export class StudentComponent implements OnInit {
     this.initializeForm();
 
     this.loadStudents();
+    this.loadTermClasses();
   }
 
   initializeForm() {
@@ -53,6 +60,7 @@ export class StudentComponent implements OnInit {
       referenceNo: [''],
       dateOfBirth: [null],
       gender: [''],
+      currentClassId: [null],
       surname: [''],
       othernames: [''],
       firstName: [''],
@@ -93,6 +101,25 @@ export class StudentComponent implements OnInit {
         this.closeUserDialog();
       }
     } catch (error: any) {
+    }
+  }
+
+  async loadTermClasses() {
+    this.termClassesLoading = true;
+    this.termClassesError = null;
+    try {
+      const resp = await this.termClassDataService.list();
+      if (resp?.success) {
+        this.termClasses = resp.data || [];
+      } else {
+        this.termClasses = [];
+        this.termClassesError = resp?.message || 'Failed to load classes';
+      }
+    } catch (e) {
+      this.termClasses = [];
+      this.termClassesError = 'Failed to load classes';
+    } finally {
+      this.termClassesLoading = false;
     }
   }
 

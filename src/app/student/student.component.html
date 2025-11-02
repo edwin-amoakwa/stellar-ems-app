@@ -175,8 +175,8 @@
                                       [options]="sexList"
                                       optionLabel="itemName"
                                       optionValue="id"
-                                      formControlName="gender" appValidateInput
-                                      styleClass="w-full"></p-select>
+                                      class="w-full"
+                                      formControlName="gender" appValidateInput></p-select>
                         </div>
                     </div>
                 </div>
@@ -191,6 +191,8 @@
                     </div>
                 </div>
             </div>
+
+
 
             <!-- Row 5: Mobile No + Other Contact Nos -->
             <div class="row">
@@ -288,6 +290,29 @@
                         </div>
                         <div class="col-12 col-md-10 col-lg-10 col-xl-10">
                             <textarea id="residentialAddress" pTextarea formControlName="residentialAddress" class="w-full" rows="2"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 4b: Current Class Dropdown -->
+            <div class="row d-none">
+                <div class="col-12 col-md-6 mb-3">
+                    <div class="row">
+                        <div class="col-12 col-sm-4">
+                            <label for="currentClassId">Current Class</label>
+                        </div>
+                        <div class="col-12 col-sm-8">
+                            <p-dropdown id="currentClassId"
+                                        formControlName="currentClassId"
+                                        [options]="termClasses"
+                                        optionLabel="itemName"
+                                        optionValue="id"
+                                        [showClear]="true"
+                                        placeholder="Select current class"
+                                        class="w-full"></p-dropdown>
+                            <small *ngIf="termClassesLoading" class="text-muted">Loading classes...</small>
+                            <small *ngIf="!termClassesLoading && termClassesError" class="text-danger">{{ termClassesError }}</small>
                         </div>
                     </div>
                 </div>

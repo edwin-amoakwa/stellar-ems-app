@@ -1,0 +1,80 @@
+<div class="student-search">
+  <!-- Filters Toolbar -->
+<form [formGroup]="form" (ngSubmit)="search()">
+  <div class="filters card mb-2 p-2">
+    <!-- Student No -->
+    <div class="row mb-2 align-items-center">
+      <div class="col-12 col-sm-4 col-md-2">
+        <label class="form-label mb-0" for="referenceNo">Student No</label>
+      </div>
+      <div class="col-12 col-sm-8 col-md-10">
+        <input pInputText id="referenceNo" type="text" class="w-full" formControlName="referenceNo" placeholder="e.g. STU-0001" />
+      </div>
+    </div>
+
+    <!-- Surname -->
+    <div class="row mb-2 align-items-center">
+      <div class="col-12 col-sm-4 col-md-2">
+        <label class="form-label mb-0" for="surname">Surname</label>
+      </div>
+      <div class="col-12 col-sm-8 col-md-10">
+        <input pInputText id="surname" type="text" class="w-full" formControlName="surname" placeholder="e.g. Mensah" />
+      </div>
+    </div>
+
+    <!-- First Name -->
+    <div class="row mb-2 align-items-center">
+      <div class="col-12 col-sm-4 col-md-2">
+        <label class="form-label mb-0" for="firstName">First Name</label>
+      </div>
+      <div class="col-12 col-sm-8 col-md-10">
+        <input pInputText id="firstName" type="text" class="w-full" formControlName="firstName" placeholder="e.g. Ama" />
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="row align-items-center">
+      <div class="col-12 col-sm-4 col-md-2"></div>
+      <div class="col-12 col-sm-8 col-md-10 d-flex gap-2">
+        <button pButton type="button" label="Search" icon="pi pi-search" class="p-button-primary" (click)="search()"></button>
+        <button pButton type="button" label="Clear" icon="pi pi-times" class="p-button-secondary p-button-outlined" (click)="clearFilters()"></button>
+      </div>
+    </div>
+  </div>
+</form>
+
+  <!-- Loading State -->
+  <div class="loading" *ngIf="loading">
+    <p-progressSpinner styleClass="w-2rem h-2rem"></p-progressSpinner>
+    <span class="ml-2">Loading students...</span>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="!loading && error" class="error">
+    <i class="pi pi-exclamation-triangle mr-2"></i>
+    {{ error }}
+  </div>
+
+  <!-- Table Results -->
+  <div *ngIf="!loading && !error">
+    <p-table [value]="items" [paginator]="true" [rows]="10" styleClass="p-datatable-sm clickable-table">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Student No</th>
+          <th> Name</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-item>
+        <tr class="clickable-row" (click)="onRowClick(item)">
+          <td>{{ item.referenceNo }}</td>
+          <td>{{ item.fullname }}</td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="5" class="text-center">No students found</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
