@@ -30,7 +30,7 @@ import { SmsRecordsService } from './sms-records.service';
     InputTextModule
   ],
   templateUrl: './sms-records.component.html',
-  styleUrls: ['./sms-records.component.scss']
+  styleUrls: ['./sms-records.component.css']
 })
 export class SmsRecordsComponent implements OnInit {
   private smsRecordsService = inject(SmsRecordsService);

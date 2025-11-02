@@ -1,6 +1,5 @@
 
 import { Routes } from '@angular/router';
-import { SenderIdComponent } from './sender-id/sender-id.component';
 import { AuthGuard } from './core/auth.guard';
 import { BuyCreditComponent } from './buy-credit/buy-credit.component';
 import { UpdatePasswordComponent } from './update-password/update-password.component';
@@ -44,13 +43,6 @@ export const routes: Routes = [
         { path: 'attendance', component: AttendanceComponent },
         { path: 'attendance-devices', component: AttendanceDeviceComponent },
         { path: 'buy-credit', component: BuyCreditComponent },
-        // { path: 'settings', component: SettingComponent },
-
-
-
-
-      { path: 'sender-id', component: SenderIdComponent },
-
 
       { path: 'providers', component: ProvidersComponent },
       { path: 'test', component: TestComponent },

@@ -1,6 +1,6 @@
 <h1 class="page-title">SMS Records</h1>
 
-<app-card title="SMS Records">
+<app-card title="View SMS Sent Records">
   <div class="card-body">
     <!-- Filter Section -->
     <div class="row mb-3 g-3">
@@ -89,10 +89,7 @@
           <th>Reference No</th>
           <th>Related Person</th>
           <th>Person Type</th>
-          <th>Sent Status</th>
-          <th>Email Sent</th>
-          <th>SMS Sent</th>
-          <th>WhatsApp Sent</th>
+          <th>Channels</th>
         </tr>
       </ng-template>
 
@@ -111,23 +108,18 @@
           <td>{{ record.relatedPersonName }}</td>
           <td>{{ record.relatedPersonType }}</td>
           <td>
-            <p-tag [value]="record.sentStatus" [severity]="getSmsStatusSeverity(record.sentStatus)"></p-tag>
-          </td>
-          <td>
-            <p-tag [value]="record.emailSent ? 'YES' : 'NO'" [severity]="getYesNoSeverity(record.emailSent)"></p-tag>
-          </td>
-          <td>
-            <p-tag [value]="record.smsSent ? 'YES' : 'NO'" [severity]="getYesNoSeverity(record.smsSent)"></p-tag>
-          </td>
-          <td>
-            <p-tag [value]="record.whatsAppSent ? 'YES' : 'NO'" [severity]="getYesNoSeverity(record.whatsAppSent)"></p-tag>
+            <div class="d-flex align-items-center gap-3">
+              <i class="pi pi-envelope" [ngClass]="record.emailSent ? 'icon-glow-deep-green' : 'text-muted'" pTooltip="Email" tooltipPosition="top"></i>
+              <i class="pi pi-comment" [ngClass]="record.smsSent ? 'icon-glow-deep-green' : 'text-muted'" pTooltip="SMS" tooltipPosition="top"></i>
+              <i class="pi pi-whatsapp" [ngClass]="record.whatsAppSent ? 'icon-glow-deep-green' : 'text-muted'" pTooltip="WhatsApp" tooltipPosition="top"></i>
+            </div>
           </td>
         </tr>
       </ng-template>
 
       <ng-template pTemplate="rowexpansion" let-record>
         <tr>
-          <td colspan="10">
+          <td colspan="11">
             <div class="p-3">
               <h5>Additional Details</h5>
               <div class="row">
@@ -165,7 +157,7 @@
 
       <ng-template pTemplate="emptymessage">
         <tr>
-          <td colspan="10" class="text-center p-4">
+          <td colspan="11" class="text-center p-4">
             <div class="flex flex-column align-items-center gap-2">
               <i class="pi pi-inbox text-4xl text-muted"></i>
               <p class="text-muted mb-0">No SMS records found</p>

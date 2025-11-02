@@ -58,12 +58,6 @@
         <span>Buy Message Credit</span>
       </a>
 
-<!--      <a class="menu-item" routerLink="/providers" routerLinkActive="active">-->
-<!--        <i class="pi pi-users" aria-hidden="true"></i>-->
-<!--        <span>Providers</span>-->
-<!--      </a>-->
-
-
 
       <a class="menu-item" *ngIf="allow('/group-contacts')" routerLink="/group-contacts" routerLinkActive="active">
         <i class="pi pi-address-book" aria-hidden="true"></i>
@@ -77,13 +71,6 @@
         <i class="pi pi-inbox" aria-hidden="true"></i>
         <span>SMS Records</span>
       </a>
-
-
-        <a class="menu-item" *ngIf="allow('/sender-id')" routerLink="/sender-id" routerLinkActive="active">
-            <i class="pi pi-id-card" aria-hidden="true"></i>
-            <span>Sender IDs</span>
-        </a>
-
 
 
       <a class="menu-item" *ngIf="allow('/notification-settings')" routerLink="/notification-settings" routerLinkActive="active">

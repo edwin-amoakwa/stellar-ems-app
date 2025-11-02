@@ -130,8 +130,8 @@ export class StaffComponent implements OnInit {
     console.log("default value ....",this.defaultStaff);
 
     this.passwordForm = this.fb.group({
-      newPassword: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required]]
+      newPassword: [''],
+      confirmPassword: ['']
     });
   }
 
@@ -249,6 +249,9 @@ export class StaffComponent implements OnInit {
     if (newPassword !== confirmPassword) {
       this.notificationService.error('Passwords do not match');
       return;
+    }
+    if(newPassword.length < 8){
+        return this.notificationService.error('Password must be at least 8 characters long');
     }
 
     const payload:any = {};
