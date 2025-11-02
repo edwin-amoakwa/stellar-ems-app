@@ -49,24 +49,31 @@
                 </tr>
             </ng-template>
 
-            <ng-template pTemplate="body" let-user>
+            <ng-template pTemplate="body" let-student>
                 <tr>
-                    <td>{{ user.referenceNo }}</td>
-                    <td>{{ user.firstName }}</td>
-                    <td>{{ user.surname }}</td>
-                    <td>{{ user.dateOfBirth | date}}</td>
+                    <td>{{ student.referenceNo }}</td>
+                    <td>{{ student.firstName }}</td>
+                    <td>{{ student.surname }}</td>
+                    <td>{{ student.dateOfBirth | date}}</td>
 
                     <td>
                         <p-button
                                 icon="pi pi-pencil"
-                                (onClick)="editStudent(user)"
+                                (onClick)="editStudent(student)"
                                 styleClass="p-button-rounded p-button-text p-button-info mr-1"
                                 pTooltip="Edit">
                         </p-button>
 
 
+                        <p-button
+                                  icon="pi pi-bars"
+                                  (onClick)="viewDetails(student)"
+                                  styleClass="p-button-rounded p-button-text p-button-success mr-1"
+                                  pTooltip="Details">
+                        </p-button>
+
                         <p-button icon="pi pi-trash"
-                                  (onClick)="deleteStudent(user)"
+                                  (onClick)="deleteStudent(student)"
                                   styleClass="p-button-rounded p-button-text p-button-danger"
                                   pTooltip="Delete">
                         </p-button>
@@ -341,3 +348,49 @@
     </app-card>
 </div>
 
+
+
+<!-- Detail View -->
+<div *ngIf="formView.detailView">
+  <button-toolbar>
+    <div class="flex align-items-center gap-2 w-full justify-content-between">
+      <p-button label="Back to List" icon="pi pi-arrow-left" styleClass="p-button-text" (onClick)="goBackToList()"></p-button>
+    </div>
+  </button-toolbar>
+
+  <app-card title="Student Details">
+
+    <div  class="flex flex-column">
+      <div class="mb-2"><strong>Student No:</strong> {{ selectedStudent?.referenceNo }}</div>
+      <div class="mb-2"><strong>First Name:</strong> {{ selectedStudent?.firstName }}</div>
+      <div class="mb-2"><strong>Surname:</strong> {{ selectedStudent?.surname }}</div>
+      <div class="mb-2"><strong>Date of Birth:</strong> {{ selectedStudent?.dateOfBirth | date }}</div>
+      <div class="mb-2" *ngIf="selectedStudent?.genderLabel"><strong>Gender:</strong> {{ selectedStudent?.genderLabel }}</div>
+    </div>
+
+  </app-card>
+
+  <app-card>
+    <p-tabs value="0">
+      <p-tablist>
+<!--        <p-tab value="0" >Admission Information</p-tab>-->
+        <p-tab value="0" >Guardians</p-tab>
+      </p-tablist>
+      <p-tabpanels>
+        <p-tabpanel value="0" class="d-none">
+
+          <div  class="flex flex-column">
+            <div class="mb-2"><strong>Admission Date:</strong> {{ selectedStudent?.admissionDate | date }}</div>
+            <div class="mb-2"><strong>Class:</strong> {{ selectedStudent?.classLabel }}</div>
+            <div class="mb-2"><strong>Status:</strong> {{ selectedStudent?.statusLabel }}</div>
+            <div class="mb-2"><strong>Stream:</strong> {{ selectedStudent?.streamLabel }}</div>
+            <div class="mb-2"><strong>House:</strong> {{ selectedStudent?.houseLabel }}</div>
+          </div>
+        </p-tabpanel>
+        <p-tabpanel value="0">
+          <app-student-guardian [student]="selectedStudent"></app-student-guardian>
+        </p-tabpanel>
+      </p-tabpanels>
+    </p-tabs>
+  </app-card>
+</div>

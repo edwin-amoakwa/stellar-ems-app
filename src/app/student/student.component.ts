@@ -12,12 +12,14 @@ import {CoreModule} from "../core/core.module";
 import {FormView} from "../core/form-view";
 import {ValidateInputDirective} from "../core/directives/input-required.directive";
 import { AcademicTermClassesDataService } from './academic-term-classes.data-service';
+import { StudentGuardianComponent } from './student-guardian/student-guardian.component';
 
 @Component({
   selector: 'app-users',
   standalone: true,
     imports: [
-        CoreModule
+        CoreModule,
+        StudentGuardianComponent
     ],
   providers: [MessageService],
   templateUrl: './student.component.html',
@@ -28,6 +30,10 @@ export class StudentComponent implements OnInit {
   private studentService = inject(StudentService);
   private notificationService = inject(NotificationService);
   private termClassDataService = inject(AcademicTermClassesDataService);
+  
+  // Guardians
+  guardiansList: any[] = [];
+  guardiansLoading = false;
 
   defaultStudent:any = {};
   formView:FormView = new FormView();
@@ -44,6 +50,7 @@ export class StudentComponent implements OnInit {
   religionOptions: any[] = StaticDataService.religion();
   regionsList: any[] = StaticDataService.regions();
   sexList: any[] = StaticDataService.gender();
+
 
   ngOnInit() {
     this.initializeForm();
@@ -145,6 +152,11 @@ export class StudentComponent implements OnInit {
     this.formView.resetToCreateView();
   }
 
+  viewDetails(student: any) {
+    this.selectedStudent = student;
+    this.formView.resetToDetailView();
+  }
+
   async deleteStudent(student: any) {
     if (confirm(`Are you sure you want to delete Staff "${student.fullname}"?`)) {
       try {
@@ -172,6 +184,10 @@ export class StudentComponent implements OnInit {
   closeUserDialog() {
     this.formView.resetToListView();
     this.resetForm();
+  }
+
+  goBackToList() {
+    this.formView.resetToListView();
   }
 
   resetForm() {

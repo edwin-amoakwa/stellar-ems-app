@@ -1,0 +1,54 @@
+<div class="student-guardian">
+  <button-toolbar>
+    <p-button label="Add Guardian" icon="pi pi-user-plus" (onClick)="openAddGuardian()"></p-button>
+  </button-toolbar>
+
+  <app-card>
+    <div class="flex align-items-center" *ngIf="loading">
+      <p-progressspinner styleClass="mr-2" strokeWidth="4" animationDuration="1s"></p-progressspinner>
+      <span>Loading guardians...</span>
+    </div>
+    <div class="text-danger" *ngIf="!loading && error">{{ error }}</div>
+
+    <p-table *ngIf="!loading" [value]="guardiansList" [paginator]="true" [rows]="10" styleClass="p-datatable-sm p-datatable-gridlines">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Title</th>
+          <th>Guardian Name</th>
+          <th>Relationship</th>
+          <th>Mobile No</th>
+          <th>Email Address</th>
+          <th class="text-center" style="width: 120px;">Actions</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-item>
+        <tr>
+          <td>{{ item.titleLabel }}</td>
+          <td>{{ item.guardianName }}</td>
+          <td>{{ item.relationshipLabel }}</td>
+          <td>{{ item.mobileNo }}</td>
+          <td>{{ item.emailAddress }}</td>
+          <td class="text-center">
+            <p-button icon="pi pi-key" styleClass="p-button-rounded p-button-text p-button-warning" pTooltip="Set Password" (onClick)="onSetPassword(item)"></p-button>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="6" class="text-center">No guardians found</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </app-card>
+
+  <p-dialog header="Add Guardian" [(visible)]="showAddGuardian" [modal]="true" [style]="{ width: '600px' }" (onHide)="closeAddGuardian()">
+    <div class="p-3">
+      <p>Placeholder for Add Guardian form.</p>
+    </div>
+    <ng-template pTemplate="footer">
+      <p-button label="Close" icon="pi pi-times" (onClick)="closeAddGuardian()" styleClass="p-button-text"></p-button>
+    </ng-template>
+  </p-dialog>
+</div>
