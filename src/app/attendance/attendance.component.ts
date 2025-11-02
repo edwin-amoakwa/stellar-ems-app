@@ -3,6 +3,14 @@ import { CoreModule } from '../core/core.module';
 import {TermClassComponent} from "../components/term-class/term-class.component";
 import {StudentSearchComponent} from "../components/student-search/student-search.component";
 import {TermClassService} from "../class-members/term-class.service";
+import {AttendanceService} from "./attendance.service";
+import {FormView} from "../core/form-view";
+
+export enum AttendanceFilter {
+    ALL,
+    PRESENT,
+    ABSENT
+}
 
 @Component({
   selector: 'app-class-members',
@@ -14,28 +22,37 @@ import {TermClassService} from "../class-members/term-class.service";
 export class AttendanceComponent {
 
     private termClassService = inject(TermClassService);
+    private attendanceService = inject(AttendanceService);
 
+    formView:FormView = new FormView();
+    currentFilter: AttendanceFilter = AttendanceFilter.ALL;
+
+    schoolAttendanceType = 'SCHOOL_ATTENDANCE';
     selectedTermClass: any = null;
     selectedStudent
+    selectedAttendance: any = null;
 
   isLoading = false;
   error: string | null = null;
 
-  studentList: Array<{ referenceNo: string; fullName: string; className: string }> = [
-    { referenceNo: 'STU-001', fullName: 'Ama Mensah', className: 'JHS 1A' },
-    { referenceNo: 'STU-002', fullName: 'Kojo Asante', className: 'JHS 1A' },
-    { referenceNo: 'STU-003', fullName: 'Yaw Boateng', className: 'JHS 1B' }
-  ];
+  attendancesList: any[] = [];
+  attendeesList: any[] = [];
 
   async selectTermClass(termClass: any) {
       this.selectedTermClass = termClass;
+      this.formView.resetToListView();
+
     console.log('Selected term class:', termClass);
 
       this.isLoading = true;
 
+      const params:any = {};
+      params.termClassId = termClass.id;
+      params.attendanceType = this.schoolAttendanceType;
+
       try {
-          const resp = await this.termClassService.getClassMembers(termClass.id);
-          this.studentList = resp.data ;
+          const response = await this.attendanceService.getAttendances(params);
+          this.attendancesList = response.data ;
 
       } catch (e: any) {
       } finally {
@@ -43,11 +60,19 @@ export class AttendanceComponent {
       }
   }
 
+
+    async selectAttendance(attendance: any) {
+        this.selectedAttendance = attendance;
+        this.formView.resetToDetailView();
+
+        const response = await this.attendanceService.getAttendeesList(this.selectedAttendance.id);
+        this.attendeesList = response.data ;
+
+    }
+
   selectStudent(student: any) {
       this.selectedStudent = student;
       console.log('Selected student:', student);
-
-
 
   }
 

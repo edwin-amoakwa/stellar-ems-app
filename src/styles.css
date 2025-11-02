@@ -41,6 +41,12 @@
 
 html, body {
   height: 100%;
+    font-size: 14px; /* Set the base font size */
+}
+
+a {
+    cursor: pointer; /* Changes the cursor to a hand icon when hovering over links */
+    color: #007bff;
 }
 
 body {

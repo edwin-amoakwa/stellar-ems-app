@@ -8,8 +8,8 @@
         </app-card>
     </div>
 
-    <div class="col-lg-8">
-        <app-card title="Members - {{selectedTermClass?.schoolClassName}}" subtitle="List of students in the selected class">
+    <div class="col-lg-10">
+        <app-card title="Attendance List - {{selectedTermClass?.schoolClassName}}" subtitle="Attendance History of the selected class">
             <div class="card-body">
                 <!-- Loading State -->
                 <div class="loading" *ngIf="isLoading">
@@ -23,26 +23,71 @@
                     {{ error }}
                 </div>
 
-                <!-- Table -->
-                <p-table *ngIf="!isLoading && !error" [value]="studentList" [paginator]="true" [rows]="10" styleClass="p-datatable-sm">
-                    <ng-template pTemplate="header">
-                        <tr>
-                            <th>Student No</th>
-                            <th>Full Name</th>
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-item>
-                        <tr>
-                            <td>{{ item.referenceNo }}</td>
-                            <td>{{ item.fullname }}</td>
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="emptymessage">
-                        <tr>
-                            <td colspan="3" class="text-center">No members found</td>
-                        </tr>
-                    </ng-template>
-                </p-table>
+                <div *ngIf="formView.listView">
+
+                    <p-table [value]="attendancesList" [paginator]="true" [rows]="10" styleClass="p-datatable-sm">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Date</th>
+                                <th>Name</th>
+                                <th style="width: 6rem;">Action</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item>
+                            <tr>
+                                <td>{{ item.valueDate | date }}</td>
+                                <td>{{ item.attendanceName }}</td>
+                                <td>
+                                    <button pButton type="button" icon="pi pi-eye" label="View" class="p-button-text p-button-sm" (click)="selectAttendance(item)"></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="3" class="text-center">No attendance records found</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+
+                </div>
+
+                <div *ngIf="formView.detailView">
+                    <div id="selectedAttendanceInfo" *ngIf="selectedAttendance as sa">
+                        <div class="mb-3">
+                            <div class="h5 mb-1">{{ sa.attendanceName }}</div>
+                            <div class="text-muted">
+                                {{ sa.valueDate | date:'fullDate' }} • {{ sa.attendeesLabel }}
+                            </div>
+                        </div>
+                        <div class="d-flex flex-wrap gap-3 mb-3">
+                            <span><strong>Attendees:</strong> {{ sa.attendeesCount }}</span>
+                            <span><strong>Present:</strong> {{ sa.presentAttendees }}</span>
+                            <span><strong>Summary:</strong> {{ sa.attendanceSummary }}</span>
+                        </div>
+                    </div>
+                    <p-table [value]="attendeesList" [paginator]="true" [rows]="10" styleClass="p-datatable-sm">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Student No</th>
+                                <th> Name</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item>
+                            <tr>
+                                <td>{{ item.attendeeRefNo }}</td>
+                                <td>{{ item.attendeeName }}</td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="3" class="text-center">No members found</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+
+                </div>
+
+
             </div>
         </app-card>
     </div>
