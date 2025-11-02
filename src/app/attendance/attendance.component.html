@@ -94,20 +94,58 @@
                                 <th>Present</th>
                                 <th>Clock In</th>
                                 <th>Clock Out</th>
+                                <th style="width: 16rem;">Actions</th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-item>
                             <tr>
                                 <td>{{ item.attendeeRefNo }}</td>
                                 <td>{{ item.attendeeName }}</td>
-                                <td>{{ item.present ? 'Yes' : 'No' }}</td>
-                                <td>{{ item.clockInTime | date:'short' }}</td>
-                                <td>{{ item.clockOutTime | date:'short' }}</td>
+                                <td>
+                                    <ng-container *ngIf="editingId !== (item.id ?? item.attendeeId); else editPresentTpl">
+                                        {{ item.present ? 'Yes' : 'No' }}
+                                    </ng-container>
+                                    <ng-template #editPresentTpl>
+                                        <input type="checkbox" [(ngModel)]="editModel.present" />
+                                    </ng-template>
+                                </td>
+                                <td>
+                                    <ng-container *ngIf="editingId !== (item.id ?? item.attendeeId); else editInTpl">
+                                        {{ item.clockInTime | date:'shortTime' }}
+                                    </ng-container>
+                                    <ng-template #editInTpl>
+                                        <input type="datetime-local" [(ngModel)]="editModel.clockInTimeLocal" />
+                                    </ng-template>
+                                </td>
+                                <td>
+                                    <ng-container *ngIf="editingId !== (item.id ?? item.attendeeId); else editOutTpl">
+                                        {{ item.clockOutTime | date:'short' }}
+                                    </ng-container>
+                                    <ng-template #editOutTpl>
+                                        <input type="datetime-local" [(ngModel)]="editModel.clockOutTimeLocal" />
+                                    </ng-template>
+                                </td>
+                                <td class="d-flex gap-2">
+                                    <ng-container *ngIf="editingId === (item.id ?? item.attendeeId); else viewActions">
+                                        <button pButton type="button" label="Save" icon="pi pi-check" class="p-button-sm p-button-success"
+                                                [disabled]="savingId === (item.id ?? item.attendeeId)"
+                                                (click)="saveEdit(item)"></button>
+                                        <button pButton type="button" label="Cancel" icon="pi pi-times" class="p-button-sm p-button-secondary"
+                                                (click)="cancelEdit()"></button>
+                                    </ng-container>
+                                    <ng-template #viewActions>
+                                        <button pButton type="button" label="Edit" icon="pi pi-pencil" class="p-button-sm"
+                                                (click)="startEdit(item)"></button>
+                                        <button pButton type="button" icon="pi pi-bell" class="p-button-sm p-button-warning"
+                                                [disabled]="notifyingId === (item.id ?? item.attendeeId)"
+                                                (click)="notify(item)"></button>
+                                    </ng-template>
+                                </td>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="emptymessage">
                             <tr>
-                                <td colspan="5" class="text-center">No members found</td>
+                                <td colspan="6" class="text-center">No members found</td>
                             </tr>
                         </ng-template>
                     </p-table>
