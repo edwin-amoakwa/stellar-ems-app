@@ -5,7 +5,8 @@ import {StudentSearchComponent} from "../components/student-search/student-searc
 import {TermClassService} from "../class-members/term-class.service";
 import {AttendanceService} from "./attendance.service";
 import {FormView} from "../core/form-view";
-import {CollectionUtil} from "../core/system.utils";
+import {CollectionUtil, DateUtil} from "../core/system.utils";
+import { CalendarModule } from 'primeng/calendar';
 
 export enum AttendanceFilter {
     ALL,
@@ -16,7 +17,7 @@ export enum AttendanceFilter {
 @Component({
   selector: 'app-class-members',
   standalone: true,
-    imports: [CoreModule, TermClassComponent, StudentSearchComponent],
+    imports: [CoreModule, TermClassComponent, StudentSearchComponent, CalendarModule],
   templateUrl: './attendance.component.html',
   styleUrls: ['./attendance.component.scss']
 })
@@ -35,6 +36,9 @@ export class AttendanceComponent {
     selectedTermClass: any = null;
     selectedStudent
     selectedAttendance: any = null;
+
+    // date picker model
+    selectedDate: Date = new Date();
 
     isLoading = false;
     error: string | null = null;
@@ -149,6 +153,34 @@ export class AttendanceComponent {
             console.error('Notify failed', e);
         } finally {
             this.notifyingId = null;
+        }
+    }
+
+    async initAttendance() {
+        if (!this.selectedTermClass) return;
+        this.isLoading = true;
+        this.error = null;
+        const payload: any = {
+            academicTermClassId: this.selectedTermClass.id,
+            attendanceType: this.schoolAttendanceType,
+            attendees: 'STUDENTS_ONLY',
+            valueDate: DateUtil.toDate(this.selectedDate)
+        };
+        try {
+            const response = await this.attendanceService.initAttendance(payload);
+            if(!response.success)
+            {
+                return;
+            }
+
+            // await this.selectTermClass(this.selectedTermClass);
+            await this.selectAttendance(response.data);
+
+        } catch (e: any) {
+            console.error('Init attendance failed', e);
+            this.error = e?.message || 'Failed to initialize attendance';
+        } finally {
+            this.isLoading = false;
         }
     }
 

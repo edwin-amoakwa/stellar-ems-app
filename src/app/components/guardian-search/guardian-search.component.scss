@@ -1,0 +1,19 @@
+.guardian-search {
+  .filters {
+    background: var(--surface-card, #fff);
+    border-radius: .25rem;
+  }
+  .loading,
+  .error {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .5rem 0;
+  }
+  .error { color: #b71c1c; }
+
+  .clickable-table {
+    .clickable-row { cursor: pointer; transition: background-color .15s ease-in-out; }
+    .clickable-row:hover { background: rgba(33,150,243,.08); }
+  }
+}

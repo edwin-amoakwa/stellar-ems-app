@@ -23,6 +23,17 @@
                     {{ error }}
                 </div>
 
+                <button-toolbar id="newAttendanceBtn">
+                    <span class="p-input-icon-left mr-2">
+                        <i class="pi pi-calendar"></i>
+                        <p-calendar [(ngModel)]="selectedDate" dateFormat="dd M yy" [showIcon]="true" inputId="attendanceDate"></p-calendar>
+                    </span>
+                    <button pButton type="button" label="Record Attendance" icon="pi pi-plus"
+                            class="p-button-sm"
+                            [disabled]="!selectedTermClass || isLoading"
+                            (click)="initAttendance()"></button>
+                </button-toolbar>
+
                 <div *ngIf="formView.listView">
 
                     <p-table [value]="attendancesList" [paginator]="true" [rows]="10" styleClass="p-datatable-sm">

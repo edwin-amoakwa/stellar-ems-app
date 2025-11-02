@@ -3,8 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ApiResponse } from '../../core/ApiResponse';
-import {HttpUtils} from "../../core/HttpUtils";
-
+import { HttpUtils } from '../../core/HttpUtils';
 
 interface CacheEntry<T> {
   data: T;
@@ -13,19 +12,17 @@ interface CacheEntry<T> {
 }
 
 @Injectable({ providedIn: 'root' })
-export class StudentSearchDataService {
+export class GuardianSearchDataService {
   private http = inject(HttpClient);
-  private readonly apiUrl = `${environment.baseUrl}/students`;
-  private readonly cacheKey = 'studentSearchCache';
+  private readonly apiUrl = `${environment.baseUrl}/guardians`;
+  private readonly cacheKey = 'guardianSearchCache';
   private readonly cacheTtlMs = 10 * 60 * 10000; // 100 minutes
 
   // Always call API directly; update cache with latest results
   async search(filters: any): Promise<ApiResponse<any[]>> {
     try {
-
-        filters.general=true;
-        const urlParams = HttpUtils.toUrlParam(filters);
-
+      filters.general = true;
+      const urlParams = HttpUtils.toUrlParam(filters);
       const obs = this.http.get<ApiResponse<any[]>>(`${this.apiUrl}/${urlParams}`);
       const resp = await firstValueFrom(obs);
       if (resp?.success) {
@@ -33,8 +30,8 @@ export class StudentSearchDataService {
       }
       return resp;
     } catch (e) {
-      console.error('Failed to search students', e);
-      return ApiResponse.error('Failed to load students');
+      console.error('Failed to search guardians', e);
+      return ApiResponse.error('Failed to load guardians');
     }
   }
 
@@ -68,5 +65,4 @@ export class StudentSearchDataService {
     };
     localStorage.setItem(this.cacheKey, JSON.stringify(payload));
   }
-
 }

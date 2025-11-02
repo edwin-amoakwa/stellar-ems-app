@@ -31,4 +31,10 @@ export class AttendanceService {
     const url = `${this.apiUrl}/${attendanceId}/attendees/${attendeeId}/notify`;
     return await firstValueFrom(this.http.post<ApiResponse<any>>(url, {}));
   }
+
+  // Initialize a new attendance record
+  async initAttendance(payload: any): Promise<ApiResponse<any>> {
+    const url = `${this.apiUrl}/init`;
+    return await firstValueFrom(this.http.post<ApiResponse<any>>(url, payload));
+  }
 }

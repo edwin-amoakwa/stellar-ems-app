@@ -6,6 +6,7 @@ export class UserSession {
   public static readonly schoolId: string = 'schoolId';
   public static readonly User: string = 'user';
   public static readonly school: string = 'school';
+  public static readonly academicTermId: string = 'academicTermId';
   public static readonly loginResponse: string = 'loginResponse';
 
   static login(loginResponse: any): void {
@@ -36,6 +37,10 @@ export class UserSession {
   static getSchool(): any | null {
     return this.getAsJson(UserSession.loginResponse).user.school;
   }
+
+    static getCurrentAcademicTermId(): any | null {
+        return this.getAsJson(UserSession.loginResponse).user.school.academicTermId;
+    }
 
   static getAsJson(key: string): any | null {
     const userData = localStorage.getItem(key);

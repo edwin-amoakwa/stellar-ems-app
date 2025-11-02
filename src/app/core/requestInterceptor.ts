@@ -12,6 +12,7 @@ export const RequestInterceptor: HttpInterceptorFn = (req:HttpRequest<any>, next
 
   const schoolId = localStorage.getItem(UserSession.schoolId);
     const userId = localStorage.getItem(UserSession.UserID);
+    const termId = UserSession.getCurrentAcademicTermId();
 
     const headers: any = {};
 
@@ -21,6 +22,9 @@ export const RequestInterceptor: HttpInterceptorFn = (req:HttpRequest<any>, next
 
   if (userId) {
     headers.userId = userId;
+  }
+  if (termId) {
+    headers.termId = termId;
   }
 
   // console.log(" http heaers",headers);
