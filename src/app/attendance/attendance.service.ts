@@ -21,8 +21,8 @@ export class AttendanceService {
   }
 
   // Update a single attendee for a given attendance
-  async updateAttendee(attendanceId: number | string, attendeeId: number | string, payload: { present: boolean; clockInTime?: string | null; clockOutTime?: string | null; }): Promise<ApiResponse<any>> {
-    const url = `${this.apiUrl}/${attendanceId}/attendees/${attendeeId}`;
+  async updateAttendee(attendanceId, payload): Promise<ApiResponse<any>> {
+    const url = `${this.apiUrl}/${attendanceId}/attendees/update`;
     return await firstValueFrom(this.http.put<ApiResponse<any>>(url, payload));
   }
 

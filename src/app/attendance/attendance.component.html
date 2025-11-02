@@ -67,9 +67,6 @@
                     </div>
 
 
-                    <div class="mb-3 d-flex gap-2">
-
-                    </div>
 
                     <button-toolbar>
                         <button pButton type="button" label="All"
@@ -84,9 +81,19 @@
                                 class="p-button-sm"
                                 [class.p-button-outlined]="currentFilter !== AttendanceFilter.ABSENT"
                                 (click)="setFilter(AttendanceFilter.ABSENT)"></button>
+
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" placeholder="Search attendees" (input)="attendeesTable.filterGlobal($any($event.target).value, 'contains')" />
+                        </span>
+
                     </button-toolbar>
 
-                    <p-table [value]="filteredAttendees" [paginator]="true" [rows]="10" styleClass="p-datatable-sm">
+                    <div class="mb-3 d-flex align-items-center">
+
+                    </div>
+
+                    <p-table #attendeesTable [value]="filteredAttendees" [paginator]="true" [rows]="10" styleClass="p-datatable-sm" [globalFilterFields]="['attendeeRefNo','attendeeName','present','clockInTime','clockOutTime']">
                         <ng-template pTemplate="header">
                             <tr>
                                 <th>Student No</th>
@@ -103,7 +110,7 @@
                                 <td>{{ item.attendeeName }}</td>
                                 <td>
                                     <ng-container *ngIf="editingId !== (item.id ?? item.attendeeId); else editPresentTpl">
-                                        {{ item.present ? 'Yes' : 'No' }}
+                                        <span [ngClass]="item.present ? 'text-success' : 'text-danger'">{{ item.present ? 'Yes' : 'No' }}</span>
                                     </ng-container>
                                     <ng-template #editPresentTpl>
                                         <input type="checkbox" [(ngModel)]="editModel.present" />
@@ -114,15 +121,15 @@
                                         {{ item.clockInTime | date:'shortTime' }}
                                     </ng-container>
                                     <ng-template #editInTpl>
-                                        <input type="datetime-local" [(ngModel)]="editModel.clockInTimeLocal" />
+                                        <input type="time" [(ngModel)]="editModel.clockInTime" />
                                     </ng-template>
                                 </td>
                                 <td>
                                     <ng-container *ngIf="editingId !== (item.id ?? item.attendeeId); else editOutTpl">
-                                        {{ item.clockOutTime | date:'short' }}
+                                        {{ item.clockOutTime | date:'shortTime' }}
                                     </ng-container>
                                     <ng-template #editOutTpl>
-                                        <input type="datetime-local" [(ngModel)]="editModel.clockOutTimeLocal" />
+                                        <input type="time" [(ngModel)]="editModel.clockOutTime" />
                                     </ng-template>
                                 </td>
                                 <td class="d-flex gap-2">

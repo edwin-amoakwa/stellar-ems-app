@@ -5,6 +5,7 @@ import {StudentSearchComponent} from "../components/student-search/student-searc
 import {TermClassService} from "../class-members/term-class.service";
 import {AttendanceService} from "./attendance.service";
 import {FormView} from "../core/form-view";
+import {CollectionUtil} from "../core/system.utils";
 
 export enum AttendanceFilter {
     ALL,
@@ -105,38 +106,11 @@ export class AttendanceComponent {
         }
     }
 
-    // ---------- Inline edit helpers ----------
-    private toLocalInput(iso?: string | null): string | null {
-        if (!iso) return null;
-        try {
-            const d = new Date(iso);
-            const pad = (n: number) => n.toString().padStart(2, '0');
-            const yyyy = d.getFullYear();
-            const mm = pad(d.getMonth() + 1);
-            const dd = pad(d.getDate());
-            const hh = pad(d.getHours());
-            const mi = pad(d.getMinutes());
-            return `${yyyy}-${mm}-${dd}T${hh}:${mi}`; // suitable for datetime-local
-        } catch {
-            return null;
-        }
-    }
 
-    private toIso(localStr?: string | null): string | null {
-        if (!localStr) return null;
-        // Treat as local time, convert to ISO
-        const d = new Date(localStr);
-        return isNaN(d.getTime()) ? null : d.toISOString();
-    }
 
     startEdit(item: any) {
-        const attendeeId = item?.id ?? item?.attendeeId;
-        this.editingId = attendeeId;
-        this.editModel = {
-            present: !!item.present,
-            clockInTimeLocal: this.toLocalInput(item.clockInTime),
-            clockOutTimeLocal: this.toLocalInput(item.clockOutTime)
-        };
+        this.editingId = item?.id ;
+        this.editModel = item;
     }
 
     cancelEdit() {
@@ -147,21 +121,17 @@ export class AttendanceComponent {
 
     async saveEdit(item: any) {
         if (!this.selectedAttendance) return;
-        const attendeeId = item?.id ?? item?.attendeeId;
-        this.savingId = attendeeId;
-        const payload = {
-            present: !!this.editModel?.present,
-            clockInTime: this.toIso(this.editModel?.clockInTimeLocal),
-            clockOutTime: this.toIso(this.editModel?.clockOutTimeLocal)
-        };
+
+        this.savingId = item?.id;
+        // const payload = {
+        //     present: !!this.editModel?.present,
+        //     clockInTime: this.combineDateAndTimeToIso(this.selectedAttendance?.valueDate, this.editModel?.clockInTime),
+        //     clockOutTime: this.combineDateAndTimeToIso(this.selectedAttendance?.valueDate, this.editModel?.clockOutTime)
+        // };
         try {
-            const res = await this.attendanceService.updateAttendee(this.selectedAttendance.id, attendeeId, payload);
-            // Merge updated fields into local list; prefer server response if provided
-            const updated = res?.data ?? { ...item, ...payload };
-            const idx = this.attendeesList.findIndex(a => (a.id ?? a.attendeeId) === attendeeId);
-            if (idx >= 0) {
-                this.attendeesList[idx] = { ...this.attendeesList[idx], ...updated };
-            }
+            const response = await this.attendanceService.updateAttendee(this.selectedAttendance.id,item);
+            CollectionUtil.add(this.attendeesList, response.data);
+
             this.cancelEdit();
         } catch (e) {
             console.error('Update failed', e);
@@ -171,11 +141,10 @@ export class AttendanceComponent {
     }
 
     async notify(item: any) {
-        if (!this.selectedAttendance) return;
-        const attendeeId = item?.id ?? item?.attendeeId;
-        this.notifyingId = attendeeId;
+
+        this.notifyingId = item?.id ;
         try {
-            await this.attendanceService.notifyAttendee(this.selectedAttendance.id, attendeeId);
+            await this.attendanceService.notifyAttendee(this.selectedAttendance.id, item?.id);
         } catch (e) {
             console.error('Notify failed', e);
         } finally {

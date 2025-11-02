@@ -17,9 +17,9 @@
           <tr>
             <td>{{ item.deviceId }}</td>
             <td>{{ item.deviceName }}</td>
-            <td>{{ item.lastHearBeat }}</td>
-            <td>{{ item.recipientEmailCc }}</td>
-            <td>{{ item.recipientEmailBcc }}</td>
+            <td>{{ item.lastHeartBeat || "Not Available"}}</td>
+            <td>{{ item.timeElapsed || 'Not Available' }}</td>
+            <td></td>
 
             <td>
 <!--              <p-button label="Edit" icon="pi pi-pencil" class="p-button-sm" (onClick)="edit(item)"></p-button>-->
