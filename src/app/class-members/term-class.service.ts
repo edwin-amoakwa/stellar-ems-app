@@ -18,7 +18,12 @@ export class TermClassService {
 
   async addStudentToClass(termClassId: string, studentId: string): Promise<ApiResponse<any>> {
     const url = `${environment.baseUrl}/class-members/${termClassId}/add-student/${studentId}`;
-
-      return await firstValueFrom(this.http.get<ApiResponse<any[]>>(url));
+      return await firstValueFrom(this.http.post<ApiResponse<any[]>>(url,{}));
   }
+
+
+    async removeStudentToClass(termClassId: string, studentId: string): Promise<ApiResponse<any>> {
+        const url = `${environment.baseUrl}/class-members/${termClassId}/remove-student/${studentId}`;
+        return await firstValueFrom(this.http.post<ApiResponse<any>>(url,{}));
+    }
 }

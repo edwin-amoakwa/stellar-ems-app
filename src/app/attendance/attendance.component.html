@@ -24,7 +24,7 @@
                 </div>
 
                 <!-- Table -->
-                <p-table *ngIf="!isLoading && !error" [value]="items" [paginator]="true" [rows]="10" styleClass="p-datatable-sm">
+                <p-table *ngIf="!isLoading && !error" [value]="studentList" [paginator]="true" [rows]="10" styleClass="p-datatable-sm">
                     <ng-template pTemplate="header">
                         <tr>
                             <th>Student No</th>
@@ -34,7 +34,7 @@
                     <ng-template pTemplate="body" let-item>
                         <tr>
                             <td>{{ item.referenceNo }}</td>
-                            <td>{{ item.fullName }}</td>
+                            <td>{{ item.fullname }}</td>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="emptymessage">

@@ -4,6 +4,7 @@ import { TermClassComponent } from "../components/term-class/term-class.componen
 import { StudentSearchComponent } from "../components/student-search/student-search.component";
 import { MessageBox } from '../message-helper';
 import { TermClassService } from './term-class.service';
+import {CollectionUtil} from "../core/system.utils";
 
 @Component({
   selector: 'app-class-members',
@@ -23,7 +24,7 @@ export class ClassMembersComponent implements OnInit {
   error: string | null = null;
 
   // List of students already in the selected class
-  studentList: Array<{ referenceNo: string; fullname: string }> = [];
+  studentList: Array<{ id: string; referenceNo: string; fullname: string }> = [];
 
   ngOnInit(): void {
     // If a class is preselected (unlikely), load its members
@@ -71,16 +72,46 @@ export class ClassMembersComponent implements OnInit {
 
     try {
       this.isLoading = true;
-      const resp = await this.termClassService.addStudentToClass(this.selectedTermClass.id, student.id);
-      if (resp?.success) {
-        MessageBox.success(resp?.message || 'Student added to class');
-        await this.loadMembers(this.selectedTermClass.id);
+      const response = await this.termClassService.addStudentToClass(this.selectedTermClass.id, student.id);
+      if (response?.success) {
+        MessageBox.success(response?.message || 'Student added to class');
+        CollectionUtil.add(this.studentList, response.data);
+        // await this.loadMembers(this.selectedTermClass.id);
       } else {
-        MessageBox.error(resp?.message || 'Failed to add student');
+        MessageBox.error(response?.message || 'Failed to add student');
       }
     } catch (e: any) {
       console.error('Failed to add student', e);
       MessageBox.error(e?.error?.message || e?.message || 'Failed to add student');
+    } finally {
+      this.isLoading = false;
+    }
+  }
+
+  async removeMember(item: { id: string; referenceNo: string; fullname: string }) {
+    if (!this.selectedTermClass?.id) {
+      MessageBox.warning('Please select a class first');
+      return;
+    }
+
+    const confirm = await MessageBox.confirm(
+      'Remove Student',
+      `Do you want to remove ${item?.fullname || 'this student'} from ${this.selectedTermClass?.schoolClassName || 'the selected class'}?`
+    );
+    if (!confirm.value) return;
+
+    try {
+      this.isLoading = true;
+      const response = await this.termClassService.removeStudentToClass(this.selectedTermClass.id, item.id);
+      if (response?.success) {
+        MessageBox.success(response?.message || 'Student removed from class');
+        CollectionUtil.remove(this.studentList, item.id);
+      } else {
+        MessageBox.error(response?.message || 'Failed to remove student');
+      }
+    } catch (e: any) {
+      console.error('Failed to remove student', e);
+      MessageBox.error(e?.error?.message || e?.message || 'Failed to remove student');
     } finally {
       this.isLoading = false;
     }

@@ -35,17 +35,28 @@
                 </div>
 
                 <!-- Table -->
-                <p-table *ngIf="!isLoading && !error" [value]="studentList" [paginator]="true" [rows]="10" styleClass="p-datatable-sm">
+                <p-table #dt *ngIf="!isLoading && !error" [value]="studentList" [paginator]="true" [rows]="10" styleClass="p-datatable-sm" [globalFilterFields]="['referenceNo','fullname']">
+                    <ng-template pTemplate="caption">
+                        <div class="p-input-icon-left" style="width: 100%; max-width: 320px;">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Search members..." class="w-100"/>
+                        </div>
+                    </ng-template>
                     <ng-template pTemplate="header">
                         <tr>
-                            <th>Student No</th>
-                            <th>Full Name</th>
+                            <th pSortableColumn="referenceNo">Student No <p-sortIcon field="referenceNo"></p-sortIcon></th>
+                            <th pSortableColumn="fullname">Full Name <p-sortIcon field="fullname"></p-sortIcon></th>
+                            <th class="text-center" style="width: 100px;">Actions</th>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-item>
                         <tr>
                             <td>{{ item.referenceNo }}</td>
                             <td>{{ item.fullname }}</td>
+                            <td class="text-center">
+                                <p-button icon="pi pi-trash" severity="danger" [text]="true" [rounded]="true"
+                                          [disabled]="isLoading" pTooltip="Remove" (onClick)="removeMember(item)"></p-button>
+                            </td>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="emptymessage">
