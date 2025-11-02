@@ -48,7 +48,7 @@ export class StudentSearchDataService {
   }
 
   // Public getter to load cached data on component init without hitting API
-  getCached(): CacheEntry<any[]> | null {
+  public getCached(): CacheEntry<any[]> | null {
     try {
       const raw = localStorage.getItem(this.cacheKey);
       if (!raw) return null;
