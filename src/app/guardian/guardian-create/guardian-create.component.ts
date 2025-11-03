@@ -9,7 +9,7 @@ import { StaticDataService } from '../../static-data.service';
   standalone: true,
   imports: [CommonModule, CoreModule],
   templateUrl: './guardian-create.component.html',
-  styleUrls: ['./guardian-create.component.scss']
+  styleUrls: ['./guardian-create.component.css']
 })
 export class GuardianCreateComponent implements OnInit, OnChanges {
   private fb = inject(FormBuilder);
