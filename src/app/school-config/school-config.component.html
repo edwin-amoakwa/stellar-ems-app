@@ -1,0 +1,123 @@
+<app-card title="School Configuration" subtitle="Update grading, scoring, reporting display, and identity">
+  <div class="school-config">
+
+
+    <!-- MAIN CONFIG (reactive group without native form to avoid nested forms) -->
+    <div [formGroup]="mainForm" class="form-card">
+      <div class="grid">
+        <!-- Identity & Academic span full width -->
+        <div class="section">
+          <h3>Identity</h3>
+          <div class="row">
+            <label for="schoolCode">School Code</label>
+            <input id="schoolCode" type="text" formControlName="schoolCode" />
+            <div class="error" *ngIf="mainForm.get('schoolCode')?.touched && mainForm.get('schoolCode')?.invalid">Required</div>
+          </div>
+          <div class="row">
+            <label for="contactNo">Contact No</label>
+            <input id="contactNo" type="text" formControlName="contactNo" />
+          </div>
+          <div class="row">
+            <label for="postalAddress">Postal Address</label>
+            <textarea id="postalAddress" rows="2" formControlName="postalAddress"></textarea>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>Academic</h3>
+          <div class="row">
+            <label for="academicTermId">Current Academic Term</label>
+            <select id="academicTermId" formControlName="academicTermId">
+              <option [ngValue]="null" disabled>Select term</option>
+              <option *ngFor="let t of academicTerms" [ngValue]="t.id">{{ t.name || t.termCode || t.id }}</option>
+            </select>
+            <div class="hint" *ngIf="loading">Loading terms...</div>
+          </div>
+          <div class="row">
+            <label for="scoringTemplate">Scoring Template</label>
+            <select id="scoringTemplate" formControlName="scoringTemplate">
+              <option *ngFor="let s of scoringTemplates" [ngValue]="s.value">{{ s.label }}</option>
+            </select>
+          </div>
+          <div class="row inline">
+            <label>
+              <input type="checkbox" formControlName="useSystemGrading" />
+              Use System Grading
+            </label>
+          </div>
+        </div>
+
+        <!-- Split row: Score Conversion (left) and Logo (right) align on the same line -->
+        <div class="split-row">
+          <div class="left">
+            <div class="section">
+              <h3>Score Conversion</h3>
+              <div class="row inline">
+                <label>
+                  <input type="checkbox" formControlName="convertClassMark" />
+                  Convert Class Mark
+                </label>
+                <input type="number" min="0" max="100" step="1" formControlName="classMarkPercentile" class="number" />
+                <span class="unit">%</span>
+              </div>
+              <div class="row inline">
+                <label>
+                  <input type="checkbox" formControlName="convertExamMark" />
+                  Convert Exam Mark
+                </label>
+                <input type="number" min="0" max="100" step="1" formControlName="examMarkPercentile" class="number" />
+                <span class="unit">%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- LOGO FORM (independent) -->
+          <div class="right">
+            <form [formGroup]="logoForm" (ngSubmit)="onSubmitLogo()" class="section logo-section">
+              <h3>Logo</h3>
+              <div class="logo-preview" *ngIf="logoSrc; else noLogo">
+                <img [src]="logoSrc" alt="School Logo" />
+              </div>
+              <ng-template #noLogo>
+                <div class="logo-preview placeholder">No Logo</div>
+              </ng-template>
+              <div class="row">
+                <input type="file" accept="image/*" (change)="onLogoSelected($event)" />
+                <button type="button" class="btn secondary" (click)="resetLogo()">Remove</button>
+              </div>
+              <div class="row">
+                <label for="schoolLogoSRC">Logo Data URI</label>
+                <textarea id="schoolLogoSRC" rows="3" formControlName="schoolLogoSRC" placeholder="data:image/png;base64,..."></textarea>
+              </div>
+              <div class="tip">You can paste a data URI directly if you already have one.</div>
+              <div class="actions">
+                <button class="btn primary" type="submit" [disabled]="savingLogo">{{ savingLogo ? 'Saving...' : 'Save Logo' }}</button>
+                <span class="status error" *ngIf="errorLogo">{{ errorLogo }}</span>
+                <span class="status success" *ngIf="successLogo">{{ successLogo }}</span>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>Terminal Report Display</h3>
+          <div class="row inline">
+            <label><input type="checkbox" formControlName="showStudentClassRankOnTerminalReport" /> Show Student Class Rank</label>
+          </div>
+          <div class="row inline">
+            <label><input type="checkbox" formControlName="showSignatureSectionOnTerminalReport" /> Show Signature Section</label>
+          </div>
+          <div class="row inline">
+            <label><input type="checkbox" formControlName="showStaffNamesOnTerminalReport" /> Show Staff Names</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn primary" type="button" (click)="onSubmitMain()" [disabled]="savingMain || loading">{{ savingMain ? 'Saving...' : 'Save Configuration' }}</button>
+        <span class="status error" *ngIf="errorMain">{{ errorMain }}</span>
+        <span class="status success" *ngIf="successMain">{{ successMain }}</span>
+      </div>
+    </div>
+  </div>
+</app-card>

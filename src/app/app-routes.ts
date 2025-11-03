@@ -27,6 +27,8 @@ import {GenericLookupComponent} from "./setting/generic-lookup/generic-lookup.co
 import {AttendanceDeviceComponent} from "./attendance-device/attendance-device.component";
 import { ClassMembersComponent } from './class-members/class-members.component';
 import {AttendanceComponent} from "./attendance/attendance.component";
+import { GuardianComponent } from './guardian/guardian.component';
+import { SchoolConfigComponent } from './school-config/school-config.component';
 
 export const routes: Routes = [
   {
@@ -39,6 +41,7 @@ export const routes: Routes = [
 
         { path: 'staffs', component: StaffComponent },
         { path: 'students', component: StudentComponent },
+        { path: 'guardians', component: GuardianComponent },
         { path: 'class-members', component: ClassMembersComponent },
         { path: 'attendance', component: AttendanceComponent },
         { path: 'attendance-devices', component: AttendanceDeviceComponent },
@@ -54,6 +57,7 @@ export const routes: Routes = [
       { path: 'profile', component: ProfileComponent },
       { path: 'update-password', component: UpdatePasswordComponent },
       { path: 'notification-settings', loadComponent: () => import('./notification-settings/notification-settings.component').then(m => m.NotificationSettingsComponent) },
+      { path: 'school-config', component: SchoolConfigComponent },
         {
             path: AppRouteNames.Settings,
             component: SettingComponent,

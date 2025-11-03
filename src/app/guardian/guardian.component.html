@@ -1,0 +1,104 @@
+<h1 class="page-title">Guardians</h1>
+
+<div *ngIf="formView.listView">
+  <button-toolbar>
+    <p-button label="New Guardian" icon="pi pi-plus" (onClick)="initNew()" styleClass="p-button-primary"></p-button>
+  </button-toolbar>
+
+  <app-card>
+    <p-table #dataTable
+             [value]="guardiansList" dataKey="id"
+             [loading]="loading"
+             [paginator]="true"
+             [rows]="10"
+             [showCurrentPageReport]="true"
+             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+             [rowsPerPageOptions]="[10,25,50]"
+             [globalFilterFields]="['fullname','mobileNo','emailAddress']"
+             styleClass="p-datatable-gridlines">
+
+      <ng-template #caption>
+        <div class="clearfix">
+          <div class="flex justify-content-end float-end">
+            <p-iconfield iconPosition="left">
+              <p-inputicon>
+                <i class="pi pi-search"></i>
+              </p-inputicon>
+              <input pInputText type="text" (input)="dataTable.filterGlobal($any($event.target).value, 'contains')" placeholder="Search..." />
+            </p-iconfield>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Mobile No</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Actions</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-item>
+        <tr>
+          <td>{{ item.mobileNo }}</td>
+          <td>{{ item.fullname }}</td>
+          <td>{{ item.emailAddress }}</td>
+          <td>
+            <p-button icon="pi pi-pencil" (onClick)="editGuardian(item)" styleClass="p-button-rounded p-button-text p-button-info mr-1" pTooltip="Edit"></p-button>
+            <p-button icon="pi pi-bars" (onClick)="viewDetails(item)" styleClass="p-button-rounded p-button-text p-button-success mr-1" pTooltip="Details"></p-button>
+            <p-button icon="pi pi-trash" (onClick)="deleteGuardian(item)" styleClass="p-button-rounded p-button-text p-button-danger" pTooltip="Delete"></p-button>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="4" class="text-center">No guardians found</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </app-card>
+</div>
+
+<div *ngIf="formView.createView">
+  <app-card [title]="selectedGuardian ? 'Edit Guardian' : 'Create Guardian'">
+    <app-guardian-create
+      [value]="selectedGuardian"
+      (submit)="saveGuardian($event)"
+      (cancel)="closeDialog()"
+    ></app-guardian-create>
+  </app-card>
+</div>
+
+<!-- Detail View -->
+<div *ngIf="formView.detailView">
+  <button-toolbar>
+    <div class="flex align-items-center gap-2 w-full justify-content-between">
+      <p-button label="Back to List" icon="pi pi-arrow-left" styleClass="p-button-text" (onClick)="goBackToList()"></p-button>
+    </div>
+  </button-toolbar>
+
+  <app-card title="Guardian Details">
+
+    <div  class="flex flex-column">
+      <div class="mb-2"><strong>Name:</strong> {{ selectedGuardian?.fullname }}</div>
+      <div class="mb-2"><strong>Mobile No:</strong> {{ selectedGuardian?.mobileNo }}</div>
+      <div class="mb-2"><strong>Email:</strong> {{ selectedGuardian?.emailAddress }}</div>
+    </div>
+
+  </app-card>
+
+  <app-card>
+    <p-tabs value="0">
+      <p-tablist>
+        <p-tab value="0">Students</p-tab>
+      </p-tablist>
+      <p-tabpanels>
+        <p-tabpanel value="0">
+          <app-guardian-students [guardian]="selectedGuardian"></app-guardian-students>
+        </p-tabpanel>
+      </p-tabpanels>
+    </p-tabs>
+  </app-card>
+</div>

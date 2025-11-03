@@ -125,6 +125,7 @@ export class AppRouteNames {
 export class LookUpStores {
 
     public static Programmes = "data/programmes";
+    public static AcaddmicYar = "academic-years";
 
 }
 
@@ -133,6 +134,14 @@ export class LookUps
 
     static get ems(): Array<LookUpModel> {
         return [
+            {
+                label: "Academic Year", name: "academicYear",
+                api: "academic-years", route: "academic-years", hidden: false,
+                fields: [
+                    { label: "Start Date", name: "startDate", type: InputType.Date },
+                    { label: "End Date", name: "endDate", type: InputType.Date }
+                ]
+            },
             {
                 label: "Programmes", name: "programmes",
                 api: "school-programmes", route: "programmes", hidden: false,
@@ -151,6 +160,19 @@ export class LookUps
                     { label: "Active Status", name: "activeStatus", type: InputType.Boolean },
                 ]
             },
+            {
+                label: "Academic Term", name: "academicTerm",
+                api: "academic-terms", route: "academic-terms", hidden: false,
+                fields: [
+                    { label: "Start Date", name: "startDate", type: InputType.Date },
+                    { label: "End Date", name: "endDate", type: InputType.Date },
+                    { label: "Next Term Begins Date", name: "nextTermBeginDate", type: InputType.Date },
+                    { label: "Education Level", name: "educationalLevel", type: InputType.Select ,displayField:"educationalLevelName", store: StaticDataService.educationLevels(), required: true },
+                    { label: "Programme", name: "programmeId", type: InputType.Select , displayField:"programmeName", store: LookUpStores.Programmes, required: true },
+                    { label: "Total Class Attendance", name: "totalClassAttendance", type: InputType.Text },
+                    { label: "Active Status", name: "activeStatus", type: InputType.Boolean },
+                ]
+            }
 
 
         ]

@@ -43,9 +43,15 @@
     </p-table>
   </app-card>
 
-  <p-dialog header="Add Guardian" [(visible)]="showAddGuardian" [modal]="true" [style]="{ width: '600px' }" (onHide)="closeAddGuardian()">
-    <div class="p-3">
-      <p>Placeholder for Add Guardian form.</p>
+  <p-dialog header="Add Guardian" [(visible)]="showAddGuardian" [modal]="true" [style]="{ width: '800px' }" (onHide)="closeAddGuardian()">
+    <div class="row">
+        <div class="col-6">
+            <app-guardian-search (guardianSelected)="selectGuardian($event)"></app-guardian-search>
+        </div>
+        <div class="col-6">
+
+
+        </div>
     </div>
     <ng-template pTemplate="footer">
       <p-button label="Close" icon="pi pi-times" (onClick)="closeAddGuardian()" styleClass="p-button-text"></p-button>

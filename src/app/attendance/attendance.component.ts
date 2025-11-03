@@ -17,7 +17,7 @@ export enum AttendanceFilter {
 @Component({
   selector: 'app-class-members',
   standalone: true,
-    imports: [CoreModule, TermClassComponent, StudentSearchComponent, CalendarModule],
+    imports: [CoreModule, TermClassComponent, CalendarModule],
   templateUrl: './attendance.component.html',
   styleUrls: ['./attendance.component.scss']
 })

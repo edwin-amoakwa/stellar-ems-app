@@ -2,11 +2,12 @@ import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/cor
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '../../core/core.module';
 import { StudentGuardianService } from '../student-guardian.service';
+import {GuardianSearchComponent} from "../../components/guardian-search/guardian-search.component";
 
 @Component({
   selector: 'app-student-guardian',
   standalone: true,
-  imports: [CommonModule, CoreModule],
+    imports: [CommonModule, CoreModule, GuardianSearchComponent],
   templateUrl: './student-guardian.component.html',
   styleUrls: ['./student-guardian.component.scss']
 })
@@ -15,6 +16,7 @@ export class StudentGuardianComponent implements OnChanges {
 
   @Input() student: any | null = null;
 
+  selectedGuardian: any ;
   guardiansList: any[] = [];
   loading = false;
   error: string | null = null;
@@ -26,6 +28,11 @@ export class StudentGuardianComponent implements OnChanges {
     if (changes['student']) {
       this.loadGuardians();
     }
+  }
+
+  selectGuardian(guardian)
+  {
+      this.selectedGuardian = guardian;
   }
 
   async loadGuardians(): Promise<void> {

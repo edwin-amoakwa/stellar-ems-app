@@ -1,0 +1,247 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <!-- Row 1: Guardian No -->
+  <div class="row">
+    <div class="col-12 col-md-6 mb-3">
+      <div class="row">
+        <div class="col-12 col-sm-4">
+          <label for="referenceNo">Guardian No</label>
+        </div>
+        <div class="col-12 col-sm-8">
+          <input pInputText id="referenceNo" formControlName="referenceNo" class="w-full" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 2: First Name + Surname -->
+  <div class="row">
+    <div class="col-12 col-md-6 mb-3">
+      <div class="row">
+        <div class="col-12 col-sm-4">
+          <label for="firstName">First Name *</label>
+        </div>
+        <div class="col-12 col-sm-8">
+          <input pInputText id="firstName" formControlName="firstName" appValidateInput class="w-full" />
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 mb-3">
+      <div class="row">
+        <div class="col-12 col-sm-4">
+          <label for="surname">Surname *</label>
+        </div>
+        <div class="col-12 col-sm-8">
+          <input pInputText id="surname" formControlName="surname" appValidateInput class="w-full" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 3: Other Names + Date of Birth -->
+  <div class="row">
+    <div class="col-12 col-md-6 mb-3">
+      <div class="row">
+        <div class="col-12 col-sm-4">
+          <label for="othernames">Other Names</label>
+        </div>
+        <div class="col-12 col-sm-8">
+          <input pInputText id="othernames" formControlName="othernames" class="w-full" />
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 mb-3">
+      <div class="row">
+        <div class="col-12 col-sm-4">
+          <label for="dateOfBirth">Date of Birth</label>
+        </div>
+        <div class="col-12 col-sm-8">
+          <input id="dateOfBirth" type="date" formControlName="dateOfBirth" class="w-full" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 4: Gender + Email Address -->
+  <div class="row">
+    <div class="col-12 col-md-6 mb-3">
+      <div class="row">
+        <div class="col-12 col-sm-4">
+          <label for="gender">Sex</label>
+        </div>
+        <div class="col-12 col-sm-8">
+          <p-select id="gender"
+                    [options]="sexList"
+                    optionLabel="itemName"
+                    optionValue="id"
+                    formControlName="gender"
+                    styleClass="w-full"></p-select>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 mb-3">
+      <div class="row">
+        <div class="col-12 col-sm-4">
+          <label for="emailAddress">Email Address</label>
+        </div>
+        <div class="col-12 col-sm-8">
+          <input pInputText id="emailAddress" formControlName="emailAddress" class="w-full" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 5: Mobile No + Other Contact Nos -->
+  <div class="row">
+    <div class="col-12 col-md-6 mb-3">
+      <div class="row">
+        <div class="col-12 col-sm-4">
+          <label for="mobileNo">Mobile No *</label>
+        </div>
+        <div class="col-12 col-sm-8">
+          <input pInputText id="mobileNo" formControlName="mobileNo" appValidateInput class="w-full" />
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 mb-3">
+      <div class="row">
+        <div class="col-12 col-sm-4">
+          <label for="otherContactNos">Other Contact Nos</label>
+        </div>
+        <div class="col-12 col-sm-8">
+          <input pInputText id="otherContactNos" formControlName="otherContactNos" class="w-full" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 6: Region + Religion -->
+  <div class="row">
+    <div class="col-12 col-md-6 mb-3">
+      <div class="row">
+        <div class="col-12 col-sm-4">
+          <label for="region">Region</label>
+        </div>
+        <div class="col-12 col-sm-8">
+          <p-select id="region"
+                    [options]="regionsList"
+                    optionLabel="itemName"
+                    optionValue="id"
+                    formControlName="region"
+                    styleClass="w-full"></p-select>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 mb-3">
+      <div class="row">
+        <div class="col-12 col-sm-4">
+          <label for="religion">Religion</label>
+        </div>
+        <div class="col-12 col-sm-8">
+          <p-select id="religion"
+                    [options]="religionOptions"
+                    optionLabel="itemName"
+                    optionValue="id"
+                    formControlName="religion"
+                    styleClass="w-full"></p-select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 7: Home Town + (Spacer) -->
+  <div class="row">
+    <div class="col-12 col-md-6 mb-3">
+      <div class="row">
+        <div class="col-12 col-sm-4">
+          <label for="homeTown">Home Town</label>
+        </div>
+        <div class="col-12 col-sm-8">
+          <input pInputText id="homeTown" formControlName="homeTown" class="w-full" />
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 mb-3"></div>
+  </div>
+
+  <!-- Full-width: Postal Address -->
+  <div class="row">
+    <div class="col-12 mb-3">
+      <div class="row">
+        <div class="col-12 col-md-2 col-lg-2 col-xl-2">
+          <label for="postalAddress">Postal Address</label>
+        </div>
+        <div class="col-12 col-md-10 col-lg-10 col-xl-10">
+          <textarea id="postalAddress" pTextarea formControlName="postalAddress" class="w-full" rows="2"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Full-width: Residential Address -->
+  <div class="row">
+    <div class="col-12 mb-3">
+      <div class="row">
+        <div class="col-12 col-md-2 col-lg-2 col-xl-2">
+          <label for="residentialAddress">Residential Address</label>
+        </div>
+        <div class="col-12 col-md-10 col-lg-10 col-xl-10">
+          <textarea id="residentialAddress" pTextarea formControlName="residentialAddress" class="w-full" rows="2"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 8: Toggles (kept for UI parity) -->
+  <div class="row">
+    <div class="col-12 col-md-6 mb-3">
+      <div class="row align-items-center">
+        <div class="col-12 col-sm-4">
+          <label for="teachingStaff">Teaching Staff</label>
+        </div>
+        <div class="col-12 col-sm-8 d-flex align-items-center">
+          <p-toggleSwitch inputId="teachingStaff" formControlName="teachingStaff"></p-toggleSwitch>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 mb-3">
+      <div class="row align-items-center">
+        <div class="col-12 col-sm-4">
+          <label for="administrator">Administrator</label>
+        </div>
+        <div class="col-12 col-sm-8 d-flex align-items-center">
+          <p-toggleSwitch inputId="administrator" formControlName="administrator"></p-toggleSwitch>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 9: Toggle (Class Teacher) -->
+  <div class="row">
+    <div class="col-12 col-md-6 mb-3">
+      <div class="row align-items-center">
+        <div class="col-12 col-sm-4">
+          <label for="classTeacher">Class Teacher</label>
+        </div>
+        <div class="col-12 col-sm-8 d-flex align-items-center">
+          <p-toggleSwitch inputId="classTeacher" formControlName="classTeacher"></p-toggleSwitch>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 mb-3"></div>
+  </div>
+
+  <button-toolbar>
+    <close-button
+      type="button"
+      label="Cancel"
+      (click)="onCancel()">
+    </close-button>
+    <p-button
+      type="submit"
+      [label]="(value?.id ? 'Update Guardian' : 'Create Guardian')"
+      icon="pi pi-check"
+      (onClick)="onSubmit()"
+      styleClass="p-button-primary">
+    </p-button>
+  </button-toolbar>
+</form>

@@ -23,7 +23,7 @@ export class GuardianSearchDataService {
     try {
       filters.general = true;
       const urlParams = HttpUtils.toUrlParam(filters);
-      const obs = this.http.get<ApiResponse<any[]>>(`${this.apiUrl}/${urlParams}`);
+      const obs = this.http.get<ApiResponse<any[]>>(`${this.apiUrl}?${urlParams}`);
       const resp = await firstValueFrom(obs);
       if (resp?.success) {
         this.setCache({ data: resp.data ?? [], filters });

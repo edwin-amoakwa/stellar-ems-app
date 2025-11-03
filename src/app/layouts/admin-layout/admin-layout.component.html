@@ -25,7 +25,10 @@
             <span>Students</span>
         </a>
 
-
+        <a class="menu-item" *ngIf="allow('/guardians')" routerLink="/guardians" routerLinkActive="active">
+            <i class="pi pi-users" aria-hidden="true"></i>
+            <span>Guardians</span>
+        </a>
 
         <a class="menu-item" *ngIf="allow('/class-members')" routerLink="/class-members" routerLinkActive="active">
             <i class="pi pi-briefcase" aria-hidden="true"></i>
@@ -76,6 +79,11 @@
       <a class="menu-item" *ngIf="allow('/notification-settings')" routerLink="/notification-settings" routerLinkActive="active">
         <i class="pi pi-bell" aria-hidden="true"></i>
         <span>Notification Settings</span>
+      </a>
+
+      <a class="menu-item" *ngIf="allow('/school-config')" routerLink="/school-config" routerLinkActive="active">
+        <i class="pi pi-cog" aria-hidden="true"></i>
+        <span>School Config</span>
       </a>
 
     </nav>

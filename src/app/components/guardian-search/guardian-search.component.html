@@ -5,32 +5,22 @@
     <!-- Guardian No -->
     <div class="row mb-2 align-items-center">
       <div class="col-12 col-sm-4 col-md-3">
-        <label class="form-label mb-0" for="referenceNo">Guardian No</label>
+        <label class="form-label mb-0" for="mobileNo">Mobile No</label>
       </div>
       <div class="col-12 col-sm-8 col-md-9">
-        <input pInputText id="referenceNo" type="text" class="w-full" formControlName="referenceNo"  />
+        <input pInputText id="mobileNo" type="text" class="w-full" formControlName="mobileNo"  />
       </div>
     </div>
 
-    <!-- Surname -->
     <div class="row mb-2 align-items-center">
       <div class="col-12 col-sm-4 col-md-3">
-        <label class="form-label mb-0" for="surname">Surname</label>
+        <label class="form-label mb-0" for="name">Name</label>
       </div>
       <div class="col-12 col-sm-8 col-md-9">
-        <input pInputText id="surname" type="text" class="w-full" formControlName="surname"  />
+        <input pInputText id="name" type="text" class="w-full" formControlName="name"  />
       </div>
     </div>
 
-    <!-- First Name -->
-    <div class="row mb-2 align-items-center">
-      <div class="col-12 col-sm-4 col-md-3">
-        <label class="form-label mb-0" for="firstName">First Name</label>
-      </div>
-      <div class="col-12 col-sm-8 col-md-9">
-        <input pInputText id="firstName" type="text" class="w-full" formControlName="firstName"  />
-      </div>
-    </div>
 
     <!-- Actions -->
     <div class="row align-items-center">
@@ -69,14 +59,14 @@
       [paginator]="true"
       [rows]="10"
       [rowsPerPageOptions]="[10,20,50]"
-      [globalFilterFields]="['referenceNo','fullname']"
+      [globalFilterFields]="['mobileNo','fullname']"
       styleClass="p-datatable-sm clickable-table"
     >
       <ng-template pTemplate="header">
         <tr>
-          <th pSortableColumn="referenceNo">
-            Guardian No
-            <p-sortIcon field="referenceNo"></p-sortIcon>
+          <th pSortableColumn="mobileNo">
+            Mobile No
+            <p-sortIcon field="mobileNo"></p-sortIcon>
           </th>
           <th pSortableColumn="fullname">
             Name
@@ -86,7 +76,7 @@
       </ng-template>
       <ng-template pTemplate="body" let-item>
         <tr class="clickable-row" (click)="onRowClick(item)">
-          <td>{{ item.referenceNo }}</td>
+          <td>{{ item.mobileNo }}</td>
           <td>{{ item.fullname }}</td>
         </tr>
       </ng-template>

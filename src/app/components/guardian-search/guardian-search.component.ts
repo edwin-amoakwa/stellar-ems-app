@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output, inject } from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, Output, inject, model} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CoreModule } from '../../core/core.module';
 import { GuardianSearchDataService } from './guardian-search.data-service';
@@ -26,15 +26,14 @@ export class GuardianSearchComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      referenceNo: [''],
-      surname: [''],
-      firstName: ['']
+        mobileNo: [''],
+      name: ['']
     });
 
     // Load from localStorage cache on init (no API call)
     const cached = this.dataService.getCached();
     if (cached) {
-      const filters = cached.filters || { referenceNo: '', surname: '', firstName: '' };
+      const filters = cached.filters || { mobileNo: '', name: '' };
       this.form.patchValue(filters, { emitEvent: false });
       this.guardianList = cached.data || [];
     }
@@ -56,9 +55,8 @@ export class GuardianSearchComponent implements OnInit, OnDestroy {
     this.error = null;
     try {
       const response = await this.dataService.search(filters);
-      if (response?.success) {
         this.guardianList = response.data;
-      }
+
     } catch (e) {
     } finally {
       this.loading = false;
@@ -66,7 +64,7 @@ export class GuardianSearchComponent implements OnInit, OnDestroy {
   }
 
   clearFilters(): void {
-    this.form.reset({ referenceNo: '', surname: '', firstName: '' });
+    this.form.reset({ mobileNo: '', name: ''});
     // search() will be triggered by valueChanges
   }
 

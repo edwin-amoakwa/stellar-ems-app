@@ -1,0 +1,37 @@
+<div class="guardian-students">
+  <div class="flex align-items-center" *ngIf="loading">
+    <p-progressspinner styleClass="mr-2" strokeWidth="4" animationDuration="1s"></p-progressspinner>
+    <span>Loading students...</span>
+  </div>
+  <div class="text-danger" *ngIf="!loading && error">{{ error }}</div>
+
+  <p-table *ngIf="!loading" [value]="students" [paginator]="true" [rows]="10" styleClass="p-datatable-sm p-datatable-gridlines">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Student No</th>
+        <th>First Name</th>
+        <th>Surname</th>
+        <th>Date of Birth</th>
+        <th>Gender</th>
+        <th>Relationship to Student</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-student>
+      <tr>
+        <td>{{ student.referenceNo }}</td>
+        <td>{{ student.firstName }}</td>
+        <td>{{ student.surname }}</td>
+        <td>{{ student.dateOfBirth | date }}</td>
+        <td>{{ student.genderLabel }}</td>
+        <td>{{ student.relationshipLabel }}</td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="5" class="text-center">No students found</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
