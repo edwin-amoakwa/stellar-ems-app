@@ -71,32 +71,7 @@
             </div>
           </div>
 
-          <!-- LOGO FORM (independent) -->
-          <div class="right">
-            <form [formGroup]="logoForm" (ngSubmit)="onSubmitLogo()" class="section logo-section">
-              <h3>Logo</h3>
-              <div class="logo-preview" *ngIf="logoSrc; else noLogo">
-                <img [src]="logoSrc" alt="School Logo" />
-              </div>
-              <ng-template #noLogo>
-                <div class="logo-preview placeholder">No Logo</div>
-              </ng-template>
-              <div class="row">
-                <input type="file" accept="image/*" (change)="onLogoSelected($event)" />
-                <button type="button" class="btn secondary" (click)="resetLogo()">Remove</button>
-              </div>
-              <div class="row">
-                <label for="schoolLogoSRC">Logo Data URI</label>
-                <textarea id="schoolLogoSRC" rows="3" formControlName="schoolLogoSRC" placeholder="data:image/png;base64,..."></textarea>
-              </div>
-              <div class="tip">You can paste a data URI directly if you already have one.</div>
-              <div class="actions">
-                <button class="btn primary" type="submit" [disabled]="savingLogo">{{ savingLogo ? 'Saving...' : 'Save Logo' }}</button>
-                <span class="status error" *ngIf="errorLogo">{{ errorLogo }}</span>
-                <span class="status success" *ngIf="successLogo">{{ successLogo }}</span>
-              </div>
-            </form>
-          </div>
+
         </div>
 
         <div class="section">
@@ -120,4 +95,34 @@
       </div>
     </div>
   </div>
+</app-card>
+
+
+<app-card>
+    <!-- LOGO FORM (independent) -->
+    <div class="right">
+        <form [formGroup]="logoForm" (ngSubmit)="onSubmitLogo()" class="section logo-section">
+            <h3>Logo</h3>
+            <div class="logo-preview" *ngIf="logoSrc; else noLogo">
+                <img [src]="logoSrc" alt="School Logo" />
+            </div>
+            <ng-template #noLogo>
+                <div class="logo-preview placeholder">No Logo</div>
+            </ng-template>
+            <div class="row">
+                <input type="file" accept="image/*" (change)="onLogoSelected($event)" />
+                <button type="button" class="btn secondary" (click)="resetLogo()">Remove</button>
+            </div>
+            <div class="row">
+                <label for="schoolLogoSRC">Logo Data URI</label>
+                <textarea id="schoolLogoSRC" rows="3" formControlName="schoolLogoSRC" placeholder="data:image/png;base64,..."></textarea>
+            </div>
+            <div class="tip">You can paste a data URI directly if you already have one.</div>
+            <div class="actions">
+                <button class="btn primary" type="submit" [disabled]="savingLogo">{{ savingLogo ? 'Saving...' : 'Save Logo' }}</button>
+                <span class="status error" *ngIf="errorLogo">{{ errorLogo }}</span>
+                <span class="status success" *ngIf="successLogo">{{ successLogo }}</span>
+            </div>
+        </form>
+    </div>
 </app-card>
