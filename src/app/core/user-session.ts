@@ -39,7 +39,7 @@ export class UserSession {
   }
 
     static getCurrentAcademicTermId(): any | null {
-        return this.getAsJson(UserSession.loginResponse).user.school.academicTermId;
+        return this.getAsJson(UserSession.loginResponse)?.user?.school?.academicTermId;
     }
 
   static getAsJson(key: string): any | null {
