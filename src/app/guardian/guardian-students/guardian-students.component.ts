@@ -8,7 +8,7 @@ import { GuardianService } from '../guardian.service';
   standalone: true,
   imports: [CommonModule, CoreModule],
   templateUrl: './guardian-students.component.html',
-  styleUrls: ['./guardian-students.component.ccss']
+  styleUrls: ['./guardian-students.component.css']
 })
 export class GuardianStudentsComponent implements OnChanges {
   private service = inject(GuardianService);
