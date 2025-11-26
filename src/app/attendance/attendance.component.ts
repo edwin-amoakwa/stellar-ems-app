@@ -2,7 +2,7 @@ import {Component, inject} from '@angular/core';
 import { CoreModule } from '../core/core.module';
 import {TermClassComponent} from "../components/term-class/term-class.component";
 import {StudentSearchComponent} from "../components/student-search/student-search.component";
-import {TermClassService} from "../class-members/term-class.service";
+import {TermClassService} from "../term-class.service";
 import {AttendanceService} from "./attendance.service";
 import {FormView} from "../core/form-view";
 import {CollectionUtil, DateUtil} from "../core/system.utils";

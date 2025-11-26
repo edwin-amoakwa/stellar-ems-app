@@ -30,4 +30,14 @@ export class StudentService {
   }
 
 
+    async uploadStudent(dto: any): Promise<ApiResponse<any>>
+    {
+        return await firstValueFrom(this.http.post<ApiResponse<any>>(`${this.apiUrl}/upload/students`,dto));
+    }
+
+    async saveUpload(rows: any[]): Promise<ApiResponse<any>> {
+        // Endpoint as requested: /save-upload under students base URL
+        return await firstValueFrom(this.http.post<ApiResponse<any>>(`${this.apiUrl}/upload/save-upload`, rows));
+    }
+
 }

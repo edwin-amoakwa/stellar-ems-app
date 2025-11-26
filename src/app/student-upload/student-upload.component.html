@@ -1,0 +1,61 @@
+<div class="page-header">
+  <h2><i class="pi pi-upload" aria-hidden="true"></i> Student Upload</h2>
+  <p>Upload a Excel file to add or update students. Template columns: </p>
+</div>
+
+
+
+<div>
+    <div class="row">
+        <div class="col-auto">
+            <input #fileInput (change)="onFileChange($event)" class="form-control" type="file">
+        </div>
+        <div class="col-auto">
+            <button type="button" pButton (click)="upload()">Upload</button>
+        </div>
+        <div class="col-auto">
+            <button type="button" pButton class="p-button-success" (click)="clearUploadForm()">
+
+                <i class="pi pi-times" aria-hidden="true"></i>
+                <span>Clear</span>
+
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- API result table rendered dynamically with PrimeNG -->
+<div class="card" *ngIf="apiRows?.length">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h3 class="m-0"><i class="pi pi-table" aria-hidden="true"></i> Uploaded Data</h3>
+      <div class="d-flex align-items-center" style="gap: 12px;">
+        <strong>Total records: {{ apiRows.length | number }}</strong>
+        <button class="p-button p-component p-button-success" (click)="processAndSave()" [disabled]="!apiRows?.length || saving">
+          <i class="pi pi-save" aria-hidden="true"></i>
+          <span>{{ saving ? 'Processing...' : 'Process & Save Data' }}</span>
+        </button>
+      </div>
+    </div>
+    <p-table [value]="apiRows" [paginator]="true" [rows]="10" responsiveLayout="scroll">
+      <ng-template pTemplate="header">
+        <tr>
+          <th *ngFor="let col of apiHeaders">{{ col }}</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-row>
+        <tr>
+          <td *ngFor="let col of apiHeaders">{{ row[col] }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  <div class="card-footer">
+    <small class="muted">Showing {{ apiRows.length | number }} row(s) from the server.</small>
+  </div>
+  
+</div>

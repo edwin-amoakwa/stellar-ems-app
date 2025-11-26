@@ -29,6 +29,8 @@ import { ClassMembersComponent } from './class-members/class-members.component';
 import {AttendanceComponent} from "./attendance/attendance.component";
 import { GuardianComponent } from './guardian/guardian.component';
 import { SchoolConfigComponent } from './school-config/school-config.component';
+import { StudentUploadComponent } from './student-upload/student-upload.component';
+import {AttendanceRegistrationComponent} from "./attendance-registeration/attendance-registration.component";
 
 export const routes: Routes = [
   {
@@ -45,6 +47,7 @@ export const routes: Routes = [
         { path: 'class-members', component: ClassMembersComponent },
         { path: 'attendance', component: AttendanceComponent },
         { path: 'attendance-devices', component: AttendanceDeviceComponent },
+        { path: 'attendance-registration', component: AttendanceRegistrationComponent },
         { path: 'buy-credit', component: BuyCreditComponent },
 
       { path: 'providers', component: ProvidersComponent },
@@ -58,6 +61,8 @@ export const routes: Routes = [
       { path: 'update-password', component: UpdatePasswordComponent },
       { path: 'notification-settings', loadComponent: () => import('./notification-settings/notification-settings.component').then(m => m.NotificationSettingsComponent) },
       { path: 'school-config', component: SchoolConfigComponent },
+      { path: 'student-upload', component: StudentUploadComponent },
+
         {
             path: AppRouteNames.Settings,
             component: SettingComponent,

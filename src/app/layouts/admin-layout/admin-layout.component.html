@@ -35,9 +35,15 @@
             <span>Class Members</span>
         </a>
 
+        <a class="menu-item" *ngIf="allow('/attendance-registration')" routerLink="/attendance-registration" routerLinkActive="active">
+        <i class="pi pi-briefcase" aria-hidden="true"></i>
+        <span>Attendance Registration</span>
+      </a>
+
+
         <a class="menu-item" *ngIf="allow('/attendance')" routerLink="/attendance" routerLinkActive="active">
         <i class="pi pi-briefcase" aria-hidden="true"></i>
-        <span>Attendance</span>
+        <span>Attendance Records</span>
       </a>
 
         <a class="menu-item" *ngIf="allow('/attendance-devices')" routerLink="/attendance-devices" routerLinkActive="active">
@@ -50,10 +56,10 @@
             <span>Settings</span>
         </a>
 
-        <a class="menu-item" *ngIf="allow('/classes')" routerLink="/classes" routerLinkActive="active">
-        <i class="pi pi-briefcase" aria-hidden="true"></i>
-        <span>Classes</span>
-      </a>
+<!--        <a class="menu-item" *ngIf="allow('/classes')" routerLink="/classes" routerLinkActive="active">-->
+<!--        <i class="pi pi-briefcase" aria-hidden="true"></i>-->
+<!--        <span>Classes</span>-->
+<!--      </a>-->
 
 
       <a class="menu-item" *ngIf="allow('/buy-credit')" routerLink="/buy-credit" routerLinkActive="active">
@@ -76,6 +82,11 @@
         <span>SMS Records</span>
       </a>
 
+
+      <a class="menu-item" *ngIf="allow('/student-upload')" routerLink="/student-upload" routerLinkActive="active">
+        <i class="pi pi-upload" aria-hidden="true"></i>
+        <span>Student Upload</span>
+      </a>
 
       <a class="menu-item" *ngIf="allow('/notification-settings')" routerLink="/notification-settings" routerLinkActive="active">
         <i class="pi pi-bell" aria-hidden="true"></i>

@@ -3,7 +3,7 @@ import { CoreModule } from '../core/core.module';
 import { TermClassComponent } from "../components/term-class/term-class.component";
 import { StudentSearchComponent } from "../components/student-search/student-search.component";
 import { MessageBox } from '../message-helper';
-import { TermClassService } from './term-class.service';
+import { TermClassService } from '../term-class.service';
 import {CollectionUtil} from "../core/system.utils";
 
 @Component({

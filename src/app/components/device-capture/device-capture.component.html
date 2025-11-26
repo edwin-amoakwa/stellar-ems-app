@@ -1,0 +1,53 @@
+<p-dialog [(visible)]="visible" [modal]="true" [style]="{width: '720px'}" [draggable]="false" (onHide)="onHideDialog()" (onShow)="onOpened()">
+  <ng-template pTemplate="header">
+    <div class="d-flex align-items-center" style="gap: 8px;">
+      <i class="pi pi-camera"></i>
+      <span>Attendance Registration - {{ student?.fullname }}</span>
+    </div>
+  </ng-template>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12 mb-2">
+        <small class="text-muted">Use your camera to take a photo. Cropping is optional — you can save the full image or drag to select a crop area.</small>
+      </div>
+
+      <div class="col-12" *ngIf="!captured">
+        <div class="video-wrapper">
+          <video #video autoplay playsinline muted class="w-100" style="max-height: 360px; background:#000; border-radius: 6px;"></video>
+        </div>
+        <div class="mt-2 d-flex" style="gap: 8px;">
+          <p-button icon="pi pi-stop" label="Stop Camera" [text]="true" (onClick)="stopCamera()" [disabled]="!cameraActive"></p-button>
+          <p-button icon="pi pi-video" label="Start Camera" (onClick)="startCamera()" [disabled]="cameraActive"></p-button>
+          <p-button icon="pi pi-camera" label="Capture" severity="secondary" (onClick)="captureFrame()" [disabled]="!cameraActive"></p-button>
+        </div>
+      </div>
+
+      <div class="col-12" *ngIf="captured">
+        <canvas #canvas class="w-100"
+                style="max-height: 420px; border:1px solid #ccc; border-radius:6px; cursor: crosshair;"
+                (mousedown)="onCanvasMouseDown($event)" (mousemove)="onCanvasMouseMove($event)" (mouseup)="onCanvasMouseUp()"></canvas>
+        <div class="mt-2 d-flex" style="gap: 8px;">
+          <p-button icon="pi pi-refresh" label="Retake" (onClick)="retake()"></p-button>
+          <p-button icon="pi pi-crop" label="Crop Preview" [text]="true" (onClick)="previewCrop()" [disabled]="!hasCrop"></p-button>
+        </div>
+        <div class="mt-2" *ngIf="previewDataUrl">
+          <div class="mb-1"><small class="text-muted">Cropped Preview</small></div>
+          <img [src]="previewDataUrl" alt="Crop preview" class="img-fluid" style="max-height:200px; border-radius:6px; border:1px solid #eee;"/>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="d-flex justify-content-between w-100">
+      <div>
+        <small *ngIf="saveError" class="text-danger"><i class="pi pi-exclamation-triangle mr-1"></i>{{saveError}}</small>
+      </div>
+      <div class="d-flex" style="gap: 8px;">
+        <p-button label="Cancel" [text]="true" (onClick)="onHideDialog()"></p-button>
+        <p-button label="Save" icon="pi pi-save" [disabled]="!captured || saving" (onClick)="saveCroppedImage()"></p-button>
+      </div>
+    </div>
+  </ng-template>
+</p-dialog>
