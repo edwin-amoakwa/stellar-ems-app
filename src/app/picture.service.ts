@@ -6,7 +6,7 @@ import { ApiResponse } from './core/ApiResponse';
 import {environment} from "../environments/environment";
 
 @Injectable({ providedIn: 'root' })
-export class GeneralService {
+export class PictureService {
   private http = inject(HttpClient);
 
 
@@ -27,6 +27,11 @@ export class GeneralService {
     const url = `${environment.baseUrl}/pictures/${studentId}/post-to-device`;
     return await firstValueFrom(this.http.post<ApiResponse<any>>(url,{}));
   }
+
+    async classMembers(termClassId: string): Promise<ApiResponse<any>> {
+        const url = `${environment.baseUrl}/pictures/class-members/${termClassId}`;
+        return await firstValueFrom(this.http.get<ApiResponse<any>>(url,{}));
+    }
 
 
 }

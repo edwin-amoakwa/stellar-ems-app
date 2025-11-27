@@ -36,6 +36,7 @@ import { SliderModule } from 'primeng/slider';
 import { SplitButtonModule } from "primeng/splitbutton";
 import { TableModule } from 'primeng/table';
 import { TabsModule } from 'primeng/tabs';
+import { TabViewModule } from 'primeng/tabview';
 import { ChipModule } from 'primeng/chip';
 // import { TabViewModule } from 'primeng/tabview';
 import { DatePickerModule } from 'primeng/datepicker';
@@ -96,7 +97,7 @@ import {DropdownModule} from "primeng/dropdown";
     PopoverModule,
     DividerModule,
     DatePickerModule,
-    // TabViewModule,
+    TabViewModule,
     ToggleSwitchModule,
     SelectButton,
     TimelineModule,
@@ -167,7 +168,7 @@ import {DropdownModule} from "primeng/dropdown";
     InputMaskModule,
     EditorModule,
     DatePickerModule,
-    // TabViewModule,
+    TabViewModule,
     ToggleSwitchModule,
     SelectButton,
     ToolbarModule,

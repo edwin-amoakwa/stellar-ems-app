@@ -4,7 +4,8 @@ import { TermClassComponent } from "../components/term-class/term-class.componen
 import { StudentSearchComponent } from "../components/student-search/student-search.component";
 import { DeviceCaptureComponent } from "../components/device-capture/device-capture.component";
 import {TermClassService} from "../term-class.service";
-import {GeneralService} from "../general.service";
+import {PictureService} from "../picture.service";
+import {CollectionUtil} from "../core/system.utils";
 
 @Component({
   selector: 'app-class-members',
@@ -15,7 +16,7 @@ import {GeneralService} from "../general.service";
 })
 export class AttendanceRegistrationComponent implements OnInit {
   private termClassService = inject(TermClassService);
-  private generalService = inject(GeneralService);
+  private pictureService = inject(PictureService);
 
   selectedTermClass: any = null;
   selectedStudent: any = null;
@@ -23,8 +24,9 @@ export class AttendanceRegistrationComponent implements OnInit {
   isLoading = false;
   error: string | null = null;
 
-  // List of students already in the selected class
-  studentList: Array<{ id: string; referenceNo: string; fullname: string }> = [];
+  studentList: Array<any> = [];
+  // Search text for Picture View filter
+  pictureSearchText: string = '';
 
   // Dialog state
   showDialog = false;
@@ -41,7 +43,7 @@ export class AttendanceRegistrationComponent implements OnInit {
     this.isLoading = true;
 
     try {
-      const resp = await this.termClassService.getClassMembers(termClassId);
+      const resp = await this.pictureService.classMembers(termClassId);
       if (resp.success) {
         this.studentList = resp.data || [];
       }
@@ -52,7 +54,7 @@ export class AttendanceRegistrationComponent implements OnInit {
   }
 
   // ============ Attendance Registration Dialog ============
-  openRegistration(student: any) {
+  takePicture(student: any) {
     this.activeStudent = student;
     this.showDialog = true;
   }
@@ -62,7 +64,7 @@ export class AttendanceRegistrationComponent implements OnInit {
         this.isLoading = true;
 
         try {
-            const resp = await this.generalService.sendToDevice(data.studentId)
+            const resp = await this.pictureService.sendToDevice(data.studentId)
             if (resp.success) {
 
             }
@@ -72,9 +74,11 @@ export class AttendanceRegistrationComponent implements OnInit {
         }
     }
 
-  onCaptureSaved(evt: { studentId: string; imageBase64: string }) {
+  onCaptureSaved(evt) {
     // Potentially refresh or give additional feedback; dialog closes via two-way binding
-    console.log('Capture saved for student', evt?.studentId);
+    //   console.log()
+    console.log('Capture saved for student', evt);
+    CollectionUtil.add(this.studentList, evt);
   }
 
   selectTermClass(termClass: any) {
@@ -83,6 +87,34 @@ export class AttendanceRegistrationComponent implements OnInit {
     if (termClass?.id) {
       this.loadMembers(termClass.id);
     }
+  }
+
+  getStudentImageSrc(item: any): string {
+    const base64 = item?.pictureBase64 || item?.imageBase64 || null;
+    if (base64) {
+      const isDataUri = typeof base64 === 'string' && base64.trim().startsWith('data:');
+      return isDataUri ? base64 : `data:image/jpeg;base64,${base64}`;
+    }
+    // Inline SVG placeholder (neutral avatar)
+    return 'data:image/svg+xml;utf8,' + encodeURIComponent(`
+      <svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+        <rect width="100%" height="100%" fill="#e5e7eb"/>
+        <circle cx="200" cy="150" r="80" fill="#cbd5e1"/>
+        <rect x="80" y="250" width="240" height="90" rx="45" fill="#cbd5e1"/>
+      </svg>
+    `.trim());
+  }
+
+  // Filtered list for Picture View based on pictureSearchText
+  get pictureViewFiltered(): any[] {
+    const q = (this.pictureSearchText || '').toString().trim().toLowerCase();
+    if (!q) return this.studentList || [];
+    const fields = ['personName', 'studentName', 'fullname', 'referenceNo', 'studentId', 'id'];
+    return (this.studentList || []).filter((item: any) =>
+      fields.some(f =>
+        (item?.[f] ?? '').toString().toLowerCase().includes(q)
+      )
+    );
   }
 
 }

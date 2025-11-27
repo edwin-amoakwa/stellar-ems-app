@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, inject } from '@angular/core';
 import { CoreModule } from '../../core/core.module';
 import { MessageBox } from '../../message-helper';
-import {GeneralService} from "../../general.service";
+import {PictureService} from "../../picture.service";
 
 @Component({
   selector: 'app-device-capture',
@@ -11,7 +11,7 @@ import {GeneralService} from "../../general.service";
   styleUrls: ['./device-capture.component.scss']
 })
 export class DeviceCaptureComponent implements OnInit, OnDestroy {
-  private generalService = inject(GeneralService);
+  private generalService = inject(PictureService);
 
   @Input() visible = false;
   @Output() visibleChange = new EventEmitter<boolean>();
@@ -229,17 +229,21 @@ export class DeviceCaptureComponent implements OnInit, OnDestroy {
       }
 
       const pictureData:any = {};
-      pictureData.relatedEntityId = this.student.studentId;
+
+      pictureData.relatedEntityId = this.student.relatedEntityId;
       pictureData.relatedEntity = 'STUDENT';
       pictureData.pictureBase64 = base64;
       pictureData.pictureFormat = 'image/png';
 
-      console.log(pictureData);
+      // console.log(pictureData);
 
       const resp = await this.generalService.savePicture( pictureData);
+
+        pictureData.id = this.student.relatedEntityId;
+
       if (resp?.success) {
         MessageBox.success(resp?.message || 'Picture saved');
-        this.saved.emit({ studentId: this.student.id, imageBase64: base64 });
+        this.saved.emit(pictureData);
         this.onHideDialog();
       } else {
         this.saveError = resp?.message || 'Failed to save picture';
