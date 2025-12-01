@@ -64,7 +64,8 @@ export class AttendanceRegistrationComponent implements OnInit {
         this.isLoading = true;
 
         try {
-            const resp = await this.pictureService.sendToDevice(data.studentId)
+            // const resp = await this.pictureService.sendToDevice(data.studentId)
+            const resp = await this.pictureService.sendToDevice(data.id)
             if (resp.success) {
 
             }
