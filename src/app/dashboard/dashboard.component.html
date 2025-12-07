@@ -42,11 +42,11 @@
         <div class="stat-card card-purple">
           <div class="card-content">
             <div class="icon-container">
-              <i class="pi pi-wallet icon"></i>
+              <i class="pi pi-users icon"></i>
             </div>
             <div class="stat-info">
-              <div class="stat-number"> {{summary.creditBalance | currency}}</div>
-              <div class="stat-label">Credit Balance</div>
+              <div class="stat-number"> {{summary.totalStudent}}</div>
+              <div class="stat-label">Total Students</div>
             </div>
           </div>
         </div>
@@ -56,19 +56,17 @@
     </div>
 
 
-
-
   </div>
   <div class="col-xl-4 col-md-6">
 
     <div class="stat-card card-blue">
       <div class="card-content">
         <div class="icon-container">
-          <i class="pi pi-envelope icon"></i>
+          <i class="pi pi-align-center icon"></i>
         </div>
         <div class="stat-info">
-          <div class="stat-number"> {{summary.smsBalance | number}}</div>
-          <div class="stat-label">SMS Balance</div>
+          <div class="stat-number"> {{summary.totalClasses}}</div>
+          <div class="stat-label">Total Classes</div>
         </div>
       </div>
     </div>

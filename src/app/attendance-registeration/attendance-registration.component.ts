@@ -1,16 +1,16 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CoreModule } from '../core/core.module';
 import { TermClassComponent } from "../components/term-class/term-class.component";
-import { StudentSearchComponent } from "../components/student-search/student-search.component";
 import { DeviceCaptureComponent } from "../components/device-capture/device-capture.component";
 import {TermClassService} from "../term-class.service";
 import {PictureService} from "../picture.service";
 import {CollectionUtil} from "../core/system.utils";
+import {TabPanel, TabView} from "primeng/tabview";
 
 @Component({
   selector: 'app-class-members',
   standalone: true,
-  imports: [CoreModule, TermClassComponent, StudentSearchComponent, DeviceCaptureComponent],
+    imports: [CoreModule, TermClassComponent, DeviceCaptureComponent, TabPanel, TabView],
   templateUrl: './attendance-registration.component.html',
   styleUrls: ['./attendance-registration.component.scss']
 })
@@ -79,7 +79,11 @@ export class AttendanceRegistrationComponent implements OnInit {
     // Potentially refresh or give additional feedback; dialog closes via two-way binding
     //   console.log()
     console.log('Capture saved for student', evt);
-    CollectionUtil.add(this.studentList, evt);
+
+    let student = this.studentList.find(s => s.id === evt.id);
+    student.pictureBase64 = evt.pictureBase64;
+
+    CollectionUtil.add(this.studentList, student);
   }
 
   selectTermClass(termClass: any) {

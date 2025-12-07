@@ -26,6 +26,7 @@ export class DeviceCaptureComponent implements OnInit, OnDestroy {
   cameraActive = false;
   captured = false;
   private capturedImage?: HTMLImageElement;
+  facingMode: 'user' | 'environment' = 'environment'; // Default to back/main camera
 
   // Crop state
   private isDragging = false;
@@ -60,7 +61,7 @@ export class DeviceCaptureComponent implements OnInit, OnDestroy {
   async startCamera() {
     if (this.cameraActive) return;
     try {
-      const constraints: MediaStreamConstraints = { video: { facingMode: 'user' }, audio: false };
+      const constraints: MediaStreamConstraints = { video: { facingMode: this.facingMode }, audio: false };
       this.mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
       const video = this.videoRef?.nativeElement;
       if (video && this.mediaStream) {
@@ -72,6 +73,12 @@ export class DeviceCaptureComponent implements OnInit, OnDestroy {
       console.error('Camera start failed', e);
       this.saveError = 'Unable to access camera. Please grant permission or use a supported device.';
     }
+  }
+
+  async switchCamera() {
+    this.facingMode = this.facingMode === 'user' ? 'environment' : 'user';
+    this.stopCamera();
+    await this.startCamera();
   }
 
   stopCamera() {
@@ -126,8 +133,11 @@ export class DeviceCaptureComponent implements OnInit, OnDestroy {
     const canvas = this.canvasRef?.nativeElement;
     if (!canvas) return { x: 0, y: 0 } as const;
     const rect = canvas.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
+    // Scale mouse coordinates to match internal canvas dimensions
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const x = (event.clientX - rect.left) * scaleX;
+    const y = (event.clientY - rect.top) * scaleY;
     return { x, y } as const;
   }
 
@@ -168,9 +178,6 @@ export class DeviceCaptureComponent implements OnInit, OnDestroy {
       const w = Math.abs(this.currentX - this.startX);
       const h = Math.abs(this.currentY - this.startY);
       ctx.save();
-      ctx.fillStyle = 'rgba(0,0,0,0.3)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.clearRect(x, y, w, h);
       ctx.strokeStyle = '#00d1b2';
       ctx.lineWidth = 2;
       ctx.strokeRect(x, y, w, h);

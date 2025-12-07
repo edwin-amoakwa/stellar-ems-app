@@ -33,13 +33,13 @@ export class DashboardComponent implements OnInit {
       const response = await this.dashboardService.getSummary();
       this.summary = response.data;
 
-      const smsStatsResponse = await this.dashboardService.getSmsStats();
-      this.smsStats = smsStatsResponse.data;
-
-      this.totalSmsSent = (Object.values(this.smsStats) as number[]).reduce((sum, value) => sum + value, 0)
-
-      const latestSmsResponse = await this.dashboardService.getLatestSms();
-      this.latestSms = latestSmsResponse.data;
+      // const smsStatsResponse = await this.dashboardService.getSmsStats();
+      // this.smsStats = smsStatsResponse.data;
+      //
+      // this.totalSmsSent = (Object.values(this.smsStats) as number[]).reduce((sum, value) => sum + value, 0)
+      //
+      // const latestSmsResponse = await this.dashboardService.getLatestSms();
+      // this.latestSms = latestSmsResponse.data;
     } catch (error) {
       console.error('Error fetching dashboard summary:', error);
     }

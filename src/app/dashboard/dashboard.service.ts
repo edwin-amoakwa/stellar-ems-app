@@ -12,7 +12,7 @@ export class DashboardService {
   private apiUrl = `${environment.baseUrl}/dashboard`;
 
   async getSummary(): Promise<ApiResponse<any>> {
-    return await firstValueFrom(this.http.get<ApiResponse<any>>(`${this.apiUrl}/summary`));
+    return await firstValueFrom(this.http.get<ApiResponse<any>>(`${this.apiUrl}/main`));
   }
 
   async getSentSms(): Promise<ApiResponse<any>> {

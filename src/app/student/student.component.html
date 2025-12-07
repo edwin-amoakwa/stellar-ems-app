@@ -377,17 +377,17 @@
         <p-tab value="0" >Guardians</p-tab>
       </p-tablist>
       <p-tabpanels>
-        <p-tabpanel value="0" class="d-none">
+<!--        <p-tabpanel value="0" class="d-none">-->
 
-          <div  class="flex flex-column">
-            <div class="mb-2"><strong>Admission Date:</strong> {{ selectedStudent?.admissionDate | date }}</div>
-            <div class="mb-2"><strong>Class:</strong> {{ selectedStudent?.classLabel }}</div>
-            <div class="mb-2"><strong>Status:</strong> {{ selectedStudent?.statusLabel }}</div>
-            <div class="mb-2"><strong>Stream:</strong> {{ selectedStudent?.streamLabel }}</div>
-            <div class="mb-2"><strong>House:</strong> {{ selectedStudent?.houseLabel }}</div>
-          </div>
-        </p-tabpanel>
-        <p-tabpanel value="0">
+<!--          <div  class="flex flex-column">-->
+<!--            <div class="mb-2"><strong>Admission Date:</strong> {{ selectedStudent?.admissionDate | date }}</div>-->
+<!--            <div class="mb-2"><strong>Class:</strong> {{ selectedStudent?.classLabel }}</div>-->
+<!--            <div class="mb-2"><strong>Status:</strong> {{ selectedStudent?.statusLabel }}</div>-->
+<!--            <div class="mb-2"><strong>Stream:</strong> {{ selectedStudent?.streamLabel }}</div>-->
+<!--            <div class="mb-2"><strong>House:</strong> {{ selectedStudent?.houseLabel }}</div>-->
+<!--          </div>-->
+<!--        </p-tabpanel>-->
+        <p-tabpanel value="2">
           <app-student-guardian [student]="selectedStudent"></app-student-guardian>
         </p-tabpanel>
       </p-tabpanels>

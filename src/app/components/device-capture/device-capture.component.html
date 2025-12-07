@@ -17,8 +17,7 @@
           <video #video autoplay playsinline muted class="w-100" style="max-height: 360px; background:#000; border-radius: 6px;"></video>
         </div>
         <div class="mt-2 d-flex" style="gap: 8px;">
-          <p-button icon="pi pi-stop" label="Stop Camera" [text]="true" (onClick)="stopCamera()" [disabled]="!cameraActive"></p-button>
-          <p-button icon="pi pi-video" label="Start Camera" (onClick)="startCamera()" [disabled]="cameraActive"></p-button>
+          <p-button icon="pi pi-sync" label="Switch Camera" [text]="true" (onClick)="switchCamera()" [disabled]="!cameraActive"></p-button>
           <p-button icon="pi pi-camera" label="Capture" severity="secondary" (onClick)="captureFrame()" [disabled]="!cameraActive"></p-button>
         </div>
       </div>
