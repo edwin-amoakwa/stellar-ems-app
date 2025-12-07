@@ -35,12 +35,18 @@
                 </div>
 
                 <!-- Table -->
-                <p-table #dt *ngIf="!isLoading && !error" [value]="studentList" [paginator]="true" [rows]="10" styleClass="p-datatable-sm" [globalFilterFields]="['referenceNo','fullname']">
+                <p-table #dt *ngIf="!isLoading && !error" [value]="studentList"
+                         [paginator]="true" [rows]="10" styleClass="p-datatable-sm"
+                         [globalFilterFields]="['referenceNo','fullname']">
                     <ng-template pTemplate="caption">
-                        <div class="p-input-icon-left" style="width: 100%; max-width: 320px;">
-                            <i class="pi pi-search"></i>
+                        <p-iconfield iconPosition="left" class="ml-auto">
+                            <p-inputicon>
+                                <i class="pi pi-search"></i>
+                            </p-inputicon>
+
                             <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Search members..." class="w-100"/>
-                        </div>
+                        </p-iconfield>
+
                     </ng-template>
                     <ng-template pTemplate="header">
                         <tr>

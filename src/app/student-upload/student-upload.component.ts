@@ -43,20 +43,15 @@ export class StudentUploadComponent implements OnInit {
 
     onFileChange(event) {
         const reader = new FileReader();
-
         if (event.target.files && event.target.files.length)
         {
             const [file] = event.target.files;
             if (file) {
                 reader.readAsDataURL(file);
             }
-
             reader.onload = () => {
-                // //console.log("reader.result == ",reader.result);
                 this.fileString = reader.result;
             };
-
-            //console.log("file.name == ", file.name);
             this.fileName = file.name;
         }
     }
