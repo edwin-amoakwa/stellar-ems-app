@@ -33,4 +33,10 @@ export class GuardianService {
       this.http.get<ApiResponse<any[]>>(`${this.apiUrl}/${guardianId}/students`)
     );
   }
+
+  async addStudent(payload): Promise<ApiResponse<any>> {
+    return await firstValueFrom(
+      this.http.post<ApiResponse<any>>(`${this.apiUrl}/add-student`, payload)
+    );
+  }
 }

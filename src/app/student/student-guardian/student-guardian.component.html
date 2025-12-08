@@ -1,6 +1,7 @@
 <div class="student-guardian">
   <button-toolbar>
-    <p-button label="Add Guardian" icon="pi pi-user-plus" (onClick)="openAddGuardian()"></p-button>
+    <p-button label="Add From Guardian Database" icon="pi pi-user-plus" (onClick)="openAddGuardian()"></p-button>
+    <p-button label="Add New Guardian" icon="pi pi-user" styleClass="ml-2" (onClick)="openCreateGuardian()"></p-button>
   </button-toolbar>
 
   <app-card>
@@ -13,7 +14,6 @@
     <p-table *ngIf="!loading" [value]="guardiansList" [paginator]="true" [rows]="10" styleClass="p-datatable-sm p-datatable-gridlines">
       <ng-template pTemplate="header">
         <tr>
-          <th>Title</th>
           <th>Guardian Name</th>
           <th>Relationship</th>
           <th>Mobile No</th>
@@ -24,12 +24,12 @@
 
       <ng-template pTemplate="body" let-item>
         <tr>
-          <td>{{ item.titleLabel }}</td>
           <td>{{ item.guardianName }}</td>
           <td>{{ item.relationshipLabel }}</td>
           <td>{{ item.mobileNo }}</td>
           <td>{{ item.emailAddress }}</td>
           <td class="text-center">
+            <p-button icon="pi pi-pencil" styleClass="p-button-rounded p-button-text p-button-info mr-1" pTooltip="Edit" (onClick)="openEditGuardian(item)"></p-button>
             <p-button icon="pi pi-key" styleClass="p-button-rounded p-button-text p-button-warning" pTooltip="Set Password" (onClick)="onSetPassword(item)"></p-button>
           </td>
         </tr>
@@ -50,11 +50,117 @@
         </div>
         <div class="col-6">
 
+            <div *ngIf="selectedGuardian" id="selectedGuardianDetails">
+                <div class="mb-3">
+                    <strong>Guardian Name:</strong> {{ selectedGuardian.guardianName }}
+                    <br />
+                    <strong>Mobile No:</strong> {{ selectedGuardian.mobileNo }}
+                </div>
+
+                <div class="mb-3">
+                  <label for="rel_select" class="form-label">Relationship</label>
+                  <p-dropdown id="rel_select"
+                              [(ngModel)]="selectedRelationship"
+                              [options]="relations"
+                              optionLabel="itemName"
+                              optionValue="id"
+                              placeholder="Select relationship"
+                              class="w-100"></p-dropdown>
+                </div>
+
+                <div class="mt-2">
+                  <p-button
+                    label="Add Selected Guardian to {{student?.fullname}}"
+                    icon="pi pi-user-plus"
+                    [disabled]="!selectedRelationship"
+                    (onClick)="addSelectedGuardianToStudent()"></p-button>
+                </div>
+            </div>
 
         </div>
     </div>
     <ng-template pTemplate="footer">
       <p-button label="Close" icon="pi pi-times" (onClick)="closeAddGuardian()" styleClass="p-button-text"></p-button>
+    </ng-template>
+  </p-dialog>
+
+  <!-- Create New Guardian Dialog -->
+  <p-dialog header="Add New Guardian" [(visible)]="showCreateGuardian" [modal]="true" [style]="{ width: '600px' }" (onHide)="closeCreateGuardian()">
+    <form [formGroup]="guardianForm" class="p-fluid">
+      <div class="row">
+        <div class="col-12 mb-3">
+          <label for="guardianName" class="form-label">Guardian Name</label>
+          <input id="guardianName" type="text" pInputText formControlName="guardianName" class="w-100"/>
+        </div>
+
+        <div class="col-6 mb-3">
+          <label for="mobileNo" class="form-label">Mobile No</label>
+          <input id="mobileNo" type="text" pInputText formControlName="mobileNo" class="w-100"/>
+        </div>
+        <div class="col-6 mb-3">
+          <label for="emailAddress" class="form-label">Email Address</label>
+          <input id="emailAddress" type="email" pInputText formControlName="emailAddress" />
+        </div>
+
+        <div class="col-6 mb-3">
+          <label for="gender" class="form-label">Gender</label>
+          <p-dropdown id="gender" formControlName="gender" [options]="genders" optionLabel="itemName" optionValue="id" placeholder="Select gender" class="w-100"></p-dropdown>
+        </div>
+
+        <div class="col-6 mb-3">
+          <label for="relationship" class="form-label">Relationship</label>
+          <p-dropdown id="relationship" formControlName="relationship" [options]="relations" optionLabel="itemName" optionValue="id" placeholder="Select relationship" class="w-100"></p-dropdown>
+        </div>
+
+        <div class="col-12 mb-3">
+          <label for="postalAddress" class="form-label">Postal Address</label>
+          <textarea id="postalAddress" pTextarea rows="3" formControlName="postalAddress" class="w-100"></textarea>
+        </div>
+      </div>
+    </form>
+    <ng-template pTemplate="footer">
+      <p-button label="Cancel" icon="pi pi-times" (onClick)="closeCreateGuardian()" styleClass="p-button-text"></p-button>
+      <p-button label="Save" icon="pi pi-check" (onClick)="saveNewGuardian()" [disabled]="guardianForm.invalid"></p-button>
+    </ng-template>
+  </p-dialog>
+
+  <!-- Edit Guardian Dialog -->
+  <p-dialog header="Edit Guardian" [(visible)]="showEditGuardian" [modal]="true" [style]="{ width: '600px' }" (onHide)="closeEditGuardian()">
+    <form [formGroup]="guardianForm" class="p-fluid">
+      <div class="row">
+        <div class="col-12 mb-3">
+          <label for="edit_guardianName" class="form-label">Guardian Name</label>
+          <input id="edit_guardianName" type="text" pInputText formControlName="guardianName" class="w-100"/>
+        </div>
+
+        <div class="col-6 mb-3">
+          <label for="edit_mobileNo" class="form-label">Mobile No</label>
+          <input id="edit_mobileNo" type="text" pInputText formControlName="mobileNo" class="w-100"/>
+        </div>
+        <div class="col-6 mb-3">
+          <label for="edit_emailAddress" class="form-label">Email Address</label>
+          <input id="edit_emailAddress" type="email" pInputText formControlName="emailAddress" />
+        </div>
+
+        <div class="col-6 mb-3">
+          <label for="edit_gender" class="form-label">Gender</label>
+          <p-dropdown id="edit_gender" formControlName="gender" [options]="genders" optionLabel="itemName" optionValue="id" placeholder="Select gender" class="w-100"></p-dropdown>
+        </div>
+
+        <div class="col-6 mb-3">
+          <label for="edit_relationship" class="form-label">Relationship</label>
+          <p-dropdown id="edit_relationship" formControlName="relationship" [options]="relations" optionLabel="itemName" optionValue="id" placeholder="Select relationship" class="w-100"></p-dropdown>
+        </div>
+
+        <div class="col-12 mb-3">
+          <label for="edit_postalAddress" class="form-label">Postal Address</label>
+          <textarea id="edit_postalAddress" pTextarea rows="3" formControlName="postalAddress" class="w-100"></textarea>
+        </div>
+      </div>
+    </form>
+    <ng-template pTemplate="footer">
+      <p-button label="Cancel" icon="pi pi-times" (onClick)="closeEditGuardian()" styleClass="p-button-text"></p-button>
+      <p-button label="Update" icon="pi pi-check" (onClick)="saveEditedGuardian()" [disabled]="guardianForm.invalid"></p-button>
     </ng-template>
   </p-dialog>
 </div>

@@ -69,17 +69,11 @@ export class StaticDataService {
   }
 
 
-  public static smsFinalStatus(): any[] {
+  public static relationsList(): any[] {
     return [
-      { id: 'PENDING', itemName: 'Pending' },
-      { id: 'QUEUED', itemName: 'Queued' },
-      { id: 'CANCELLED', itemName: 'Cancelled' },
-      { id: 'EXPIRED', itemName: 'Expired' },
-      { id: 'FAILED', itemName: 'Failed' },
-      { id: 'SENT', itemName: 'Sent' },
-      { id: 'DELIVERED', itemName: 'Delivered' },
-      { id: 'REJECTED', itemName: 'Rejected' },
-      { id: 'SENT_CONFIRMED', itemName: 'Sent Confirmed' },
+      { id: 'FATHER', itemName: 'Father' },
+      { id: 'MOTHER', itemName: 'Mother' },
+      { id: 'FAMILY_MEMBER', itemName: 'Family Member' },
     ];
   }
 

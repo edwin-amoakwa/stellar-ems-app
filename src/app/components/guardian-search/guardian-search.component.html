@@ -59,7 +59,7 @@
       [paginator]="true"
       [rows]="10"
       [rowsPerPageOptions]="[10,20,50]"
-      [globalFilterFields]="['mobileNo','fullname']"
+      [globalFilterFields]="['mobileNo','guardianName']"
       styleClass="p-datatable-sm clickable-table"
     >
       <ng-template pTemplate="header">
@@ -68,16 +68,16 @@
             Mobile No
             <p-sortIcon field="mobileNo"></p-sortIcon>
           </th>
-          <th pSortableColumn="fullname">
+          <th pSortableColumn="guardianName">
             Name
-            <p-sortIcon field="fullname"></p-sortIcon>
+            <p-sortIcon field="guardianName"></p-sortIcon>
           </th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-item>
         <tr class="clickable-row" (click)="onRowClick(item)">
           <td>{{ item.mobileNo }}</td>
-          <td>{{ item.fullname }}</td>
+          <td>{{ item.guardianName }}</td>
         </tr>
       </ng-template>
       <ng-template pTemplate="emptymessage">
