@@ -25,7 +25,7 @@ this.chartOptions = {}
   }
 
   ngOnInit() {
-    this.loadChartData();
+    // this.loadChartData();
   }
 
   async loadChartData() {

@@ -27,7 +27,7 @@ export class SentSmsChartComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.loadChartData();
+    // this.loadChartData();
   }
 
   async loadChartData() {
