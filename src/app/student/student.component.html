@@ -22,7 +22,7 @@
                  [showCurrentPageReport]="true"
                  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                  [rowsPerPageOptions]="[10, 25, 50]"
-                 [globalFilterFields]="['referenceNo', 'firstName', 'surname', 'mobileNo']"
+                 [globalFilterFields]="['referenceNo', 'externalId', 'firstName', 'surname', 'mobileNo']"
                  styleClass="p-datatable-gridlines">
 
             <ng-template #caption>
@@ -42,6 +42,7 @@
                 <tr>
                     <!--        <th>SystemId</th>-->
                     <th>Student No</th>
+                    <th>External ID</th>
                     <th>First Name</th>
                     <th>Surname</th>
                     <th>Date of Birth</th>
@@ -52,6 +53,7 @@
             <ng-template pTemplate="body" let-student>
                 <tr>
                     <td>{{ student.referenceNo }}</td>
+                    <td>{{ student.externalId }}</td>
                     <td>{{ student.firstName }}</td>
                     <td>{{ student.surname }}</td>
                     <td>{{ student.dateOfBirth | date}}</td>
@@ -98,7 +100,7 @@
 
 
         <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
-            <!-- Row 1: Username + Reference No -->
+            <!-- Row 1: External ID + Reference No -->
             <div class="row">
                 <!--      <div class="col-12 col-md-6 mb-3">-->
                 <!--        <div class="row">-->
@@ -110,6 +112,7 @@
                 <!--          </div>-->
                 <!--        </div>-->
                 <!--      </div>-->
+
                 <div class="col-12 col-md-6 mb-3">
                     <div class="row">
                         <div class="col-12 col-sm-4">
@@ -297,6 +300,17 @@
                         </div>
                         <div class="col-12 col-md-10 col-lg-10 col-xl-10">
                             <textarea id="residentialAddress" pTextarea formControlName="residentialAddress" class="w-full" rows="2"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6 mb-3">
+                    <div class="row">
+                        <div class="col-12 col-sm-4">
+                            <label for="externalId">External ID</label>
+                        </div>
+                        <div class="col-12 col-sm-8">
+                            <input pInputText id="externalId" formControlName="externalId" class="w-full" />
                         </div>
                     </div>
                 </div>

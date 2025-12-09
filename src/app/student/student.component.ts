@@ -62,8 +62,8 @@ export class StudentComponent implements OnInit {
   initializeForm() {
     this.studentForm = this.fb.group({
       id: [null],
-      systemId: [''],
       username: [''],
+      externalId: [''],
       referenceNo: [''],
       dateOfBirth: [null],
       gender: [''],
