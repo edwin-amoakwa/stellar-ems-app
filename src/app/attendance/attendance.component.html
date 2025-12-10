@@ -129,7 +129,7 @@
                                 </td>
                                 <td>
                                     <ng-container *ngIf="editingId !== (item.id ?? item.attendeeId); else editInTpl">
-                                        {{ item.clockInTime | date:'shortTime' }}
+                                        {{ item.inTime }}
                                     </ng-container>
                                     <ng-template #editInTpl>
                                         <input type="time" [(ngModel)]="editModel.clockInTime" />
@@ -137,7 +137,7 @@
                                 </td>
                                 <td>
                                     <ng-container *ngIf="editingId !== (item.id ?? item.attendeeId); else editOutTpl">
-                                        {{ item.clockOutTime | date:'shortTime' }}
+                                        {{ item.outTime  }}
                                     </ng-container>
                                     <ng-template #editOutTpl>
                                         <input type="time" [(ngModel)]="editModel.clockOutTime" />
