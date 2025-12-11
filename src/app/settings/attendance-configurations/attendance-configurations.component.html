@@ -1,0 +1,47 @@
+<h1 class="page-title">Attendance Configurations</h1>
+
+<div class="ns-page">
+  <app-card title="Configuration" subtitle="Configure attendance behaviour">
+    <div class="card-body">
+      <div class="alert alert-danger" *ngIf="error">{{ error }}</div>
+      <div class="alert alert-success" *ngIf="success">{{ success }}</div>
+
+      <form [formGroup]="form" (ngSubmit)="save()" class="ns-form">
+        <div class="row mb-3 align-items-center">
+          <div class="col-md-4">
+            <label class="form-label mb-0" for="clockOutTimeAfter">Clock-out time after</label>
+            <small class="text-muted d-block">Time after which a checkout is considered clock-out</small>
+          </div>
+          <div class="col-md-8">
+            <input id="clockOutTimeAfter" type="time" pInputText formControlName="clockOutTimeAfter" />
+          </div>
+        </div>
+
+        <div class="row mb-3 align-items-center">
+          <div class="col-md-4">
+            <label class="form-label mb-0" for="firstCheckoutAsFinalCheckout">First checkout as final</label>
+            <small class="text-muted d-block">Treat the first checkout as the final checkout for the day</small>
+          </div>
+          <div class="col-md-8 d-flex align-items-center">
+            <p-inputSwitch inputId="firstCheckoutAsFinalCheckout" formControlName="firstCheckoutAsFinalCheckout"></p-inputSwitch>
+          </div>
+        </div>
+
+        <div class="row mb-3 align-items-center">
+          <div class="col-md-4">
+            <label class="form-label mb-0" for="sendAlertToGuardians">Send alert to guardians</label>
+            <small class="text-muted d-block">Notify guardians when relevant attendance events occur</small>
+          </div>
+          <div class="col-md-8 d-flex align-items-center">
+            <p-inputSwitch inputId="sendAlertToGuardians" formControlName="sendAlertToGuardians"></p-inputSwitch>
+          </div>
+        </div>
+
+        <div class="flex justify-content-end gap-2">
+          <button pButton type="button" label="Reload" class="p-button-text" (click)="load()" [disabled]="isLoading"></button>
+          <button pButton type="submit" label="Save" icon="pi pi-check" class="p-button-primary" [disabled]="isLoading"></button>
+        </div>
+      </form>
+    </div>
+  </app-card>
+</div>

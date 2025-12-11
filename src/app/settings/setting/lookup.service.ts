@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 import { findWhere } from "underscore";
-import { environment } from '../../environments/environment';
-import { ApiResponse } from '../core/ApiResponse';
-import {StaticDataService} from "../static-data.service";
+import { environment } from '../../../environments/environment';
+import { ApiResponse } from '../../core/ApiResponse';
+import {StaticDataService} from "../../static-data.service";
 
 ;
 

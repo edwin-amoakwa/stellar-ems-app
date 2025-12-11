@@ -1,0 +1,71 @@
+<h1 class="page-title">Attendance</h1>
+
+
+<div class="row">
+    <div class="col-lg-2">
+        <app-card title="Classes" subtitle="Term Classes">
+            <app-term-class (termClassSelected)="selectTermClass($event)" ></app-term-class>
+        </app-card>
+    </div>
+
+    <div class="col-lg-10">
+        <app-card title="Attendance List - {{selectedTermClass?.schoolClassName}}" subtitle="Attendance History of the selected class">
+            <div class="card-body">
+                <!-- Loading State -->
+                <div class="loading" *ngIf="isLoading">
+                    <p-progressSpinner styleClass="w-2rem h-2rem"></p-progressSpinner>
+                    <span class="ml-2">Loading...</span>
+                </div>
+
+                <!-- Error State -->
+                <div *ngIf="!isLoading && error" class="error">
+                    <i class="pi pi-exclamation-triangle mr-2"></i>
+                    {{ error }}
+                </div>
+
+                <div *ngIf="formView.listView">
+
+                    <p-table [value]="attendancesList" [paginator]="true" [rows]="10" styleClass="p-datatable-sm">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Date</th>
+                                <th>Name</th>
+                                <th style="width: 6rem;">Action</th>
+                                <th style="width: 6rem;">Delete</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item>
+                            <tr>
+                                <td>{{ item.valueDate | date }}</td>
+                                <td>{{ item.attendanceName }}</td>
+                                <td>
+                                    <button pButton type="button" icon="pi pi-eye" label="View" class="p-button-text p-button-sm" (click)="selectAttendance(item)"></button>
+                                </td>
+                                <td>
+                                    <button pButton type="button" icon="pi pi-trash" label="Delete"
+                                            class="p-button-text p-button-danger p-button-sm"
+                                            [disabled]="isLoading || deletingId === item.id"
+                                            [loading]="deletingId === item.id"
+                                            (click)="deleteAttendance(item)"></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="4" class="text-center">No attendance records found</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+
+                </div>
+
+                <app-attendance-detail *ngIf="formView.detailView"
+                                         [attendance]="selectedAttendance"
+                                         (close)="formView.resetToListView()"></app-attendance-detail>
+
+
+            </div>
+        </app-card>
+    </div>
+</div>
+

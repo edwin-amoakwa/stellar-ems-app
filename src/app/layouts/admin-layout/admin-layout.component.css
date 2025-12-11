@@ -148,6 +148,31 @@
 .menu-item:hover { background: rgba(255,255,255,0.06); }
 .menu-item.active { background: rgba(34, 211, 238, 0.16); color: #e7faff; }
 
+/* Collapsible menu groups */
+.menu-group { margin-top: 0.25rem; }
+.menu-group-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: var(--sidebar-text);
+  padding: 0.65rem 0.8rem;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.menu-group-header:hover { background: rgba(255,255,255,0.06); }
+.menu-group-header .group-title { font-weight: 600; }
+.menu-group-header .chevron { margin-left: auto; }
+.menu-group-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-top: 0.25rem;
+}
+.menu-group .menu-item { padding-left: 2.2rem; }
+
 .overlay {
   position: fixed;
   inset: 0;

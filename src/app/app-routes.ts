@@ -21,16 +21,18 @@ import {PlainComponent} from './layouts/plain/plain.component';
 import {TestComponent} from './test/test.component';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import {StudentComponent} from "./student/student.component";
-import {SettingComponent} from "./setting/setting.component";
-import {AppRouteNames} from "./setting/lookup.service";
-import {GenericLookupComponent} from "./setting/generic-lookup/generic-lookup.component";
+import {SettingComponent} from "./settings/setting/setting.component";
+import {AppRouteNames} from "./settings/setting/lookup.service";
+import {GenericLookupComponent} from "./settings/setting/generic-lookup/generic-lookup.component";
 import {AttendanceDeviceComponent} from "./attendance-device/attendance-device.component";
 import { ClassMembersComponent } from './class-members/class-members.component';
-import {AttendanceComponent} from "./attendance/attendance.component";
+import {ClassAttendanceHistoryComponent} from "./attendance/class-attendance-history/class-attendance-history.component";
 import { GuardianComponent } from './guardian/guardian.component';
-import { SchoolConfigComponent } from './school-config/school-config.component';
+import { SchoolConfigComponent } from './settings/school-config/school-config.component';
 import { StudentUploadComponent } from './student-upload/student-upload.component';
 import {AttendanceRegistrationComponent} from "./attendance-registeration/attendance-registration.component";
+import {ClassDailyAttendanceComponent} from "./attendance/daily-attendance/class-daily-attendance.component";
+
 
 export const routes: Routes = [
   {
@@ -45,7 +47,8 @@ export const routes: Routes = [
         { path: 'students', component: StudentComponent },
         { path: 'guardians', component: GuardianComponent },
         { path: 'class-members', component: ClassMembersComponent },
-        { path: 'attendance', component: AttendanceComponent },
+        { path: 'daily-attendance', component: ClassDailyAttendanceComponent },
+        { path: 'attendance', component: ClassAttendanceHistoryComponent },
         { path: 'attendance-devices', component: AttendanceDeviceComponent },
         { path: 'attendance-registration', component: AttendanceRegistrationComponent },
         { path: 'buy-credit', component: BuyCreditComponent },
@@ -62,6 +65,9 @@ export const routes: Routes = [
       { path: 'notification-settings', loadComponent: () => import('./notification-settings/notification-settings.component').then(m => m.NotificationSettingsComponent) },
       { path: 'school-config', component: SchoolConfigComponent },
       { path: 'student-upload', component: StudentUploadComponent },
+      { path: 'attendance-configurations', loadComponent: () => import('./settings/attendance-configurations/attendance-configurations.component').then(m => m.AttendanceConfigurationsComponent) },
+      // alias route requested for menu: 
+      { path: 'attendance-config', loadComponent: () => import('./settings/attendance-configurations/attendance-configurations.component').then(m => m.AttendanceConfigurationsComponent) },
 
         {
             path: AppRouteNames.Settings,

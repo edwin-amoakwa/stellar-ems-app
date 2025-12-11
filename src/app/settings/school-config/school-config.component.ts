@@ -2,8 +2,8 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { CoreModule } from '../core/core.module';
-import { environment } from '../../environments/environment';
+import { CoreModule } from '../../core/core.module';
+import { environment } from '../../../environments/environment';
 
 interface AcademicTermDto {
   id: string;

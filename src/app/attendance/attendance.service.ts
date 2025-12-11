@@ -11,6 +11,12 @@ export class AttendanceService {
   private http = inject(HttpClient);
   private apiUrl = `${environment.baseUrl}/attendances`;
 
+
+  async getDailyAttendance(param): Promise<ApiResponse<any[]>> {
+    const urlParams = HttpUtils.toUrlParam(param);
+    return await firstValueFrom(this.http.get<ApiResponse<any[]>>(`${this.apiUrl}/daily/attendance?${urlParams}`));
+  }
+
   async getAttendances(param): Promise<ApiResponse<any[]>> {
       const urlParams = HttpUtils.toUrlParam(param);
     return await firstValueFrom(this.http.get<ApiResponse<any[]>>(`${this.apiUrl}?${urlParams}`));
@@ -36,5 +42,23 @@ export class AttendanceService {
   async initAttendance(payload: any): Promise<ApiResponse<any>> {
     const url = `${this.apiUrl}/init`;
     return await firstValueFrom(this.http.post<ApiResponse<any>>(url, payload));
+  }
+
+  // Delete an attendance record
+  async deleteAttendance(id: number | string): Promise<ApiResponse<any>> {
+    const url = `${this.apiUrl}/${id}`;
+    return await firstValueFrom(this.http.delete<ApiResponse<any>>(url));
+  }
+
+
+  private config = `${environment.baseUrl}/attendance-config`;
+
+  async getConfig(): Promise<ApiResponse<any>> {
+    return await firstValueFrom(this.http.get<ApiResponse<any>>(this.apiUrl));
+  }
+
+  async saveConfig(payload: any): Promise<ApiResponse<any>> {
+    // Single resource configuration; use PUT to upsert/update
+    return await firstValueFrom(this.http.put<ApiResponse<any>>(this.config, payload));
   }
 }

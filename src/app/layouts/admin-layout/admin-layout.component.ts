@@ -17,6 +17,8 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
   theme: 'light' | 'dark' = 'light';
   showUserMenu = false;
   user:any
+  // collapsible menu groups expansion state
+  expandedGroups: Record<string, boolean> = { settings: true };
 
     termDetails = UserSession.getAcademicTerm();
 
@@ -50,6 +52,17 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
 
 
     this.user.avatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(this.user.accountName)}&background=6ee7ff&color=0b1020&size=64`
+
+    // load menu groups expansion state
+    try {
+      const saved = localStorage.getItem('menuGroupsExpanded');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed && typeof parsed === 'object') {
+          this.expandedGroups = { ...this.expandedGroups, ...parsed };
+        }
+      }
+    } catch {}
 
 
 
@@ -85,6 +98,17 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
   toggleSidebar(): void {
     this.sidebarOpen = !this.sidebarOpen;
     localStorage.setItem('sidebarOpen', String(this.sidebarOpen));
+  }
+
+  toggleGroup(name: string): void {
+    this.expandedGroups[name] = !this.expandedGroups[name];
+    try {
+      localStorage.setItem('menuGroupsExpanded', JSON.stringify(this.expandedGroups));
+    } catch {}
+  }
+
+  isGroupExpanded(name: string): boolean {
+    return !!this.expandedGroups[name];
   }
 
   closeSidebar(): void {

@@ -27,9 +27,24 @@ export class TermClassService {
   private readonly cacheKey = 'termClassesData';
   private readonly cacheTtlMs = 10 * 60 * 1000; // 10 minutes
 
-  async fetchTermClasses(schoolId: string, academicTermId: string): Promise<ApiResponse<TermClass[]>> {
+
+
+  async getCurrentClassesList(): Promise<TermClass[]> {
+    const cached = this.getCached();
+    if (cached) return cached;
+    const termClasses = await this.fetchTermClasses(this.getAcademicTermId()!);
+    if (termClasses.success) {
+      this.setCache(termClasses.data);
+    }
+    return termClasses.data;
+  }
+
+  async fetchTermClasses(academicTermId: string): Promise<ApiResponse<TermClass[]>> {
     try {
-      const params = new HttpParams().set('schoolId', schoolId).set('academicTermId', academicTermId);
+      const params = new HttpParams()
+          .set('academicTermId', academicTermId);
+
+
       const obs = this.http.get<ApiResponse<TermClass[]>>(this.apiUrl, { params });
       const resp = await firstValueFrom(obs);
       return resp;

@@ -52,7 +52,7 @@ export class TermClassComponent implements OnInit {
         }
       }
 
-      const resp = await this.service.fetchTermClasses(schoolId, academicTermId);
+      const resp = await this.service.fetchTermClasses(academicTermId);
       if (resp?.success) {
         const data = resp.data ?? [];
         this.items = data;

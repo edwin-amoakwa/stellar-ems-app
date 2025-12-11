@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { findWhere, where } from "underscore";
-import { CoreModule } from "../../core/core.module";
+import { CoreModule } from "../../../core/core.module";
 import {AppRouteNames, InputType, LookUpField, LookUpModel, LookUps, LookupService} from '../lookup.service';
-import {MessageBox} from "../../message-helper";
+import {MessageBox} from "../../../message-helper";
 
 @Component({
     selector: 'app-generic-lookup',

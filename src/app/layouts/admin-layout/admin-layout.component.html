@@ -40,6 +40,10 @@
         <span>Attendance Registration</span>
       </a>
 
+        <a class="menu-item" *ngIf="allow('/daily-attendance')" routerLink="/daily-attendance" routerLinkActive="active">
+            <i class="pi pi-briefcase" aria-hidden="true"></i>
+            <span>Daily Attendance</span>
+        </a>
 
         <a class="menu-item" *ngIf="allow('/attendance')" routerLink="/attendance" routerLinkActive="active">
         <i class="pi pi-briefcase" aria-hidden="true"></i>
@@ -51,10 +55,6 @@
         <span>Attendance Devices</span>
       </a>
 
-        <a class="menu-item" *ngIf="allow('/settings')" routerLink="/settings" routerLinkActive="active">
-            <i class="pi pi-briefcase" aria-hidden="true"></i>
-            <span>Settings</span>
-        </a>
 
 <!--        <a class="menu-item" *ngIf="allow('/classes')" routerLink="/classes" routerLinkActive="active">-->
 <!--        <i class="pi pi-briefcase" aria-hidden="true"></i>-->
@@ -88,15 +88,34 @@
         <span>Student Upload</span>
       </a>
 
-      <a class="menu-item" *ngIf="allow('/notification-settings')" routerLink="/notification-settings" routerLinkActive="active">
-        <i class="pi pi-bell" aria-hidden="true"></i>
-        <span>Notification Settings</span>
-      </a>
 
-      <a class="menu-item" *ngIf="allow('/school-config')" routerLink="/school-config" routerLinkActive="active">
-        <i class="pi pi-cog" aria-hidden="true"></i>
-        <span>School Config</span>
-      </a>
+      
+      <!-- Settings & Config group (collapsible) -->
+      <div class="menu-group" [class.expanded]="isGroupExpanded('settings')">
+        <button type="button" class="menu-group-header" (click)="toggleGroup('settings')">
+          <i class="pi pi-sliders-h" aria-hidden="true"></i>
+          <span class="group-title">Settings & Config</span>
+          <i class="pi chevron" [ngClass]="isGroupExpanded('settings') ? 'pi-chevron-down' : 'pi-chevron-right'" aria-hidden="true"></i>
+        </button>
+        <div class="menu-group-items" *ngIf="isGroupExpanded('settings')">
+          <a class="menu-item" *ngIf="allow('/settings')" routerLink="/settings" routerLinkActive="active">
+            <i class="pi pi-briefcase" aria-hidden="true"></i>
+            <span>Settings</span>
+          </a>
+          <a class="menu-item" *ngIf="allow('/school-config')" routerLink="/school-config" routerLinkActive="active">
+            <i class="pi pi-cog" aria-hidden="true"></i>
+            <span>School Config</span>
+          </a>
+          <a class="menu-item" *ngIf="allow('/attendance-config')" routerLink="/attendance-config" routerLinkActive="active">
+            <i class="pi pi-clock" aria-hidden="true"></i>
+            <span>Attendance Config</span>
+          </a>
+          <a class="menu-item" *ngIf="allow('/notification-settings')" routerLink="/notification-settings" routerLinkActive="active">
+            <i class="pi pi-bell" aria-hidden="true"></i>
+            <span>Notification Settings</span>
+          </a>
+        </div>
+      </div>
 
     </nav>
 
