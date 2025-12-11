@@ -54,7 +54,7 @@ export class AttendanceService {
   private config = `${environment.baseUrl}/attendance-config`;
 
   async getConfig(): Promise<ApiResponse<any>> {
-    return await firstValueFrom(this.http.get<ApiResponse<any>>(this.apiUrl));
+    return await firstValueFrom(this.http.get<ApiResponse<any>>(this.config));
   }
 
   async saveConfig(payload: any): Promise<ApiResponse<any>> {
