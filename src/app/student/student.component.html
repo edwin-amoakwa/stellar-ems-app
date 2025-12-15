@@ -380,6 +380,7 @@
       <div class="mb-2"><strong>Surname:</strong> {{ selectedStudent?.surname }}</div>
       <div class="mb-2"><strong>Date of Birth:</strong> {{ selectedStudent?.dateOfBirth | date }}</div>
       <div class="mb-2" *ngIf="selectedStudent?.genderLabel"><strong>Gender:</strong> {{ selectedStudent?.genderLabel }}</div>
+        <div class="mb-2"><strong>Guardian:</strong> {{ selectedStudent?.guardian?.guardianName }}</div>
     </div>
 
   </app-card>

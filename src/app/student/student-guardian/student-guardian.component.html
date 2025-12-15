@@ -30,7 +30,8 @@
           <td>{{ item.emailAddress }}</td>
           <td class="text-center">
             <p-button icon="pi pi-pencil" styleClass="p-button-rounded p-button-text p-button-info mr-1" pTooltip="Edit" (onClick)="openEditGuardian(item)"></p-button>
-            <p-button icon="pi pi-key" styleClass="p-button-rounded p-button-text p-button-warning" pTooltip="Set Password" (onClick)="onSetPassword(item)"></p-button>
+            <p-button icon="pi pi-key" styleClass="p-button-rounded p-button-text p-button-warning mr-1" pTooltip="Set Password" (onClick)="onSetPassword(item)"></p-button>
+            <p-button icon="pi pi-trash" styleClass="p-button-rounded p-button-text p-button-danger" pTooltip="Delete" (onClick)="onDeleteGuardian(item)"></p-button>
           </td>
         </tr>
       </ng-template>

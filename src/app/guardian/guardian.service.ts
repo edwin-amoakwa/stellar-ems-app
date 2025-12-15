@@ -28,6 +28,10 @@ export class GuardianService {
     return await firstValueFrom(this.http.delete<ApiResponse<any>>(`${this.apiUrl}/${id}`));
   }
 
+  async deletestudentGuardian(id: string | number): Promise<ApiResponse<any>> {
+    return await firstValueFrom(this.http.delete<ApiResponse<any>>(`${this.apiUrl}/${id}/studentGuardian`));
+  }
+
   async getStudentsForGuardian(guardianId: string | number): Promise<ApiResponse<any[]>> {
     return await firstValueFrom(
       this.http.get<ApiResponse<any[]>>(`${this.apiUrl}/${guardianId}/students`)

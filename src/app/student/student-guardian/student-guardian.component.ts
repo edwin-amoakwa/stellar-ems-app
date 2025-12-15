@@ -218,4 +218,23 @@ export class StudentGuardianComponent implements OnChanges {
       this.error = 'Failed to update guardian';
     }
   }
+
+  async onDeleteGuardian(item: any): Promise<void> {
+    if (!item?.id) {
+      return;
+    }
+    const ok = typeof window !== 'undefined' ? window.confirm(`Delete guardian "${item.guardianName}"? This action cannot be undone.`) : true;
+    if (!ok) return;
+
+    try {
+      const resp = await this.guardianService.deletestudentGuardian(item.studentGuardianId);
+      if (resp?.success) {
+        await this.loadGuardians();
+      } else {
+        this.error = resp?.message || 'Failed to delete guardian';
+      }
+    } catch (e) {
+      this.error = 'Failed to delete guardian';
+    }
+  }
 }
