@@ -1,0 +1,76 @@
+<!-- <div class="container mt-4"> -->
+
+
+  <div class="row">
+
+    <div class="col-lg-4">
+
+      <p-table [value]="settingsList" dataKey="id" styleClass="p-datatable-striped p-datatable-sm" #empTable>
+
+        <ng-template #header>
+          <tr>
+            <th>Setting</th>
+            <th>Edit</th>
+          </tr>
+        </ng-template>
+        <ng-template #body let-setting>
+          <tr>
+            <td>{{setting.settingKey}}</td>
+
+            <td>
+
+              <a class="dropdown-item cursor text-info" (click)="editSetting(setting)">Edit</a>
+
+            </td>
+
+          </tr>
+        </ng-template>
+      </p-table>
+
+    </div>
+
+    <div class="col-lg-8">
+
+      <p-panel header="Update {{selectedConfig?.settingKey}}">
+        <form *ngIf="selectedConfig" [formGroup]="settingForm" (ngSubmit)="saveConfig()">
+
+
+          <div *ngIf="selectedConfig?.dataType == 'STRING'">
+            <input pInputText type="text" formControlName="settingValue">
+            <!-- <p-editor formControlName="settingValue" [style]="{ height: '320px' }" /> -->
+          </div>
+
+
+          <div *ngIf="selectedConfig?.dataType == 'STRING_LONG'">
+            <p-editor formControlName="settingValue" [style]="{ height: '320px' }" />
+
+          </div>
+
+          <div *ngIf="selectedConfig?.dataType == 'BOOLEAN'">
+
+
+            <p-checkbox [binary]="true"  formControlName="booleanValue" />
+
+
+          </div>
+
+
+
+          <button pButton class="p-button-sm p-button-success" label="Save Changes"></button>
+
+        </form>
+
+      </p-panel>
+
+    </div>
+
+  </div>
+
+
+  <br>
+  <a class="btn btn-success btn-block" routerLink="/home/home-dashboard">
+    Home
+  </a>
+
+
+<!-- </div> -->

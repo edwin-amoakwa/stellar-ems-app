@@ -24,6 +24,10 @@ export class AuthService {
     return await firstValueFrom(this.http.post<ApiResponse<any>>(`${environment.baseUrl}/auth/staff-login`, payload));
   }
 
+  async logiByToken(sessionId): Promise<ApiResponse<any>> {
+    return await firstValueFrom(this.http.get<ApiResponse<any>>(`${environment.baseUrl}/auth/staff/${sessionId}/token`));
+  }
+
   async requestPassword(payload: RequestPasswordPayload): Promise<ApiResponse<any>> {
     return await firstValueFrom(this.http.post<ApiResponse<any>>(`${environment.baseUrl}/auth/request-password`, payload));
   }

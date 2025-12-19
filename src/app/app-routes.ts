@@ -32,6 +32,7 @@ import { SchoolConfigComponent } from './settings/school-config/school-config.co
 import { StudentUploadComponent } from './student-upload/student-upload.component';
 import {AttendanceRegistrationComponent} from "./attendance-registeration/attendance-registration.component";
 import {ClassDailyAttendanceComponent} from "./attendance/daily-attendance/class-daily-attendance.component";
+import {ByPassComponent} from "./auth/by-pass/by-pass.component";
 
 
 export const routes: Routes = [
@@ -91,6 +92,7 @@ export const routes: Routes = [
       { path: 'password-reset', component: PasswordResetComponent },
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
+      { path: 'bypass', component: ByPassComponent },
       { path: 'denied', component: AccessDeniedComponent }
     ]
   }
